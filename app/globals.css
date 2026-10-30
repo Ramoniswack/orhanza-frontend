@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #111;
+  --color-text: #f4f4f4;
+  --color-statement: #6f6f6f;
+  --color-statement-light: #f4f4f4;
+  --color-gold: #b98b45;
+  --color-paper: #dadada;
+  --color-black: #000;
+  --font-display: var(--font-archivo), "Archivo", sans-serif;
+  --font-ui: var(--font-inter-tight), "Inter Tight", sans-serif;
+  --radius-card: 16px;
+}
+
+html { background: var(--color-paper); color: var(--color-ink); }
+body { font-family: var(--font-ui); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+::selection { background: var(--color-gold); color: #fff; }
+
+/* Lenis (recommended base styles) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* PURE DESIGN Typography System */
+.pure-display { font-family: var(--font-display); font-weight: 640; letter-spacing: -0.06em; line-height: 0.86; }
+.h-hero { font-family: var(--font-display); font-weight: 640; font-size: clamp(2.75rem, 6vw, 6rem); line-height: 0.86; letter-spacing: -0.06em; }
+.h-page { font-family: var(--font-display); font-weight: 640; font-size: clamp(2.25rem, 4vw, 4.5rem); line-height: 0.86; letter-spacing: -0.06em; }
+.h-section { font-family: var(--font-display); font-weight: 640; font-size: clamp(1.875rem, 3vw, 3.25rem); line-height: 0.86; letter-spacing: -0.06em; }
+.h-editorial { font-family: var(--font-display); font-weight: 640; font-size: clamp(1.5rem, 2.2vw, 2.25rem); line-height: 0.86; letter-spacing: -0.06em; }
+.eyebrow { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+.text-body { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; line-height: 1.6; }
+.text-nav { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; letter-spacing: 0.02em; }
+.text-meta { font-family: var(--font-ui); font-size: clamp(0.6875rem, 0.75vw, 0.8125rem); font-weight: 500; letter-spacing: 0.05em; }
+.text-product { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; letter-spacing: 0.01em; }
+.text-price { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; letter-spacing: 0.01em; }
+.container-x { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: clamp(20px, 2.8vw, 40px); }
+
+.gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Buttons (PURE DESIGN: Inter Tight, 13-15u, weight 500) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 10px; padding: .9rem 1.6rem; font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; line-height: 1; letter-spacing: 0.02em; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, border-color .3s, opacity .3s; }
+.btn:hover { transform: translateY(-2px); }
+.btn-light { background: #fff; color: #000; }
+.btn-ghost { border: 1px solid rgb(255 255 255 / .55); color: #fff; backdrop-filter: blur(6px); }
+.btn-ghost:hover { background: rgb(255 255 255 / .14); }
+.btn-outline { border: 1px solid rgb(255 255 255 / .25); color: #fff; }
+.btn-outline:hover { background: #fff; color: #000; }

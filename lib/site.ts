@@ -1,0 +1,28 @@
+export const site = {
+  name: "Orhanza",
+  handle: "@orhanza.np",
+  instagram: "https://www.instagram.com/orhanza.np/",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  location: "Jhamsikhel, Lalitpur / Kathmandu, Nepal",
+  tagline: "Wear Your Confidence",
+  title: "Orhanza | Premium Made-to-Measure Suits & Tailoring in Nepal",
+  description:
+    "Orhanza creates premium made-to-measure suits, shirts, and coat-pant sets in Nepal. Experience precision tailoring, curated fabrics, and a fit designed for you.",
+  keywords: [
+    "bespoke tailoring Nepal",
+    "made-to-measure suits Kathmandu",
+    "custom suits Lalitpur",
+    "premium tailoring Jhamsikhel",
+    "wedding suit Nepal",
+    "custom shirts Kathmandu",
+    "coat pant tailoring Nepal",
+    "Orhanza bespoke tailoring",
+    "men's formal wear Nepal",
+    "premium fabric suits Nepal",
+  ],
+  phone: process.env.NEXT_PUBLIC_PHONE ?? "",
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "",
+  email: process.env.NEXT_PUBLIC_EMAIL ?? "",
+  mapUrl: process.env.NEXT_PUBLIC_MAP_URL ?? "",
+  hours: process.env.NEXT_PUBLIC_OPENING_HOURS ?? "",
+};
