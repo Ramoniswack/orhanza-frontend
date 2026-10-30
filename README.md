@@ -14,20 +14,37 @@ npm run dev                  # http://localhost:3000
 npm run build && npm start
 ```
 
-## How the hero works (`components/HeroScroll.tsx`)
+## How the hero works (`components/sections/Hero.tsx`)
 
-- `HeroScroll` is a 560svh section containing a `sticky` 100svh viewport.
+- `HeroScroll` is a 320svh section containing a `sticky` 100svh viewport.
 - `useScroll({ target, offset: ["start start","end end"] })` → `useSpring` → `useTransform` maps progress to a frame index (0–191).
 - Frames are drawn to a `<canvas>` (cover-fit, DPR capped at 2). Frames preload progressively
   (every 8th → 4th → 2nd → rest); scrolling is held (`lenis.stop()`) until ~25 % is ready, with a branded loader.
 - Four scroll-linked text stages (`Stage`) fade/slide/unblur over the footage; stage 1 plays a word-mask reveal on load.
 - `prefers-reduced-motion`: no scrubbing — a single static frame with the opening copy.
-- `components/SmoothScroll.tsx` runs Lenis from Motion's frame loop (`frame.update(..., true)`), so Lenis and every motion value update in the same tick. It also handles route changes and same-page `#hash` links.
+- `lib/lenis.tsx` runs Lenis from Motion's frame loop (`frame.update(..., true)`), so Lenis and every motion value update in the same tick. It also handles route changes and same-page `#hash` links.
 
 ### Frames
 `public/frames/frame-0001.webp … frame-0192.webp` — the 480 frames in the zip contained only 192 unique images
 (each source frame was duplicated to reach 60 fps), so duplicates were dropped and the rest converted to WebP.
 If you replace the footage, update `lib/frames.json` (`{"count": N}`).
+
+## Motion spec implementation (long-scroll update)
+
+```
+components/motion/    A LineMaskReveal · B StaircaseHeadline · C ScrubParagraph · D OdometerNumber
+                      E VelocityBlur · F ExpandOnScroll · G BgFlip
+components/sections/  Hero(0) SelectedProjects(1) Fabrics(2) Services(3) Craft(4) Stats(5) Showreel(6)
+                      Process(7) Expertise(8) Testimonials(9) Commissions(10) Clients(11) Faq(12) Booking Footer(13)
+lib/lenis.tsx         Lenis provider (lerp 0.09) driven by Motion's frame loop
+```
+
+Spec section → Orhanza content: "Our Clients" → Fabrics · "Recognition" → Craft & values · "Pricing" → Commissions
+(no prices are published, so rows say *priced after consultation*) · "Team" → The people we dress.
+Numbers in Stats / Bento / Testimonials are counts taken from the content pack (6 services, 5 steps, 6 fabric families, 4 collections) — replace with real figures.
+Design tokens live in `app/globals.css` (`@theme`). The spec's red accent is mapped to Orhanza gold (`--color-accent`); set it to `#E8283C` to use the spec red.
+Typography is Plus Jakarta Sans 800 caps (`--font-display`). The Devanagari caption "बेस्पोक टेलरिङ" stands in for the spec's Japanese caption.
+Pinned sections (Fabrics, Services) fall back to normal flow below 768px; `prefers-reduced-motion` disables parallax, odometer, velocity blur and scrubbing.
 
 ## Template → Orhanza mapping
 

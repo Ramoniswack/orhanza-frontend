@@ -1,20 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #111;
-  --color-text: #f4f4f4;
-  --color-statement: #6f6f6f;
-  --color-statement-light: #f4f4f4;
-  --color-gold: #b98b45;
-  --color-paper: #dadada;
-  --color-black: #000;
-  --font-display: var(--font-archivo), "Archivo", sans-serif;
-  --font-ui: var(--font-inter-tight), "Inter Tight", sans-serif;
+  --color-charcoal: #050506;     /* dark sections / hero bg */
+  --color-ivory: #EDE5D6;        /* cream text on dark */
+  --color-ink: #1B1B1D;          /* dark text on white */
+  --color-gold: #B98B45;         /* accent (spec's "red" accent — swap to #E8283C here if you prefer) */
+  --color-accent: var(--color-gold);
+  --color-slate: #6B7280;
+  --color-mute: #B3B3B3;
+  --color-burgundy: #5B1F27;
+  --color-card: #F5F5F5;
+  --color-field: #EFEFEF;
+  --font-display: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-display);
   --radius-card: 16px;
 }
 
-html { background: var(--color-paper); color: var(--color-ink); }
-body { font-family: var(--font-ui); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+html { background: #fff; color: var(--color-ink); }
+body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: var(--color-gold); color: #fff; }
 
 /* Lenis (recommended base styles) */
@@ -23,18 +27,9 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* PURE DESIGN Typography System */
-.pure-display { font-family: var(--font-display); font-weight: 640; letter-spacing: -0.06em; line-height: 0.86; }
-.h-hero { font-family: var(--font-display); font-weight: 640; font-size: clamp(2.75rem, 6vw, 6rem); line-height: 0.86; letter-spacing: -0.06em; }
-.h-page { font-family: var(--font-display); font-weight: 640; font-size: clamp(2.25rem, 4vw, 4.5rem); line-height: 0.86; letter-spacing: -0.06em; }
-.h-section { font-family: var(--font-display); font-weight: 640; font-size: clamp(1.875rem, 3vw, 3.25rem); line-height: 0.86; letter-spacing: -0.06em; }
-.h-editorial { font-family: var(--font-display); font-weight: 640; font-size: clamp(1.5rem, 2.2vw, 2.25rem); line-height: 0.86; letter-spacing: -0.06em; }
-.eyebrow { font-family: var(--font-ui); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
-.text-body { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; line-height: 1.6; }
-.text-nav { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; letter-spacing: 0.02em; }
-.text-meta { font-family: var(--font-ui); font-size: clamp(0.6875rem, 0.75vw, 0.8125rem); font-weight: 500; letter-spacing: 0.05em; }
-.text-product { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; letter-spacing: 0.01em; }
-.text-price { font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; letter-spacing: 0.01em; }
+/* Template heading scale: large, tight, medium weight */
+.h-display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; line-height: 0.92; text-transform: uppercase; }
+.eyebrow { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; }
 .container-x { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: clamp(20px, 2.8vw, 40px); }
 
 .gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); }
@@ -43,11 +38,26 @@ html.lenis, html.lenis body { height: auto; }
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-/* Buttons (PURE DESIGN: Inter Tight, 13-15u, weight 500) */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 10px; padding: .9rem 1.6rem; font-family: var(--font-ui); font-size: clamp(0.8125rem, 0.9vw, 0.9375rem); font-weight: 500; line-height: 1; letter-spacing: 0.02em; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, border-color .3s, opacity .3s; }
+/* Buttons (template: 10px radius, compact, high-contrast) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 10px; padding: .9rem 1.6rem; font-size: .9rem; font-weight: 500; line-height: 1; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, border-color .3s, opacity .3s; }
 .btn:hover { transform: translateY(-2px); }
-.btn-light { background: #fff; color: #000; }
-.btn-ghost { border: 1px solid rgb(255 255 255 / .55); color: #fff; backdrop-filter: blur(6px); }
-.btn-ghost:hover { background: rgb(255 255 255 / .14); }
-.btn-outline { border: 1px solid rgb(255 255 255 / .25); color: #fff; }
-.btn-outline:hover { background: #fff; color: #000; }
+.btn-light { background: var(--color-ivory); color: var(--color-charcoal); }
+.btn-ghost { border: 1px solid rgb(245 241 232 / .55); color: var(--color-ivory); backdrop-filter: blur(6px); }
+.btn-ghost:hover { background: rgb(245 241 232 / .14); }
+.btn-burgundy { background: var(--color-burgundy); color: var(--color-ivory); }
+.btn-burgundy:hover { background: #6e2630; }
+.btn-outline { border: 1px solid rgb(17 19 24 / .25); color: var(--color-charcoal); }
+.btn-outline:hover { background: var(--color-charcoal); color: var(--color-ivory); }
+
+/* ── Type scale from the motion spec ── */
+.h-hero { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 8vw, 9rem); }
+.h-section { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(2.5rem, 5.5vw, 6rem); }
+.label-micro { font-size: 0.625rem; letter-spacing: 0.24em; text-transform: uppercase; }
+/* staircase indents shrink on mobile */
+.stair { --stair-scale: 1; }
+@media (max-width: 767px) { .stair { --stair-scale: 0.3; } }
+/* faint halftone grain over the hero photo */
+.halftone { background-image: radial-gradient(rgba(0,0,0,.55) 1px, transparent 1.2px); background-size: 4px 4px; mix-blend-mode: multiply; opacity: .28; }
+.hairline { border-color: rgba(0,0,0,0.08); }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

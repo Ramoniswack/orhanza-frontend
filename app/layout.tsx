@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Inter_Tight } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { Footer } from "@/components/Footer";
+import { Footer } from "@/components/sections/Footer";
 import { Shell } from "@/components/Shell";
 import { site } from "@/lib/site";
 
-const display = Archivo({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-archivo", display: "swap" });
-const ui = Inter_Tight({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-inter-tight", display: "swap" });
+const cormorant = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500", "600"], style: ["normal", "italic"], variable: "--font-cormorant", display: "swap" });
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-jakarta", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -40,11 +40,11 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${ui.variable}`}>
-      <body className="antialiased">
+    <html lang="en" className={`${jakarta.variable} ${cormorant.variable}`}>
+      <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Shell>
-          <main>{children}</main>
+          <main className="relative z-10 bg-white">{children}</main>
           <Footer />
         </Shell>
       </body>

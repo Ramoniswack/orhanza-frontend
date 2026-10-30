@@ -5,7 +5,7 @@ import { Header } from "./Header";
 import { SearchOverlay } from "./SearchOverlay";
 import { ShortlistDrawer } from "./ShortlistDrawer";
 import { ShortlistProvider } from "./ShortlistProvider";
-import { SmoothScroll } from "./SmoothScroll";
+import { SmoothScroll } from "@/lib/lenis";
 
 export function Shell({ children }: { children: ReactNode }) {
   const [search, setSearch] = useState(false);

@@ -23,8 +23,8 @@ export function SectionHeading({ eyebrow, title, children, align = "left", light
   return (
     <Reveal className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       {eyebrow && <p className={`eyebrow ${light ? "text-gold" : "text-gold"}`}>{eyebrow}</p>}
-      <h2 className="h-section mt-3">{title}</h2>
-      {children && <div className={`mt-5 text-body leading-relaxed ${light ? "text-[#f4f4f4]/75" : "text-[#6f6f6f]"}`}>{children}</div>}
+      <h2 className="h-display mt-3 text-[clamp(2.4rem,4.8vw,4.4rem)]">{title}</h2>
+      {children && <div className={`mt-5 text-base leading-relaxed md:text-lg ${light ? "text-ivory/75" : "text-slate"}`}>{children}</div>}
     </Reveal>
   );
 }

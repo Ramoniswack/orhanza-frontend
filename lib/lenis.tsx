@@ -19,7 +19,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const instance = new Lenis({ lerp: 0.085, smoothWheel: true });
+    const instance = new Lenis({ lerp: 0.09, smoothWheel: true });
     const update = (data: { timestamp: number }) => instance.raf(data.timestamp);
     frame.update(update, true);
     setLenis(instance);

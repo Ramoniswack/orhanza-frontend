@@ -30,7 +30,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         <Link href={`/collections/${product.slug}`} aria-label={product.name} className="absolute inset-0 z-10" />
 
         {product.badge && (
-          <span className="absolute left-3 top-3 z-20 rounded-full bg-gold px-3 py-1 text-meta font-semibold tracking-wide text-[#111]">
+          <span className="absolute left-3 top-3 z-20 rounded-full bg-gold px-3 py-1 text-[0.68rem] font-semibold tracking-wide text-charcoal">
             {product.badge}
           </span>
         )}
@@ -38,15 +38,15 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         <button
           onClick={() => toggle(product.slug)}
           aria-pressed={saved}
-          className="absolute inset-x-3 bottom-3 z-20 rounded-[10px] bg-[#dadada]/95 py-3 text-meta font-semibold uppercase tracking-[0.14em] text-[#111] backdrop-blur transition-all duration-500 hover:bg-[#111] hover:text-[#dadada] md:translate-y-[130%] md:group-hover:translate-y-0"
+          className="absolute inset-x-3 bottom-3 z-20 rounded-[10px] bg-ivory/95 py-3 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-charcoal backdrop-blur transition-all duration-500 hover:bg-charcoal hover:text-ivory md:translate-y-[130%] md:group-hover:translate-y-0"
         >
           {saved ? "Shortlisted ✓" : "Add to shortlist"}
         </button>
       </div>
 
       <div className="mt-3 flex items-baseline justify-between gap-3 px-1">
-        <Link href={`/collections/${product.slug}`} className="text-product font-medium hover:underline">{product.name}</Link>
-        <span className="shrink-0 text-body text-[#6f6f6f]">Made to measure</span>
+        <Link href={`/collections/${product.slug}`} className="font-medium hover:underline">{product.name}</Link>
+        <span className="shrink-0 text-sm text-slate">Made to measure</span>
       </div>
     </article>
   );

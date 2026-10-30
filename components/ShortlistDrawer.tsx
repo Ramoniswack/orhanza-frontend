@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import { getProduct, productImage } from "@/lib/data";
-import { useLenis } from "./SmoothScroll";
+import { useLenis } from "@/lib/lenis";
 import { useShortlist } from "./ShortlistProvider";
 
 /** Equivalent of the template's cart drawer — a bespoke house shortlists pieces to discuss in a consultation. */

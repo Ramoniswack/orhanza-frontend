@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { categoryLabel, productImage, products } from "@/lib/data";
-import { useLenis } from "./SmoothScroll";
+import { useLenis } from "@/lib/lenis";
 
 export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [q, setQ] = useState("");

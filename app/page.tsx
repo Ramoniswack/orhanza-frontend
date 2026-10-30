@@ -1,29 +1,33 @@
-import { About } from "@/components/About";
-import { ContactForm } from "@/components/ContactForm";
-import { Fabrics } from "@/components/Fabrics";
-import { FeatureGrid } from "@/components/FeatureGrid";
-import { Gallery } from "@/components/Gallery";
-import { HeroScroll } from "@/components/HeroScroll";
-import { InstagramBanner } from "@/components/InstagramBanner";
-import { NewArrivals } from "@/components/NewArrivals";
-import { Process } from "@/components/Process";
-import { Services } from "@/components/Services";
-import { Testimonials } from "@/components/Testimonials";
+import { Booking } from "@/components/sections/Booking";
+import { Clients } from "@/components/sections/Clients";
+import { Commissions } from "@/components/sections/Commissions";
+import { Craft } from "@/components/sections/Craft";
+import { Expertise } from "@/components/sections/Expertise";
+import { Fabrics } from "@/components/sections/Fabrics";
+import { Faq } from "@/components/sections/Faq";
+import { HomeTailoring } from "@/components/sections/HomeTailoring";
+import { Hero } from "@/components/sections/Hero";
+import { SelectedProjects } from "@/components/sections/SelectedProjects";
+import { Showreel } from "@/components/sections/Showreel";
+import { Stats } from "@/components/sections/Stats";
+import { Testimonials } from "@/components/sections/Testimonials";
 
 export default function Home() {
   return (
     <>
-      <HeroScroll />
-      <FeatureGrid />
-      <NewArrivals />
-      <About />
-      <Services />
-      <Process />
-      <Fabrics />
-      <Gallery />
-      <Testimonials />
-      <InstagramBanner />
-      <ContactForm />
+      <Hero />              {/* 0  */}
+      <SelectedProjects />  {/* 1  dark */}
+      <Fabrics />           {/* 2  white, pinned horizontal */}
+      <HomeTailoring />     {/* 3  dark timeline (replaces Services + Process) */}
+      <Craft />             {/* 4  */}
+      <Stats />             {/* 5  odometer rows */}
+      <Showreel />          {/* 6  expand on scroll */}
+      <Expertise />         {/* 8  bento */}
+      <Testimonials />      {/* 9  dark */}
+      <Commissions />       {/* 10 */}
+      <Clients />           {/* 11 */}
+      <Faq />               {/* 12 */}
+      <Booking />           {/* booking form (id="book") */}
     </>
   );
 }

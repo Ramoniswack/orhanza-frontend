@@ -4,13 +4,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState, type FormEvent } from "react";
 import { getProduct } from "@/lib/data";
 import { site } from "@/lib/site";
-import { Reveal } from "./Reveal";
-import { useShortlist } from "./ShortlistProvider";
+import { Reveal } from "../Reveal";
+import { useShortlist } from "../ShortlistProvider";
 
 const serviceOptions = ["Suit", "Shirt", "Coat-pant", "Wedding wear", "Fabric consultation"];
-const field = "w-full rounded-[10px] border border-transparent bg-[#dadada] px-4 py-3 text-[0.95rem] outline-none transition-colors placeholder:text-[#111]/40 focus:border-gold focus:bg-white";
+const field = "w-full rounded-[10px] border border-transparent bg-field px-4 py-3 text-[0.95rem] outline-none transition-colors placeholder:text-charcoal/40 focus:border-gold focus:bg-white";
 
-export function ContactForm() {
+export function Booking() {
   const { items } = useShortlist();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const shortlisted = items.map((s) => getProduct(s)?.name).filter(Boolean) as string[];
@@ -42,16 +42,16 @@ export function ContactForm() {
   ].filter(Boolean) as { label: string; value: string; href: string }[];
 
   return (
-    <section id="book" className="container-x py-24 md:py-32" aria-labelledby="book-h">
+    <section id="book" className="container-x py-14 md:py-20" aria-labelledby="book-h">
       <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr]">
         <Reveal className="flex flex-col justify-between gap-12">
           <div>
             <p className="eyebrow text-gold">Contact / Booking</p>
             <h2 id="book-h" className="h-display mt-3 text-[clamp(2.4rem,5vw,4.6rem)]">Book Your Tailoring Consultation</h2>
-            <p className="mt-5 max-w-md text-[#6f6f6f]">
+            <p className="mt-5 max-w-md text-slate">
               Tell us about the occasion and the look you have in mind. We’ll reach out to arrange a consultation, fabric selection and measurements.
             </p>
-            <p className="mt-6 text-body text-[#6f6f6f]">{site.location}</p>
+            <p className="mt-6 text-sm text-slate">{site.location}</p>
           </div>
           <div>
             <p className="text-sm">Don’t like forms? Reach us directly.</p>
@@ -59,8 +59,8 @@ export function ContactForm() {
               {contacts.map((c) => (
                 <li key={c.label}>
                   <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="group flex items-center gap-4">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dadada] text-body text-gold transition-colors group-hover:bg-[#111] group-hover:text-[#dadada]">{c.label[0]}</span>
-                    <span><span className="block font-medium">{c.label}</span><span className="text-body text-[#6f6f6f]">{c.value}</span></span>
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-field text-sm text-gold transition-colors group-hover:bg-charcoal group-hover:text-ivory">{c.label[0]}</span>
+                    <span><span className="block font-medium">{c.label}</span><span className="text-sm text-slate">{c.value}</span></span>
                   </a>
                 </li>
               ))}
@@ -69,7 +69,7 @@ export function ContactForm() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="relative rounded-[24px] border border-[#111]/10 bg-[#dadada] p-6 md:p-8">
+          <div className="relative rounded-[24px] border border-charcoal/10 bg-card p-6 md:p-8">
             <AnimatePresence mode="wait">
               {status === "sent" ? (
                 <motion.div key="ok" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="flex min-h-[420px] flex-col items-center justify-center text-center">
