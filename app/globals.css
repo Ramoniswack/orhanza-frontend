@@ -38,6 +38,10 @@ html.lenis, html.lenis body { height: auto; }
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
+/* Custom cursor: hide the native one on mouse devices (text fields keep the I-beam) */
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
+
 /* Buttons (template: 10px radius, compact, high-contrast) */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 10px; padding: .9rem 1.6rem; font-size: .9rem; font-weight: 500; line-height: 1; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, border-color .3s, opacity .3s; }
 .btn:hover { transform: translateY(-2px); }
@@ -52,6 +56,7 @@ html.lenis, html.lenis body { height: auto; }
 /* ── Type scale from the motion spec ── */
 .h-hero { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 8vw, 9rem); }
 .h-section { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(2.5rem, 5.5vw, 6rem); }
+.h-section-xl { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.045em; line-height: 0.9; font-size: clamp(2.5rem, 7.2vw, 8rem); }
 .label-micro { font-size: 0.625rem; letter-spacing: 0.24em; text-transform: uppercase; }
 /* staircase indents shrink on mobile */
 .stair { --stair-scale: 1; }

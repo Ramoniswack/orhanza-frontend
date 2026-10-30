@@ -2,21 +2,20 @@
 
 /**
  * 2 — Fabrics: section pins and a row of fabric photographs translates horizontally with scroll.
- * Each card = real cloth image (parallax inside its frame) + name + one-line note.
+ * Minimal: cloth image + name only, no blur, one hairline progress bar.
  * Replace the files in /public/images/fabrics/<slug>.webp with your own photos (same names) — nothing else to change.
  */
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { VelocityBlur } from "@/components/motion";
 
 const fabrics = [
-  { slug: "wool", name: "Wool", note: "Structure and year-round polish.", swatch: ["#2b2f3a", "#3d4352"] },
-  { slug: "wool-linen", name: "Wool-linen", note: "Elegance with a lighter, fresher hand.", swatch: ["#8d8a7a", "#b3ad98"] },
-  { slug: "linen", name: "Linen", note: "Breathable, textured, effortless.", swatch: ["#c9bfa6", "#e3dbc6"] },
-  { slug: "cotton", name: "Cotton", note: "Crisp shirting, comfortable all day.", swatch: ["#e9e6df", "#cfcabb"] },
-  { slug: "blends", name: "Blends", note: "Balanced drape, resilience and finish.", swatch: ["#4a4f5e", "#6b7280"] },
-  { slug: "formal", name: "Formal", note: "Cloths chosen for the occasion.", swatch: ["#5b1f27", "#7a2c37"] },
+  { slug: "wool", name: "Wool" },
+  { slug: "wool-linen", name: "Wool-linen" },
+  { slug: "linen", name: "Linen" },
+  { slug: "cotton", name: "Cotton" },
+  { slug: "blends", name: "Blends" },
+  { slug: "formal", name: "Formal" },
 ];
 
 function Card({ f, i, p }: { f: (typeof fabrics)[number]; i: number; p: MotionValue<number> }) {
@@ -28,13 +27,8 @@ function Card({ f, i, p }: { f: (typeof fabrics)[number]; i: number; p: MotionVa
         <motion.div style={{ x: imgX }} className="absolute -inset-x-[6%] inset-y-0">
           <Image src={`/images/fabrics/${f.slug}.webp`} alt={`${f.name} cloth swatch — Orhanza`} fill sizes="30vw" className="object-cover" loading="eager" />
         </motion.div>
-        <span className="label-micro absolute left-4 top-4 rounded-full bg-white/85 px-3 py-1 text-ink backdrop-blur">0{i + 1} / 0{fabrics.length}</span>
       </div>
-      <div className="mt-4 flex items-end justify-between gap-4">
-        <h3 className="whitespace-nowrap text-[clamp(1.6rem,2.7vw,2.9rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.045em]">{f.name}</h3>
-        <span className="mb-1 h-3 w-14 shrink-0 rounded-full" style={{ background: `linear-gradient(90deg, ${f.swatch[0]}, ${f.swatch[1]})` }} />
-      </div>
-      <p className="mt-2 text-sm text-slate">{f.note}</p>
+      <h3 className="mt-4 whitespace-nowrap text-lg font-semibold tracking-[-0.02em]">{f.name}</h3>
     </article>
   );
 }
@@ -62,27 +56,14 @@ export function Fabrics() {
       {/* desktop: pinned horizontal */}
       <section id="fabrics" ref={ref} className="relative hidden h-[260svh] bg-white text-ink md:block" aria-label="Fabrics">
         <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-16">
-          <div className="container-x mb-8 flex items-end justify-between gap-8">
-            <h2 className="h-section">OUR FABRICS</h2>
-            <p className="label-micro pb-2 text-mute">Wool · Wool-linen · Linen · Cotton · Blends · Formal</p>
-          </div>
+          <h2 className="h-section container-x mb-8">OUR FABRICS</h2>
 
-          <VelocityBlur>
-            <motion.div ref={track} style={{ x }} className="flex w-max items-start gap-[3vw] px-[clamp(20px,2.8vw,40px)]">
-              {fabrics.map((f, i) => <Card key={f.slug} f={f} i={i} p={prog} />)}
-            </motion.div>
-          </VelocityBlur>
+          <motion.div ref={track} style={{ x }} className="flex w-max items-start gap-[2vw] px-[clamp(20px,2.8vw,40px)]">
+            {fabrics.map((f, i) => <Card key={f.slug} f={f} i={i} p={prog} />)}
+          </motion.div>
 
-          <div className="container-x mt-8 flex items-center justify-between text-xs text-slate">
-            <p>Featured: Valerio Cassani wool-linen — elegance of wool, freshness of linen.</p>
-            <div className="flex items-center gap-3" aria-hidden>
-              <span>←</span>
-              <svg viewBox="0 0 24 24" className="h-6 w-6 -rotate-90">
-                <circle cx="12" cy="12" r="10" fill="none" stroke="#B3B3B3" strokeWidth="1.5" />
-                <motion.circle cx="12" cy="12" r="10" fill="none" stroke="#B98B45" strokeWidth="1.5" style={{ pathLength: prog }} />
-              </svg>
-              <span>→</span>
-            </div>
+          <div className="container-x mt-8">
+            <div className="h-px w-full bg-black/10"><motion.div style={{ scaleX: prog }} className="h-full origin-left bg-ink" /></div>
           </div>
         </div>
       </section>
@@ -96,8 +77,7 @@ export function Fabrics() {
               <div className="relative aspect-[4/5] overflow-hidden bg-card">
                 <Image src={`/images/fabrics/${f.slug}.webp`} alt={`${f.name} cloth swatch — Orhanza`} fill sizes="72vw" loading="eager" className="object-cover" />
               </div>
-              <h3 className="mt-3 text-4xl font-extrabold uppercase leading-none tracking-[-0.04em]">{f.name}</h3>
-              <p className="mt-1 text-sm text-slate">{f.note}</p>
+              <h3 className="mt-3 text-lg font-semibold tracking-[-0.02em]">{f.name}</h3>
               <span className="sr-only">{i + 1} of {fabrics.length}</span>
             </div>
           ))}

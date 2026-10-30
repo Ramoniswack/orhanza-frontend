@@ -29,16 +29,16 @@ export function Expertise() {
       <div className="container-x">
         <SectionLabel label="Expertise" />
         <StaircaseHeadline
-          className="mt-8 md:mt-10"
-          lines={[{ text: "EVERY GARMENT", tone: "setup" }, { text: "DESERVES THOUGHT,", tone: "setup" }, { text: "CARE AND", tone: "punch" }, { text: "ATTENTION", tone: "punch" }]}
+          className="mt-5 md:mt-6"
+          lines={[{ text: "EVERY GARMENT", tone: "setup" }, { text: "MADE WITH", tone: "punch" }, { text: "CARE", tone: "punch" }]}
+          indents={[0, 0.6, 1.2]}
         />
 
-        <div className="mt-20 grid gap-3 md:mt-28 md:grid-cols-12 md:grid-rows-[repeat(3,minmax(15rem,auto))]">
+        <div className="mt-6 grid gap-3 md:mt-8 md:grid-cols-12 md:grid-rows-[repeat(3,minmax(15rem,auto))]">
           <Card i={0} className="bg-card md:col-span-4 md:row-span-2">
             <p className="label-micro text-mute">Founder & Owner</p>
             <p className="mt-6 text-[7rem] font-extrabold leading-none tracking-[-0.06em] text-gold md:text-[9rem]">K</p>
             <p className="mt-6 text-2xl font-semibold tracking-[-0.03em]">Kriti Maharjan</p>
-            <p className="mt-2 text-sm text-slate">Every commission begins with understanding the person who will wear it.</p>
           </Card>
 
           <Card i={1} className="bg-black text-ivory md:col-span-4">
@@ -50,14 +50,12 @@ export function Expertise() {
               <rect x="6" y="22" width="52" height="20" rx="2" /><path d="M16 22v8M24 22v6M32 22v8M40 22v6M48 22v8" />
             </svg>
             <h3 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Precision fit</h3>
-            <p className="mt-2 text-sm text-slate">Detailed body measurements for a personalized fit.</p>
           </Card>
 
           <Card i={3} className="bg-card md:col-span-4">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-semibold tracking-[-0.03em]">Premium fabrics</h3>
-                <p className="mt-2 text-sm text-slate">Valerio Cassani wool-linen and more.</p>
                 <Link href="/collections" className="mt-6 inline-block text-sm font-semibold underline-offset-4 hover:underline">View Collections →</Link>
               </div>
               <div className="relative h-36 w-24 shrink-0 overflow-hidden rounded-xl">
@@ -78,12 +76,10 @@ export function Expertise() {
           <Card i={6} className="bg-burgundy text-ivory md:col-span-12">
             <OdometerNumber value="100" suffix="%" className="text-[clamp(6rem,14vw,13rem)] font-extrabold leading-none tracking-[-0.06em]" />
             <p className="mt-4 text-xl font-semibold">Made to measure</p>
-            <p className="mt-1 max-w-sm text-sm text-ivory/70">Every garment is cut around the person who will wear it.</p>
           </Card>
         </div>
 
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-6">
-          <p className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">Talk to the atelier — we’ll take it from there.</p>
+        <div className="mt-10 flex justify-end">
           <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-full bg-card py-2 pl-2 pr-5 text-sm font-semibold transition-colors hover:bg-ink hover:text-ivory">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold text-xs text-white">O</span>{site.handle}
           </a>

@@ -1,8 +1,8 @@
 "use client";
 
 /** A — LineMaskReveal: each line lives in an overflow:hidden wrapper and rises 100% → 0 with opacity + blur(6px → 0). */
-import { motion, useReducedMotion } from "motion/react";
-import type { CSSProperties, ReactNode } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { useRef, type CSSProperties, type ReactNode } from "react";
 
 export const EASE_OUT = [0.22, 1, 0.36, 1] as const;
 
@@ -25,17 +25,17 @@ export function MaskLine({ children, index = 0, stagger = 0.12, delay = 0, class
   const to = reduce ? { opacity: 1 } : { y: "0%", opacity: 1, filter: "blur(0px)" };
   const transition = { duration: reduce ? 0.4 : 0.9, ease: EASE_OUT, delay: delay + index * stagger };
 
+  // Observe the (static) wrapper, not the translated child: the child sits fully outside the overflow-hidden mask
+  // before it plays, so an IntersectionObserver on it would never report it as visible.
+  const wrap = useRef<HTMLSpanElement>(null);
+  const seen = useInView(wrap, { once: true, amount });
+  const go = mode === "inView" ? seen : play;
+
   return (
-    <span className={`block overflow-hidden pb-[0.08em] -mb-[0.08em] ${className}`} style={style}>
-      {mode === "inView" ? (
-        <motion.span className="inline-block" initial={from} whileInView={to} viewport={{ once: true, amount }} transition={transition}>
-          {children}
-        </motion.span>
-      ) : (
-        <motion.span className="inline-block" initial={from} animate={play ? to : from} transition={transition}>
-          {children}
-        </motion.span>
-      )}
+    <span ref={wrap} className={`block overflow-hidden pb-[0.08em] -mb-[0.08em] ${className}`} style={style}>
+      <motion.span className="inline-block" initial={from} animate={go ? to : from} transition={transition}>
+        {children}
+      </motion.span>
     </span>
   );
 }

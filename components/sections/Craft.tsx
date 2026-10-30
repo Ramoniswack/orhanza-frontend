@@ -2,8 +2,7 @@
 
 /** 4 — "Recognition" slot → craft & values. Staircase, accent feature card + hairline rows (fade-up 24px, 0.08s), then ScrubParagraph with a star watermark. */
 import { motion } from "motion/react";
-import Link from "next/link";
-import { ScrubParagraph, StaircaseHeadline } from "@/components/motion";
+import { StaircaseHeadline } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 import { values } from "@/lib/content";
 
@@ -13,11 +12,12 @@ export function Craft() {
       <div className="container-x">
         <SectionLabel label="Craft" />
         <StaircaseHeadline
-          className="mt-8 md:mt-10"
-          lines={[{ text: "WE DON'T CHASE", tone: "setup" }, { text: "TRENDS. THE FIT", tone: "setup" }, { text: "SPEAKS FOR", tone: "punch" }, { text: "ITSELF", tone: "punch" }]}
+          className="mt-5 md:mt-6"
+          lines={[{ text: "THE FIT", tone: "setup" }, { text: "SPEAKS FOR", tone: "punch" }, { text: "ITSELF", tone: "punch" }]}
+          indents={[0, 0.6, 1.2]}
         />
 
-        <div className="mt-20 grid gap-4 md:mt-28 md:grid-cols-[0.8fr_1.2fr] md:gap-6">
+        <div className="mt-6 grid gap-4 md:mt-8 md:grid-cols-[0.8fr_1.2fr] md:gap-6">
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.97 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -31,8 +31,6 @@ export function Craft() {
             <p className="label-micro">Founder & Owner</p>
             <div>
               <p className="text-5xl font-extrabold leading-none tracking-[-0.04em] md:text-6xl">Kriti<br />Maharjan</p>
-              <p className="mt-4 max-w-xs text-sm text-ivory/75">A premium shirting and suiting brand based in Nepal — careful craftsmanship, quality fabrics, personalized fitting.</p>
-              <Link href="/#process" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-ink transition-transform hover:-translate-y-0.5">View the process →</Link>
             </div>
           </motion.div>
 
@@ -47,18 +45,11 @@ export function Craft() {
                 className="flex items-baseline justify-between gap-6 border-b hairline py-6 md:py-8"
               >
                 <span className="text-xl font-semibold tracking-[-0.02em] md:text-3xl">{v.name}</span>
-                <span className="max-w-[14rem] text-right text-xs text-mute md:text-sm">{v.note}</span>
               </motion.li>
             ))}
           </ul>
         </div>
 
-        <div className="relative mt-14 md:mt-20">
-          <svg viewBox="0 0 24 24" className="absolute -left-6 top-1/2 h-72 w-72 -translate-y-1/2 fill-black/[0.035]" aria-hidden>
-            <rect x="5" y="5" width="14" height="14" /><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)" />
-          </svg>
-          <ScrubParagraph className="relative mx-auto max-w-4xl text-center text-3xl font-semibold leading-[1.15] tracking-[-0.03em] md:text-6xl" text="Every Orhanza commission begins with understanding the person who will wear it." />
-        </div>
       </div>
     </section>
   );

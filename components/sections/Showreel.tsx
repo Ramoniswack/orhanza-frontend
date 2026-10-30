@@ -38,7 +38,6 @@ export function Showreel() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={`/frames/frame-${String(frame + 1).padStart(4, "0")}.webp`} alt="Orhanza showreel — a tailored navy suit" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-black/25" />
-        <p className="label-micro absolute left-6 top-24 text-ivory">ORHANZA / THE FIT</p>
         <AnimatePresence>
           {!playing && (
             <motion.button

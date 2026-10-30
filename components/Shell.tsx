@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState, type ReactNode } from "react";
+import { CustomCursor } from "./CustomCursor";
 import { Header } from "./Header";
 import { SearchOverlay } from "./SearchOverlay";
 import { ShortlistDrawer } from "./ShortlistDrawer";
@@ -13,6 +14,7 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <SmoothScroll>
       <ShortlistProvider>
+        <CustomCursor />
         <Header onSearch={() => setSearch(true)} />
         {children}
         <ShortlistDrawer />

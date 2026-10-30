@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <Hero />              {/* 0  */}
-      <SelectedProjects />  {/* 1  dark */}
+      <SelectedProjects />  {/* 1  dark, 3 rows */}
       <Fabrics />           {/* 2  white, pinned horizontal */}
       <HomeTailoring />     {/* 3  dark timeline (replaces Services + Process) */}
       <Craft />             {/* 4  */}

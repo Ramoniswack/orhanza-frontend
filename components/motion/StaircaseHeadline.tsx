@@ -15,11 +15,13 @@ export function StaircaseHeadline({
   lines,
   indents = [0, 0.6, 1.2, 0.6],
   dark = false,
+  size = "xl",
   className = "",
 }: {
   lines: StairLine[];
   indents?: number[];
   dark?: boolean;
+  size?: "md" | "xl";
   className?: string;
 }) {
   const ref = useRef<HTMLHeadingElement>(null);
@@ -27,7 +29,7 @@ export function StaircaseHeadline({
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 88%", "end 38%"] });
 
   return (
-    <h2 ref={ref} className={`stair h-section ${className}`}>
+    <h2 ref={ref} className={`stair ${size === "xl" ? "h-section-xl" : "h-section"} ${className}`}>
       {lines.map((line, i) => (
         <StairLineView key={i} line={line} i={i} indent={indents[i % indents.length]} p={scrollYProgress} dark={dark} reduce={!!reduce} />
       ))}

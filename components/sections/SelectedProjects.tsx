@@ -1,6 +1,6 @@
 "use client";
 
-/** 1 — Selected commissions: staggered collage, per-row parallax, cards scale .92→1 as they centre, hover label + cursor bubble. Ends on MORE → BgFlip to white. */
+/** 1 — Selected commissions: staggered collage (3 rows), per-row parallax, cards scale .92→1 as they centre, hover label + cursor bubble. Ends on MORE → BgFlip to white. */
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,8 +12,6 @@ const rows = [
   { speed: 70, cells: ["md:col-span-7 aspect-[7/6]", "md:col-span-5 aspect-[5/6]"] },
   { speed: -50, cells: ["md:col-span-4 aspect-[4/5]", "md:col-span-4 aspect-[4/5]", "md:col-span-4 aspect-[4/5]"] },
   { speed: 60, cells: ["md:col-span-5 aspect-[5/6]", "md:col-span-7 aspect-[7/6]"] },
-  { speed: -40, cells: ["md:col-span-4 aspect-[4/5]", "md:col-span-4 aspect-[4/5]", "md:col-span-4 aspect-[4/5]"] },
-  { speed: 50, cells: ["md:col-span-6 aspect-[6/5]", "md:col-span-6 aspect-[6/5]"] },
 ];
 
 function Card({ index, cls, onHover }: { index: number; cls: string; onHover: (v: boolean) => void }) {
@@ -56,11 +54,10 @@ export function SelectedProjects() {
 
   let n = 0;
   return (
-    <BgFlip tone="dark" id="work" className="pb-24 pt-14 md:pt-20">
+    <BgFlip tone="dark" id="work" className="pb-14 pt-14 md:pb-20 md:pt-20">
       <div className="container-x">
         <div className="mx-auto max-w-4xl text-center">
           <LineMaskReveal as="h2" className="h-section" lines={["SELECTED", "COMMISSIONS"]} />
-          <p className="label-micro mt-6 text-ivory/60">Tailored in Nepal · Made to measure</p>
         </div>
         <div className="mt-10 space-y-2 md:mt-14">
           {rows.map((r, i) => {
@@ -69,7 +66,7 @@ export function SelectedProjects() {
             return <Row key={i} speed={r.speed} cells={r.cells} start={start} onHover={setHover} />;
           })}
         </div>
-        <div className="mt-40 text-center md:mt-56">
+        <div className="mt-24 text-center md:mt-32">
           <Link href="/collections" className="group inline-block">
             <LineMaskReveal as="span" className="h-section" lines={["MORE COMMISSIONS"]} />
             <span className="mt-4 block h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-700 group-hover:scale-x-100" />

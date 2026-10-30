@@ -3,9 +3,8 @@
 /** 9 — Testimonials: BgFlip to dark, crossfading slides + thin progress bar, then a staircase headline over a large image with an odometer metrics panel. Quotes are placeholders. */
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import { BgFlip, LineMaskReveal, OdometerNumber, StaircaseHeadline } from "@/components/motion";
+import { BgFlip, LineMaskReveal, StaircaseHeadline } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 import { testimonialSlides } from "@/lib/content";
 
@@ -19,12 +18,12 @@ export function Testimonials() {
     <BgFlip tone="dark" pushUp className="pb-14 pt-14 md:pb-20 md:pt-20">
       <div className="container-x">
         <SectionLabel label="Testimonials" dark />
-        <div className="mx-auto mt-14 max-w-3xl text-center md:mt-20">
-          <LineMaskReveal as="h2" className="h-section" lines={["WHAT CLIENTS", "SAY"]} />
-          <svg viewBox="0 0 24 24" className="mx-auto mt-8 h-8 w-8 fill-gold" aria-hidden><path d="M4 18v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7H4zm10 0v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7h-7z" /></svg>
+        <div className="mx-auto mt-5 max-w-4xl text-center md:mt-6">
+          <LineMaskReveal as="h2" className="h-section-xl" lines={["WHAT CLIENTS", "SAY"]} />
+          <svg viewBox="0 0 24 24" className="mx-auto mt-5 h-8 w-8 fill-gold" aria-hidden><path d="M4 18v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7H4zm10 0v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7h-7z" /></svg>
         </div>
 
-        <div className="mt-12 grid items-center gap-8 md:grid-cols-[1fr_1.1fr] md:gap-16">
+        <div className="mt-8 grid items-center gap-8 md:grid-cols-[1fr_1.1fr] md:gap-16">
           <div>
             <div className="relative aspect-[4/3] overflow-hidden bg-[#111]">
               <AnimatePresence mode="popLayout">
@@ -47,27 +46,16 @@ export function Testimonials() {
           </div>
         </div>
 
-        <div className="mt-16 md:mt-24">
+        <div className="mt-10 md:mt-14">
           <div className="relative aspect-[16/10] overflow-hidden bg-[#111] md:aspect-[16/8]">
             <Image src="/images/products/wool-linen-groomsmen-suit-a.webp" alt="Wool-linen groomsmen suit — Orhanza" fill sizes="100vw" className="object-cover object-top opacity-70" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
             <StaircaseHeadline
               dark
+              size="md"
               className="absolute left-6 top-8 md:left-12 md:top-12"
               lines={[{ text: "WHEN THE FIT", tone: "setup" }, { text: "IS RIGHT, THE", tone: "setup" }, { text: "CONFIDENCE", tone: "punch" }, { text: "FOLLOWS", tone: "punch" }]}
             />
-            <div className="absolute bottom-0 right-0 w-full bg-black/70 p-6 backdrop-blur-md md:w-[26rem] md:p-8">
-              <p className="label-micro text-ivory/60">Commission at a glance</p>
-              <dl className="mt-5 grid grid-cols-3 gap-4">
-                {[{ v: "5", s: "steps", l: "To your fit" }, { v: "6", s: "cloths", l: "Fabric families" }, { v: "100", s: "%", l: "Made to measure" }].map((m) => (
-                  <div key={m.l}>
-                    <dt className="sr-only">{m.l}</dt>
-                    <dd><OdometerNumber value={m.v} suffix={m.s} className="text-4xl font-extrabold tracking-[-0.05em] md:text-5xl" /><p className="mt-2 text-[10px] leading-tight text-ivory/60">{m.l}</p></dd>
-                  </div>
-                ))}
-              </dl>
-              <Link href="/collections" className="mt-6 inline-block text-sm font-semibold underline-offset-4 hover:underline">View the Collection →</Link>
-            </div>
           </div>
         </div>
       </div>

@@ -52,7 +52,6 @@ function Label({ i, p }: { i: number; p: MotionValue<number> }) {
       className="absolute w-[11rem] -translate-x-1/2 text-center"
     >
       <p className="font-[family-name:var(--font-cormorant)] text-[1.2rem] leading-tight text-[#E8DDBE]">{s.title}</p>
-      <p className="mt-1 text-[11px] leading-snug text-ivory/50">{s.body}</p>
     </motion.div>
   );
 }
@@ -86,7 +85,6 @@ function Mobile({ p }: { p: MotionValue<number> }) {
         >
           <span className="absolute left-0 top-1 h-[17px] w-[17px] rounded-full bg-white" aria-hidden />
           <p className="font-[family-name:var(--font-cormorant)] text-xl text-[#E8DDBE]">{s.title}</p>
-          <p className="mt-1 text-xs text-ivory/55">{s.body}</p>
         </motion.li>
       ))}
     </ol>
@@ -129,10 +127,9 @@ export function HomeTailoring() {
           </motion.div>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-6 md:mt-4">
-          <p className="max-w-xl text-lg font-semibold leading-snug tracking-[-0.02em] md:text-2xl">Every commission begins with a consultation — a conversation about the occasion, the cloth and you.</p>
+        <div className="mt-10 flex justify-end border-t border-white/10 pt-6 md:mt-4">
           <Link href="/#book" className="group flex items-center gap-4 text-sm font-semibold">
-            Book a Home Consultation
+            Book a Consultation
             <span className="block h-px w-12 bg-ivory transition-all duration-500 group-hover:w-24" />
           </Link>
         </div>

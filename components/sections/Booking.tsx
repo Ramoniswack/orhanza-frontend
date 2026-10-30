@@ -46,26 +46,13 @@ export function Booking() {
       <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr]">
         <Reveal className="flex flex-col justify-between gap-12">
           <div>
-            <p className="eyebrow text-gold">Contact / Booking</p>
-            <h2 id="book-h" className="h-display mt-3 text-[clamp(2.4rem,5vw,4.6rem)]">Book Your Tailoring Consultation</h2>
-            <p className="mt-5 max-w-md text-slate">
-              Tell us about the occasion and the look you have in mind. We’ll reach out to arrange a consultation, fabric selection and measurements.
-            </p>
-            <p className="mt-6 text-sm text-slate">{site.location}</p>
+            <h2 id="book-h" className="h-display mt-3 text-[clamp(2.4rem,5vw,4.6rem)]">Book a Consultation</h2>
           </div>
-          <div>
-            <p className="text-sm">Don’t like forms? Reach us directly.</p>
-            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-              {contacts.map((c) => (
-                <li key={c.label}>
-                  <a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="group flex items-center gap-4">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-field text-sm text-gold transition-colors group-hover:bg-charcoal group-hover:text-ivory">{c.label[0]}</span>
-                    <span><span className="block font-medium">{c.label}</span><span className="text-sm text-slate">{c.value}</span></span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            {contacts.map((c) => (
+              <li key={c.label}><a href={c.href} target={c.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" className="underline-offset-4 hover:underline">{c.label}</a></li>
+            ))}
+          </ul>
         </Reveal>
 
         <Reveal delay={0.1}>
@@ -73,8 +60,7 @@ export function Booking() {
             <AnimatePresence mode="wait">
               {status === "sent" ? (
                 <motion.div key="ok" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="flex min-h-[420px] flex-col items-center justify-center text-center">
-                  <h3 className="font-serif text-4xl">Thank you kindly</h3>
-                  <p className="mt-2 text-slate">We will reach out soon.</p>
+                  <h3 className="text-3xl font-semibold">Thank you.</h3>
                   <button onClick={() => setStatus("idle")} className="mt-6 text-sm underline underline-offset-4">Send another enquiry</button>
                 </motion.div>
               ) : (
@@ -83,24 +69,22 @@ export function Booking() {
                     <label className="block text-sm font-medium">Full name<input name="name" required autoComplete="name" placeholder="Your name" className={`${field} mt-1.5`} /></label>
                     <label className="block text-sm font-medium">Phone number<input name="phone" type="tel" required autoComplete="tel" placeholder="+977 98…" className={`${field} mt-1.5`} /></label>
                   </div>
-                  <label className="block text-sm font-medium">Email<input name="email" type="email" autoComplete="email" placeholder="you@example.com" className={`${field} mt-1.5`} /></label>
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-4">
                     <label className="block text-sm font-medium">Service needed
                       <select name="service" required defaultValue="" className={`${field} mt-1.5`}>
                         <option value="" disabled>Select…</option>
                         {serviceOptions.map((s) => <option key={s}>{s}</option>)}
                       </select>
                     </label>
-                    <label className="block text-sm font-medium">Preferred date<input name="date" type="date" className={`${field} mt-1.5`} /></label>
                   </div>
                   {shortlisted.length > 0 && (
                     <p className="rounded-[10px] bg-field px-4 py-3 text-sm text-slate">
                       <span className="font-medium text-charcoal">From your shortlist:</span> {shortlisted.join(", ")}
                     </p>
                   )}
-                  <label className="block text-sm font-medium">Message<textarea name="message" rows={5} placeholder="Tell us about the occasion, fabrics or fit you have in mind…" className={`${field} mt-1.5 resize-y`} /></label>
+                  <label className="block text-sm font-medium">Message<textarea name="message" rows={4} placeholder="Message" className={`${field} mt-1.5 resize-y`} /></label>
                   <button disabled={status === "sending"} className="btn btn-burgundy w-full disabled:opacity-60 sm:w-auto">{status === "sending" ? "Sending…" : "Book a Consultation"}</button>
-                  {status === "error" && <p role="alert" className="text-sm text-burgundy">Something went wrong. Please try again, or message us on Instagram.</p>}
+                  {status === "error" && <p role="alert" className="text-sm text-burgundy">Something went wrong. Please try again.</p>}
                 </motion.form>
               )}
             </AnimatePresence>
