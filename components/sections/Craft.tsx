@@ -26,7 +26,7 @@ export function Craft() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="relative aspect-[4/5] overflow-hidden bg-card">
-              <Image src="/images/banners/instagram.webp" alt="Kriti Maharjan, founder of Orhanza" fill sizes="(min-width:768px) 36vw, 100vw" className="object-cover object-[50%_30%]" />
+              <Image src="/images/banners/craft.webp" alt="Kriti Maharjan, founder of Orhanza" fill sizes="(min-width:768px) 36vw, 100vw" className="object-cover object-[50%_30%]" />
             </div>
             <figcaption className="mt-3 flex items-baseline justify-between gap-4 text-sm">
               <span className="font-semibold">Kriti Maharjan</span>

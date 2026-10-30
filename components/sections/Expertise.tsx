@@ -66,18 +66,18 @@ export function Expertise() {
           </Card>
 
           <Card i={4} className="bg-card md:col-span-2">
-            <KineticNumber value={6} stagger={0.09} className="text-[clamp(5rem,12vw,8rem)] font-extrabold tracking-[-0.05em]" />
+            <KineticNumber value={6} stagger={0.09} className="text-7xl font-extrabold tracking-[-0.05em]" />
             <p className="mt-4 text-sm font-semibold">Steps to your fit</p>
             <NeedleThread className="pointer-events-none absolute -bottom-2 right-2 h-24 text-gold" />
           </Card>
           <Card i={5} className="bg-card md:col-span-2">
-            <KineticNumber value={6} stagger={0.09} className="text-[clamp(5rem,12vw,8rem)] font-extrabold tracking-[-0.05em]" />
+            <KineticNumber value={6} stagger={0.09} className="text-7xl font-extrabold tracking-[-0.05em]" />
             <p className="mt-4 text-sm font-semibold">Fabric families</p>
             <SwatchStack className="pointer-events-none absolute -bottom-2 right-2 h-24 text-gold" />
           </Card>
 
-          <Card i={6} className="bg-burgundy text-ivory col-span-12">
-            <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(10rem,25vw,22rem)] font-extrabold tracking-[-0.06em]" />
+          <Card i={6} className="bg-burgundy text-ivory md:col-span-12">
+            <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(6rem,14vw,13rem)] font-extrabold tracking-[-0.06em]" />
             <p className="mt-4 text-xl font-semibold">Made to measure</p>
             <StitchLines className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-1/2 text-ivory/30 md:block" />
           </Card>
