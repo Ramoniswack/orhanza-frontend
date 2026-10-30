@@ -4,7 +4,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
-import { BgFlip, LineMaskReveal, StaircaseHeadline } from "@/components/motion";
+import { BgFlip, KineticNumber, StaircaseHeadline } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 import { testimonialSlides } from "@/lib/content";
 
@@ -15,15 +15,14 @@ export function Testimonials() {
   const slide = testimonialSlides[i];
 
   return (
-    <BgFlip tone="dark" pushUp className="pb-14 pt-14 md:pb-20 md:pt-20">
+    <BgFlip tone="dark" pushUp className="pb-4 pt-4 md:pb-6 md:pt-6">
       <div className="container-x">
         <SectionLabel label="Testimonials" dark />
-        <div className="mx-auto mt-5 max-w-4xl text-center md:mt-6">
-          <LineMaskReveal as="h2" className="h-section-xl" lines={["WHAT CLIENTS", "SAY"]} />
-          <svg viewBox="0 0 24 24" className="mx-auto mt-5 h-8 w-8 fill-gold" aria-hidden><path d="M4 18v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7H4zm10 0v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7h-7z" /></svg>
+        <div className="mx-auto mt-2 max-w-4xl text-center md:mt-3">
+          <StaircaseHeadline dark className="h-section" lines={[{ text: "WHAT CLIENTS", tone: "setup" }, { text: "SAY", tone: "punch" }]} indents={[0, 0.6]} />
         </div>
 
-        <div className="mt-8 grid items-center gap-8 md:grid-cols-[1fr_1.1fr] md:gap-16">
+        <div className="mt-4 grid items-center gap-8 md:grid-cols-[1fr_1.1fr] md:gap-16">
           <div>
             <div className="relative aspect-[4/3] overflow-hidden bg-[#111]">
               <AnimatePresence mode="popLayout">
@@ -35,6 +34,7 @@ export function Testimonials() {
             <div className="mt-3 h-px w-full bg-ivory/15">
               <motion.div key={i} className="h-full bg-gold" initial={{ width: "0%" }} animate={{ width: "100%" }} transition={{ duration: SLIDE_MS / 1000, ease: "linear" }} onAnimationComplete={() => setI((v) => (v + 1) % testimonialSlides.length)} />
             </div>
+            <p className="mt-4 flex items-baseline gap-2 text-sm text-ivory/60">{String(i + 1).padStart(2, "0")} / {String(testimonialSlides.length).padStart(2, "0")}</p>
           </div>
           <div className="relative min-h-[16rem]">
             <AnimatePresence mode="wait">
@@ -46,13 +46,12 @@ export function Testimonials() {
           </div>
         </div>
 
-        <div className="mt-10 md:mt-14">
+        <div className="mt-6 md:mt-8">
           <div className="relative aspect-[16/10] overflow-hidden bg-[#111] md:aspect-[16/8]">
             <Image src="/images/products/wool-linen-groomsmen-suit-a.webp" alt="Wool-linen groomsmen suit — Orhanza" fill sizes="100vw" className="object-cover object-top opacity-70" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
             <StaircaseHeadline
               dark
-              size="md"
               className="absolute left-6 top-8 md:left-12 md:top-12"
               lines={[{ text: "WHEN THE FIT", tone: "setup" }, { text: "IS RIGHT, THE", tone: "setup" }, { text: "CONFIDENCE", tone: "punch" }, { text: "FOLLOWS", tone: "punch" }]}
             />

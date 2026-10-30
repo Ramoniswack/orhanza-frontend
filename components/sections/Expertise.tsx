@@ -1,11 +1,12 @@
 "use client";
 
-/** 8 — Expertise bento: rounded cards stagger in (y 40→0, scale .96→1, opacity); stat cards use OdometerNumber. */
+/** 8 — Expertise bento: cards stagger in; each carries a line illustration of its subject so no card reads as empty. Digits roll via KineticNumber. */
 import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { OdometerNumber, StaircaseHeadline } from "@/components/motion";
+import { JacketOnHanger, Mannequin, NeedleThread, StitchLines, SwatchStack, TapeMeasure } from "@/components/Illustrations";
+import { KineticNumber, StaircaseHeadline } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 import { site } from "@/lib/site";
 
@@ -39,17 +40,17 @@ export function Expertise() {
             <p className="label-micro text-mute">Founder & Owner</p>
             <p className="mt-6 text-[7rem] font-extrabold leading-none tracking-[-0.06em] text-gold md:text-[9rem]">K</p>
             <p className="mt-6 text-2xl font-semibold tracking-[-0.03em]">Kriti Maharjan</p>
+            <Mannequin className="pointer-events-none absolute bottom-6 right-6 h-[56%] min-h-[14rem] text-gold" />
           </Card>
 
           <Card i={1} className="bg-black text-ivory md:col-span-4">
             <p className="text-3xl font-extrabold uppercase leading-[0.95] tracking-[-0.04em] md:[writing-mode:vertical-rl] md:rotate-180 md:text-5xl">Wear your confidence</p>
+            <JacketOnHanger className="pointer-events-none absolute bottom-5 right-6 h-[78%] text-ivory/60" />
           </Card>
 
           <Card i={2} className="bg-card md:col-span-4">
-            <svg viewBox="0 0 64 64" className="h-16 w-16" fill="none" stroke="#B98B45" strokeWidth="2" aria-hidden>
-              <rect x="6" y="22" width="52" height="20" rx="2" /><path d="M16 22v8M24 22v6M32 22v8M40 22v6M48 22v8" />
-            </svg>
-            <h3 className="mt-8 text-2xl font-semibold tracking-[-0.03em]">Precision fit</h3>
+            <h3 className="text-2xl font-semibold tracking-[-0.03em]">Precision fit</h3>
+            <TapeMeasure className="pointer-events-none absolute inset-x-6 bottom-5 w-[calc(100%-3rem)] text-gold" />
           </Card>
 
           <Card i={3} className="bg-card md:col-span-4">
@@ -65,17 +66,20 @@ export function Expertise() {
           </Card>
 
           <Card i={4} className="bg-card md:col-span-2">
-            <OdometerNumber value="6" className="text-7xl font-extrabold tracking-[-0.05em]" />
+            <KineticNumber value={6} stagger={0.09} className="text-[clamp(5rem,12vw,8rem)] font-extrabold tracking-[-0.05em]" />
             <p className="mt-4 text-sm font-semibold">Steps to your fit</p>
+            <NeedleThread className="pointer-events-none absolute -bottom-2 right-2 h-24 text-gold" />
           </Card>
           <Card i={5} className="bg-card md:col-span-2">
-            <OdometerNumber value="6" className="text-7xl font-extrabold tracking-[-0.05em]" />
+            <KineticNumber value={6} stagger={0.09} className="text-[clamp(5rem,12vw,8rem)] font-extrabold tracking-[-0.05em]" />
             <p className="mt-4 text-sm font-semibold">Fabric families</p>
+            <SwatchStack className="pointer-events-none absolute -bottom-2 right-2 h-24 text-gold" />
           </Card>
 
-          <Card i={6} className="bg-burgundy text-ivory md:col-span-12">
-            <OdometerNumber value="100" suffix="%" className="text-[clamp(6rem,14vw,13rem)] font-extrabold leading-none tracking-[-0.06em]" />
+          <Card i={6} className="bg-burgundy text-ivory col-span-12">
+            <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(10rem,25vw,22rem)] font-extrabold tracking-[-0.06em]" />
             <p className="mt-4 text-xl font-semibold">Made to measure</p>
+            <StitchLines className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-1/2 text-ivory/30 md:block" />
           </Card>
         </div>
 

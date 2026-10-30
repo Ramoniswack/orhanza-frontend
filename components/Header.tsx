@@ -21,24 +21,24 @@ export function Header({ onSearch }: { onSearch: () => void }) {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 bg-[#1A1A1A] text-ivory">
-        <div className="container-x flex h-10 items-center justify-between text-[11px]">
-          <Link href="/" aria-label="Orhanza — home" className="font-extrabold tracking-[0.5em]">
-            O R H A N Z A<sup className="ml-1 text-[8px] tracking-normal">®</sup>
+        <div className="container-x flex h-16 items-center justify-between text-[15px]">
+          <Link href="/" aria-label="Orhanza — home" className="text-[17px] font-extrabold tracking-[0.5em]">
+            O R H A N Z A<sup className="ml-1 text-[10px] tracking-normal">®</sup>
           </Link>
 
-          <motion.nav {...fade(0.3)} className="hidden items-center gap-7 md:flex" aria-label="Primary">
+          <motion.nav {...fade(0.3)} className="hidden items-center gap-9 md:flex" aria-label="Primary">
             {links.map((l) => (
               <Link key={l.href} href={l.href} className="transition-opacity hover:opacity-60">{l.label}</Link>
             ))}
             <button onClick={onSearch} className="transition-opacity hover:opacity-60">Search</button>
             <button onClick={() => setOpen(true)} className="transition-opacity hover:opacity-60">
-              Shortlist{items.length > 0 && <span className="ml-1.5 rounded-full bg-gold px-1.5 py-0.5 text-[9px] text-charcoal">{items.length}</span>}
+              Shortlist{items.length > 0 && <span className="ml-1.5 rounded-full bg-gold px-2 py-0.5 text-[11px] text-charcoal">{items.length}</span>}
             </button>
           </motion.nav>
 
           <button className="md:hidden" onClick={() => setMenu((v) => !v)} aria-expanded={menu} aria-label="Menu">
-            <span className="block h-px w-5 bg-current" />
-            <span className="mt-1.5 block h-px w-5 bg-current" />
+            <span className="block h-px w-7 bg-current" />
+            <span className="mt-2 block h-px w-7 bg-current" />
           </button>
         </div>
       </header>

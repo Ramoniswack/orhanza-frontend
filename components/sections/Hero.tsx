@@ -172,10 +172,9 @@ export function Hero() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[75%] bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
 
         {/* 3 — top-left identity block (logo, pill + caption, descriptor, address) */}
-        <motion.div style={{ opacity: introFade }} className="absolute left-0 top-[64px] z-20 w-full">
+        <motion.div style={{ opacity: introFade }} className="absolute left-0 top-[92px] z-20 w-full">
           <div className="container-x text-ivory">
-            <motion.p {...t(1.2)} className="text-[13px] font-extrabold tracking-[0.5em]">O R H A N Z A®</motion.p>
-            <motion.p {...t(1.35)} className="label-micro mt-3 flex items-center gap-2 text-ivory/70">
+            <motion.p {...t(1.35)} className="label-micro flex items-center gap-2 text-ivory/70">
               <span className="h-2 w-4 rounded-full bg-gold" aria-hidden /> बेस्पोक टेलरिङ
             </motion.p>
             <motion.p {...t(1.5)} className="mt-2 bg-gradient-to-r from-mute to-ivory bg-clip-text text-sm text-transparent">Bespoke Tailoring</motion.p>
@@ -186,7 +185,7 @@ export function Hero() {
         </motion.div>
 
         {/* 5 — top-right stacked list */}
-        <motion.ul style={{ opacity: introFade }} className="absolute right-0 top-[64px] z-20 hidden pr-[clamp(20px,2.8vw,40px)] text-right text-sm text-ivory md:block" aria-label="What we make">
+        <motion.ul style={{ opacity: introFade }} className="absolute right-0 top-[92px] z-20 hidden pr-[clamp(20px,2.8vw,40px)] text-right text-sm text-ivory md:block" aria-label="What we make">
           {["Suits", "Shirts", "Coat-Pant", "Wedding"].map((w, i) => (
             <li key={w}><motion.span className="inline-block" {...t(2.3 + i * 0.12)}>{w}</motion.span></li>
           ))}

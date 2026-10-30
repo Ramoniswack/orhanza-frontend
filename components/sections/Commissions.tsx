@@ -1,11 +1,13 @@
 "use client";
 
-/** 10 — Pricing slot → commissions. No prices are published, so rows show the step count (odometer) and "priced after consultation". */
+/** 10 — Commissions: an editorial index. Numbered rows, large type, a real photograph that swaps to its second frame on hover. */
 import { motion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
-import { StaircaseHeadline } from "@/components/motion";
+import { KineticNumber, StaircaseHeadline } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 import { commissions } from "@/lib/content";
+import { productImage, products } from "@/lib/data";
 
 export function Commissions() {
   return (
@@ -18,27 +20,35 @@ export function Commissions() {
           indents={[0, 0.6, 1.2]}
         />
 
-        <div className="mt-8 border-t hairline md:mt-10">
-          {commissions.map((c, i) => (
-            <motion.article
-              key={c.name}
-              initial={{ opacity: 0, y: 36 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
-              className="group grid items-center gap-6 border-b hairline py-8 md:grid-cols-[7rem_1fr_auto] md:gap-8 md:py-10"
-            >
-              <div className="h-20 w-28 rounded-xl" style={{ background: `linear-gradient(135deg, ${c.swatch[0]}, ${c.swatch[1]})` }} aria-hidden />
-              <div>
-                <h3 className="text-2xl font-extrabold tracking-[-0.04em] md:text-3xl">{c.name}</h3>
-              </div>
-              <Link href="/#book" className="flex items-center gap-2 text-sm font-semibold">
-                {c.cta.replace(" →", "")}<span className="inline-block transition-transform duration-300 group-hover:translate-x-2">→</span>
-              </Link>
-            </motion.article>
-          ))}
-        </div>
+        <ul className="mt-8 border-t hairline md:mt-10">
+          {commissions.map((c, i) => {
+            const p = products.find((x) => x.category === c.cat) ?? products[0];
+            return (
+              <motion.li
+                key={c.name}
+                initial={{ opacity: 0, y: 36 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.4 }}
+                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                className="border-b hairline"
+              >
+                <Link href={`/collections?category=${c.cat}`} className="group grid grid-cols-[2.5rem_1fr_auto] items-center gap-4 py-6 md:grid-cols-[4rem_1fr_auto_auto] md:gap-10 md:py-8">
+                  <span className="self-start pt-2 text-sm text-mute md:pt-4"><KineticNumber value={i + 1} pad={2} /></span>
+                  <h3 className="text-[clamp(1.75rem,4.6vw,4.5rem)] font-extrabold leading-none tracking-[-0.045em] transition-transform duration-500 ease-out group-hover:translate-x-3">{c.name}</h3>
+                  <span className="relative h-28 w-[5.25rem] overflow-hidden bg-card md:h-36 md:w-28">
+                    <Image src={productImage(p, "a")} alt="" fill sizes="112px" className="object-cover object-top transition-opacity duration-700 group-hover:opacity-0" />
+                    <Image src={productImage(p, "b")} alt="" fill sizes="112px" className="object-cover object-top opacity-0 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100" />
+                  </span>
+                  <span aria-hidden className="hidden h-12 w-12 items-center justify-center rounded-full border border-ink/20 text-lg transition-colors duration-300 group-hover:bg-ink group-hover:text-white md:flex">→</span>
+                </Link>
+              </motion.li>
+            );
+          })}
+        </ul>
 
+        <div className="mt-8 flex justify-end">
+          <Link href="/#book" className="btn btn-burgundy">Book a Consultation</Link>
+        </div>
       </div>
     </section>
   );

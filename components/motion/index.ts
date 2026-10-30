@@ -5,3 +5,4 @@ export { OdometerNumber } from "./OdometerNumber";
 export { VelocityBlur } from "./VelocityBlur";
 export { ExpandOnScroll } from "./ExpandOnScroll";
 export { BgFlip } from "./BgFlip";
+export { KineticNumber, KineticMV } from "./KineticNumber";

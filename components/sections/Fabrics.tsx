@@ -55,7 +55,7 @@ export function Fabrics() {
     <>
       {/* desktop: pinned horizontal */}
       <section id="fabrics" ref={ref} className="relative hidden h-[260svh] bg-white text-ink md:block" aria-label="Fabrics">
-        <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-16">
+        <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-20">
           <h2 className="h-section container-x mb-8">OUR FABRICS</h2>
 
           <motion.div ref={track} style={{ x }} className="flex w-max items-start gap-[2vw] px-[clamp(20px,2.8vw,40px)]">

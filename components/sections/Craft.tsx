@@ -1,8 +1,9 @@
 "use client";
 
-/** 4 — "Recognition" slot → craft & values. Staircase, accent feature card + hairline rows (fade-up 24px, 0.08s), then ScrubParagraph with a star watermark. */
+/** 4 — Craft: staircase headline, then a photographic portrait with a plain caption beside a numbered list of what we stand for. */
 import { motion } from "motion/react";
-import { StaircaseHeadline } from "@/components/motion";
+import Image from "next/image";
+import { KineticNumber, StaircaseHeadline } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 import { values } from "@/lib/content";
 
@@ -17,22 +18,21 @@ export function Craft() {
           indents={[0, 0.6, 1.2]}
         />
 
-        <div className="mt-6 grid gap-4 md:mt-8 md:grid-cols-[0.8fr_1.2fr] md:gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.97 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        <div className="mt-8 grid items-start gap-8 md:mt-10 md:grid-cols-[0.8fr_1.2fr] md:gap-12">
+          <motion.figure
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative flex min-h-[420px] flex-col justify-between overflow-hidden bg-burgundy p-8 text-ivory"
           >
-            <svg viewBox="0 0 24 24" className="absolute -right-10 -top-10 h-64 w-64 fill-ivory/10" aria-hidden>
-              <rect x="5" y="5" width="14" height="14" /><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)" />
-            </svg>
-            <p className="label-micro">Founder & Owner</p>
-            <div>
-              <p className="text-5xl font-extrabold leading-none tracking-[-0.04em] md:text-6xl">Kriti<br />Maharjan</p>
+            <div className="relative aspect-[4/5] overflow-hidden bg-card">
+              <Image src="/images/banners/instagram.webp" alt="Kriti Maharjan, founder of Orhanza" fill sizes="(min-width:768px) 36vw, 100vw" className="object-cover object-[50%_30%]" />
             </div>
-          </motion.div>
+            <figcaption className="mt-3 flex items-baseline justify-between gap-4 text-sm">
+              <span className="font-semibold">Kriti Maharjan</span>
+              <span className="text-mute">Founder & Owner</span>
+            </figcaption>
+          </motion.figure>
 
           <ul className="border-t hairline">
             {values.map((v, i) => (
@@ -42,14 +42,14 @@ export function Craft() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.6 }}
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 }}
-                className="flex items-baseline justify-between gap-6 border-b hairline py-6 md:py-8"
+                className="flex items-baseline gap-6 border-b hairline py-6 md:gap-10 md:py-8"
               >
+                <span className="w-8 shrink-0 text-sm text-mute"><KineticNumber value={i + 1} pad={2} stagger={0.08} /></span>
                 <span className="text-xl font-semibold tracking-[-0.02em] md:text-3xl">{v.name}</span>
               </motion.li>
             ))}
           </ul>
         </div>
-
       </div>
     </section>
   );

@@ -55,8 +55,8 @@ html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 
 /* ── Type scale from the motion spec ── */
 .h-hero { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 8vw, 9rem); }
-.h-section { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(2.5rem, 5.5vw, 6rem); }
-.h-section-xl { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.045em; line-height: 0.9; font-size: clamp(2.5rem, 7.2vw, 8rem); }
+.h-section { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(4rem, 8vw, 9rem); }
+.h-section-xl { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.045em; line-height: 0.9; font-size: clamp(5rem, 10vw, 11rem); }
 .label-micro { font-size: 0.625rem; letter-spacing: 0.24em; text-transform: uppercase; }
 /* staircase indents shrink on mobile */
 .stair { --stair-scale: 1; }
@@ -66,3 +66,6 @@ html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 .hairline { border-color: rgba(0,0,0,0.08); }
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Editorial serif (timeline headings, counters) — falls back gracefully if the font variable is missing */
+.font-editorial { font-family: var(--font-cormorant, "Cormorant Garamond"), Georgia, "Times New Roman", serif; font-variant-numeric: lining-nums tabular-nums; }
