@@ -41,7 +41,7 @@ export const commissions = [
 export const audience = [
   { role: "Professionals & businessmen", intro: "Suits that carry you from the first meeting to the last.", image: "/images/products/midnight-double-breasted-suit-a.webp" },
   { role: "Grooms & wedding guests", intro: "Distinctive attire for the day you will be photographed most.", image: "/images/products/ivory-grooms-suit-a.webp" },
-  { role: "Students & fashion-conscious men", intro: "A distinctive fit, cut around you and how you move.", image: "/images/products/oxford-business-shirt-a.webp" },
+  { role: "Students & fashion-conscious men", intro: "A distinctive fit, cut around you and how you move.", image: "/images/banners/style-portrait.webp" },
 ];
 
 export const faqs = [

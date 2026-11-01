@@ -1,7 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useShortlist } from "./ShortlistProvider";
 
@@ -12,15 +13,26 @@ const links = [
   { href: "/#book", label: "Contact" },
 ];
 
-/** Thin dark full-width bar — stays on top over dark and white sections. */
+/** Full-width bar. On the home page it is transparent while the hero is on screen, then turns solid once you scroll past it. */
 export function Header({ onSearch }: { onSearch: () => void }) {
   const [menu, setMenu] = useState(false);
   const { items, setOpen } = useShortlist();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [pastHero, setPastHero] = useState(false);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const hero = document.getElementById("hero");
+    const end = hero ? hero.offsetTop + hero.offsetHeight - 64 : 80;
+    setPastHero(y > end);
+  });
+  const clear = isHome && !pastHero && !menu;
+  const light = pathname.startsWith("/collections") && !menu;
   const fade = (d: number) => ({ initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.8, delay: d } });
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 bg-[#1A1A1A] text-ivory">
+      <header className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter] duration-500 ${light ? "bg-[#F6F6F6] text-[#111]" : `text-ivory ${clear ? "bg-transparent" : "bg-[#1A1A1A]"}`}`}>
         <div className="container-x flex h-16 items-center justify-between text-[15px]">
           <Link href="/" aria-label="Orhanza — home" className="text-[17px] font-extrabold tracking-[0.5em]">
             O R H A N Z A<sup className="ml-1 text-[10px] tracking-normal">®</sup>

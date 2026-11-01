@@ -8,7 +8,7 @@ import { motion } from "motion/react";
 
 type P = { className?: string };
 
-function Path({ d, delay = 0, dash }: { d: string; delay?: number; dash?: string }) {
+export function Path({ d, delay = 0, dash }: { d: string; delay?: number; dash?: string }) {
   return (
     <motion.path
       d={d}

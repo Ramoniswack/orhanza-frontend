@@ -7,20 +7,21 @@
  * the markers, the divider's progress line and the kinetic counter. Scrolling back up reverses everything.
  * Mobile: single column — each entry carries its own photograph.
  */
-import { MotionConfig, motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
-import Image from "next/image";
+import { AnimatePresence, MotionConfig, motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { KineticMV, KineticNumber } from "@/components/motion";
+import { Box, House } from "@/components/Icons";
+import { JacketOnHanger, Mannequin, NeedleThread, SwatchStack } from "@/components/Illustrations";
+import { KineticNumber } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 
 const steps = [
-  { title: "Home Consultation", body: "We visit you to talk through the occasion, the look and the budget.", image: "/images/products/boardroom-three-piece-suit-a.webp" },
-  { title: "Fabric & Design Selection", body: "Cloths, colours and details, chosen together at your door.", image: "/images/products/wool-linen-groomsmen-suit-a.webp" },
-  { title: "Measurement", body: "Detailed body measurements for a fit that is yours alone.", image: "/images/products/sand-coat-pant-set-a.webp" },
-  { title: "Trial Fitting", body: "A first fitting to refine the line before final finishing.", image: "/images/products/midnight-double-breasted-suit-a.webp" },
-  { title: "Delivery", body: "Your finished garment, delivered to you.", image: "/images/products/black-tie-evening-suit-a.webp" },
-  { title: "Alteration Support", body: "Adjustments afterwards, whenever you need them.", image: "/images/products/signature-white-shirt-a.webp" },
+  { title: "Home Consultation", body: "We visit you to talk through the occasion, the look and the budget.", Icon: House },
+  { title: "Fabric & Design Selection", body: "Cloths, colours and details, chosen together at your door.", Icon: SwatchStack },
+  { title: "Measurement", body: "Detailed body measurements for a fit that is yours alone.", Icon: Mannequin },
+  { title: "Trial Fitting", body: "A first fitting to refine the line before final finishing.", Icon: JacketOnHanger },
+  { title: "Delivery", body: "Your finished garment, delivered to you.", Icon: Box },
+  { title: "Alteration Support", body: "Adjustments afterwards, whenever you need them.", Icon: NeedleThread },
 ];
 const N = steps.length;
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -55,7 +56,7 @@ function Copy({ i, title, body }: { i: number; title: string; body: string }) {
       <motion.p variants={meta} className="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em]" style={{ color: C.mute }}>
         Step <KineticNumber value={i + 1} pad={2} />
       </motion.p>
-      <h3 className="mt-4 text-[clamp(2.2rem,3.5vw,3.8rem)] font-extrabold leading-[1.02] tracking-[-0.04em] uppercase" style={{ color: C.ink }}>
+      <h3 className="mt-4 text-[clamp(2rem,3.2vw,3.5rem)] font-semibold leading-[1.02] tracking-[-0.04em]" style={{ color: C.ink }}>
         {title.split(" ").map((w, wi) => (
           <span key={wi} className="mr-[0.25em] inline-block overflow-hidden pb-[0.12em] align-bottom">
             <motion.span variants={word(wi)} className="inline-block">{w}</motion.span>
@@ -77,8 +78,6 @@ export function HomeTailoring() {
   const { scrollYProgress: pm } = useScroll({ target: listM, offset: ["start 60%", "end 60%"] });
   const line = useSpring(p, { stiffness: 140, damping: 30, mass: 0.4 });
   const lineM = useSpring(pm, { stiffness: 140, damping: 30, mass: 0.4 });
-  const pct = useTransform(p, (v) => Math.min(100, Math.max(0, v * 100)));
-  const drift = useTransform(p, [0, 1], ["-1.5%", "1.5%"]); // very low parallax on the photograph
 
   useMotionValueEvent(p, "change", (v) => {
     const i = Math.min(N - 1, Math.max(0, Math.floor(v * N)));
@@ -90,38 +89,36 @@ export function HomeTailoring() {
       <section id="process" aria-label="Home tailoring service" className="relative pb-14 pt-14 md:pb-20 md:pt-20" style={{ background: C.bg, color: C.ink }}>
         <div className="container-x">
           <SectionLabel label="Process" />
-          <h2 className="mt-5 text-[clamp(3rem,7vw,7rem)] font-extrabold leading-[0.92] tracking-[-0.04em] uppercase">Home Tailoring<br />Service</h2>
+          <h2 className="h-section-xl mt-5">Home Tailoring<br />Service</h2>
         </div>
 
         {/* ─────────── desktop / tablet ─────────── */}
         <div className="container-x mt-10 hidden md:grid md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
           <div>
             <div className="sticky top-[14svh] pr-10 lg:pr-16">
-              <div className="relative h-[64svh] max-h-[40rem] overflow-hidden rounded-[6px]" style={{ background: "#E8E6E0" }}>
-                <motion.div style={{ y: drift }} className="absolute -inset-y-[2%] inset-x-0">
-                  {steps.map((s, i) => (
+              <div className="relative flex h-[60svh] max-h-[36rem] items-center justify-center overflow-hidden rounded-[6px]" style={{ background: "#ECEAE4" }}>
+                <AnimatePresence mode="wait">
+                  {steps.map(({ Icon, title }, i) => i === active && (
                     <motion.div
-                      key={s.title}
-                      className="absolute inset-0"
-                      initial={false}
-                      animate={i === active ? { opacity: 1, scale: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" } : { opacity: 0, scale: 1.04, y: 12, clipPath: "inset(4% 0% 0% 0%)" }}
-                      transition={{ duration: 0.9, ease: EASE }}
+                      key={title}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                      transition={{ duration: 0.5, ease: EASE }}
+                      className="h-[60%] w-[60%]"
+                      style={{ color: C.ink }}
                     >
-                      <Image src={s.image} alt={`${s.title} — Orhanza home tailoring`} fill sizes="(min-width:768px) 40vw, 100vw" className="object-cover object-top" priority={i === 0} />
+                      <Icon className="h-full w-full" />
                     </motion.div>
                   ))}
-                </motion.div>
+                </AnimatePresence>
               </div>
 
               <div className="mt-5 flex items-end justify-between">
                 <div className="flex items-baseline gap-3">
-                  <KineticNumber value={active + 1} pad={2} play className="text-[clamp(2.6rem,4.2vw,4.2rem)] font-extrabold tracking-[-0.04em]" />
-                  <span className="text-xl font-semibold" style={{ color: C.mute }}>/ {String(N).padStart(2, "0")}</span>
+                  <KineticNumber value={active + 1} pad={2} play className="text-[clamp(2.6rem,4.2vw,4.2rem)] font-semibold tracking-[-0.04em]" />
+                  <span className="text-xl" style={{ color: C.mute }}>/ {String(N).padStart(2, "0")}</span>
                 </div>
-                <span className="flex items-baseline text-xl font-semibold" style={{ color: C.mute }}>
-                  <KineticMV value={pct} places={3} />
-                  <span className="ml-0.5 text-base">%</span>
-                </span>
               </div>
             </div>
           </div>
@@ -136,7 +133,7 @@ export function HomeTailoring() {
                   key={s.title}
                   initial="off"
                   animate={i === active ? "on" : "off"}
-                  className="relative flex min-h-[64svh] items-center pl-12 pr-4 lg:pl-20"
+                  className="relative flex min-h-[46svh] items-center pl-12 pr-4 lg:pl-20"
                 >
                   <Marker state={i === active ? "on" : i < active ? "past" : "future"} />
                   <div><Copy i={i} title={s.title} body={s.body} /></div>
@@ -164,9 +161,6 @@ export function HomeTailoring() {
                   variants={{ off: { scale: 0.8, backgroundColor: C.bg, borderColor: C.off }, on: { scale: 1.2, backgroundColor: C.on, borderColor: C.on, transition: { duration: 0.4 } } }}
                   className="absolute -left-8 top-2 h-3 w-3 rounded-full border"
                 />
-                <div className="relative mb-6 aspect-[4/5] overflow-hidden rounded-[6px]" style={{ background: "#E8E6E0" }}>
-                  <Image src={s.image} alt={`${s.title} — Orhanza home tailoring`} fill sizes="90vw" className="object-cover object-top" />
-                </div>
                 <Copy i={i} title={s.title} body={s.body} />
               </motion.li>
             ))}

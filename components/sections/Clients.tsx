@@ -28,7 +28,7 @@ export function Clients() {
         <SectionLabel label="Clients" />
         <StaircaseHeadline
           className="mt-5 md:mt-6"
-          lines={[{ text: "THE PEOPLE", tone: "setup" }, { text: "WE DRESS", tone: "punch" }]}
+          lines={[{ text: "The people", tone: "setup" }, { text: "we dress", tone: "punch" }]}
           indents={[0, 0.8]}
         />
       </div>

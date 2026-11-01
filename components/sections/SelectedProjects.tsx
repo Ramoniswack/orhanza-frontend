@@ -1,87 +1,79 @@
 "use client";
 
-/** 1 — Selected commissions: staggered collage (3 rows), per-row parallax, cards scale .92→1 as they centre, hover label + cursor bubble. Ends on MORE → BgFlip to white. */
-import { motion, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
+/**
+ * Selected commissions — two tight rows of tiles (narrow · wide · narrow, then three equal), edge to edge with hairline gaps.
+ * On black; each tile shows the upper half of a look. Slow reveal, slow hover.
+ */
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import { BgFlip, LineMaskReveal } from "@/components/motion";
-import { productImage, products } from "@/lib/data";
+import { looks } from "@/lib/lookbook-data";
 
-const rows = [
-  { speed: 70, cells: ["md:col-span-7 aspect-[7/6]", "md:col-span-5 aspect-[5/6]"] },
-  { speed: -50, cells: ["md:col-span-4 aspect-[4/5]", "md:col-span-4 aspect-[4/5]", "md:col-span-4 aspect-[4/5]"] },
-  { speed: 60, cells: ["md:col-span-5 aspect-[5/6]", "md:col-span-7 aspect-[7/6]"] },
+const SLOW = [0.22, 1, 0.36, 1] as const;
+
+type Tile = { id: number; name: string; tag: string; span: string; bg: string; fg: string; dark: boolean };
+const tiles: Tile[] = [
+  { id: 6, name: "Ombré double-breasted", tag: "Evening", span: "md:col-span-3", bg: "#EAEAEA", fg: "#111", dark: false },
+  { id: 7, name: "Cream double-breasted", tag: "Wedding", span: "md:col-span-6 col-span-12", bg: "#151515", fg: "#F4F4F4", dark: true },
+  { id: 3, name: "Herringbone overcoat", tag: "Outerwear", span: "md:col-span-3", bg: "#D2D2D2", fg: "#111", dark: false },
+  { id: 5, name: "Olive dinner suit", tag: "Black tie", span: "md:col-span-4", bg: "#F5F5F5", fg: "#111", dark: false },
+  { id: 9, name: "Emerald pantsuit", tag: "Business", span: "md:col-span-4", bg: "#C8C8C8", fg: "#111", dark: false },
+  { id: 12, name: "White cape suit", tag: "Occasion", span: "md:col-span-4 col-span-12", bg: "#0B0B0B", fg: "#F4F4F4", dark: true },
 ];
 
-function Card({ index, cls, onHover }: { index: number; cls: string; onHover: (v: boolean) => void }) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const p = products[index % products.length];
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 98%", "center 62%"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
-  return (
-    <motion.div style={{ scale }} className={`${cls} relative`}>
-      <Link ref={ref} href={`/collections/${p.slug}`} onMouseEnter={() => onHover(true)} onMouseLeave={() => onHover(false)} className="group relative block h-full w-full overflow-hidden bg-[#111]">
-        <Image src={productImage(p, "a")} alt={`${p.name} — made-to-measure tailoring in Nepal`} fill sizes="(min-width:768px) 40vw, 100vw" className="object-cover object-top transition-transform duration-[1200ms] ease-out group-hover:scale-105" />
-        <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 pt-14 text-sm opacity-0 transition-opacity duration-500 group-hover:opacity-100">{p.name}</span>
-      </Link>
-    </motion.div>
-  );
-}
-
-function Row({ speed, cells, start, onHover }: { speed: number; cells: string[]; start: number; onHover: (v: boolean) => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [speed, -speed]);
-  return (
-    <motion.div ref={ref} style={{ y }} className="grid grid-cols-1 gap-2 md:grid-cols-12">
-      {cells.map((c, i) => <Card key={i} index={start + i} cls={c} onHover={onHover} />)}
-    </motion.div>
-  );
-}
-
 export function SelectedProjects() {
-  const [hover, setHover] = useState(false);
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-  const sx = useSpring(x, { stiffness: 400, damping: 40 });
-  const sy = useSpring(y, { stiffness: 400, damping: 40 });
-  useEffect(() => {
-    const move = (e: MouseEvent) => { x.set(e.clientX); y.set(e.clientY); };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, [x, y]);
-
-  let n = 0;
   return (
-    <BgFlip tone="dark" id="work" className="pb-14 pt-14 md:pb-20 md:pt-20">
-      <div className="container-x">
-        <div className="mx-auto max-w-4xl text-center">
-          <LineMaskReveal as="h2" className="h-section" lines={["SELECTED", "COMMISSIONS"]} />
+    <BgFlip tone="dark" id="work" className="pb-14 pt-14 md:pb-24 md:pt-24">
+      <div className="px-2 md:px-2">
+        <div className="mx-auto max-w-4xl pb-10 text-center md:pb-16">
+          <LineMaskReveal as="h2" className="h-section" lines={["Selected", "commissions"]} />
         </div>
-        <div className="mt-10 space-y-2 md:mt-14">
-          {rows.map((r, i) => {
-            const start = n;
-            n += r.cells.length;
-            return <Row key={i} speed={r.speed} cells={r.cells} start={start} onHover={setHover} />;
+
+        <div className="grid grid-cols-12 gap-1 md:auto-rows-[32rem]">
+          {tiles.map((t, i) => {
+            const look = looks[t.id - 1];
+            const wide = t.span.includes("col-span-6");
+            return (
+              <motion.div
+                key={t.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 1.4, ease: SLOW, delay: (i % 3) * 0.12 }}
+                className={`${t.span} min-w-0 ${t.span.includes("col-span-12") ? "" : "col-span-6"}`}
+              >
+                <Link
+                  href="/collections"
+                  className={`group relative block overflow-hidden rounded-[6px] md:h-full ${wide ? "aspect-[4/3]" : "aspect-[3/4]"} md:aspect-auto`}
+                  style={{ background: t.dark ? "radial-gradient(ellipse at 50% 30%, #3a3a3a, #161616 85%)" : t.bg, color: t.fg }}
+                >
+                  <Image
+                    src={`/lookbook/${look.model}`}
+                    alt={`${t.name} — made to measure by Orhanza`}
+                    width={look.trimModel.w}
+                    height={look.trimModel.h}
+                    sizes="(min-width:768px) 30vw, 60vw"
+                    className="absolute left-1/2 top-[4%] h-auto w-[78%] max-w-none -translate-x-1/2 grayscale transition-[filter,transform] duration-[1600ms] ease-out group-hover:scale-[1.04] group-hover:grayscale-0 md:w-[19rem]"
+                  />
+                  <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5" style={{ background: `linear-gradient(to top, ${t.dark ? "#0b0b0b" : t.bg}, transparent)` }} />
+                  <span className="absolute inset-x-0 bottom-0 flex flex-col items-center p-5 text-center md:p-7">
+                    <span className="text-[1.35rem] font-semibold leading-tight tracking-[-0.035em] md:text-[1.75rem]">{t.name}</span>
+                    <span className="mt-1 text-sm opacity-60">{t.tag}</span>
+                  </span>
+                </Link>
+              </motion.div>
+            );
           })}
         </div>
-        <div className="mt-24 text-center md:mt-32">
+
+        <div className="mt-20 text-center md:mt-32">
           <Link href="/collections" className="group inline-block">
-            <LineMaskReveal as="span" className="h-section" lines={["MORE COMMISSIONS"]} />
-            <span className="mt-4 block h-px w-full origin-left scale-x-0 bg-gold transition-transform duration-700 group-hover:scale-x-100" />
+            <LineMaskReveal as="span" className="h-section" lines={["More commissions"]} />
+            <span className="mt-4 block h-px w-full origin-left scale-x-0 bg-ivory transition-transform duration-[1400ms] group-hover:scale-x-100" />
           </Link>
         </div>
       </div>
-      <motion.div
-        aria-hidden
-        style={{ x: sx, y: sy }}
-        animate={{ scale: hover ? 1 : 0, opacity: hover ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        className="label-micro pointer-events-none fixed left-0 top-0 z-[80] -ml-10 -mt-10 flex h-20 w-20 items-center justify-center rounded-full bg-ivory text-charcoal"
-      >
-        View
-      </motion.div>
     </BgFlip>
   );
 }

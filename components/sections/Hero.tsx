@@ -15,13 +15,6 @@ const COUNT = frames.count;
 const src = (i: number) => `/frames/frame-${String(i + 1).padStart(4, "0")}.webp`;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const Star = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={`inline-block h-[0.42em] w-[0.42em] fill-gold align-[0.45em] ${className}`} aria-hidden>
-    <rect x="5" y="5" width="14" height="14" />
-    <rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)" />
-  </svg>
-);
-
 function Stage({ p, range, children }: { p: MotionValue<number>; range: [number, number, number, number]; children: ReactNode }) {
   const opacity = useTransform(p, range, [0, 1, 1, 0]);
   const y = useTransform(p, range, [56, 0, 0, -56]);
@@ -34,33 +27,6 @@ function Stage({ p, range, children }: { p: MotionValue<number>; range: [number,
   );
 }
 
-const flickerWords = ["Precision", "Elegance", "Individuality"];
-const flickerSpots = [{ left: "16%", top: "30%" }, { left: "58%", top: "44%" }, { left: "28%", top: "58%" }, { left: "68%", top: "24%" }];
-
-function Flicker({ play }: { play: boolean }) {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    if (!play) return;
-    const t = setInterval(() => setI((v) => v + 1), 1500);
-    return () => clearInterval(t);
-  }, [play]);
-  if (!play) return null;
-  const spot = flickerSpots[i % flickerSpots.length];
-  return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={i}
-        style={spot}
-        className="label-micro pointer-events-none absolute z-10 hidden text-ivory/80 md:block"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 1, 0.25, 1, 1, 0] }}
-        transition={{ duration: 1.4, times: [0, 0.12, 0.2, 0.3, 0.8, 1] }}
-      >
-        {flickerWords[i % flickerWords.length]}
-      </motion.span>
-    </AnimatePresence>
-  );
-}
 
 export function Hero() {
   const section = useRef<HTMLElement>(null);
@@ -171,35 +137,30 @@ export function Hero() {
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-44 bg-gradient-to-b from-charcoal/70 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[75%] bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
 
-        {/* 3 — top-left identity block (logo, pill + caption, descriptor, address) */}
-        <motion.div style={{ opacity: introFade }} className="absolute left-0 top-[92px] z-20 w-full">
-          <div className="container-x text-ivory">
-            <motion.p {...t(1.35)} className="label-micro flex items-center gap-2 text-ivory/70">
-              <span className="h-2 w-4 rounded-full bg-gold" aria-hidden /> बेस्पोक टेलरिङ
-            </motion.p>
-            <motion.p {...t(1.5)} className="mt-2 bg-gradient-to-r from-mute to-ivory bg-clip-text text-sm text-transparent">Bespoke Tailoring</motion.p>
-            <motion.address {...t(1.65)} className="mt-3 text-[11px] not-italic leading-snug text-ivory/60">
-              Jhamsikhel, Lalitpur<br />Kathmandu, Nepal<br />@orhanza.np
-            </motion.address>
-          </div>
-        </motion.div>
-
-        {/* 5 — top-right stacked list */}
-        <motion.ul style={{ opacity: introFade }} className="absolute right-0 top-[92px] z-20 hidden pr-[clamp(20px,2.8vw,40px)] text-right text-sm text-ivory md:block" aria-label="What we make">
-          {["Suits", "Shirts", "Coat-Pant", "Wedding"].map((w, i) => (
-            <li key={w}><motion.span className="inline-block" {...t(2.3 + i * 0.12)}>{w}</motion.span></li>
-          ))}
+        {/* Nepali words — top-left, large enough to read, each with its English line */}
+        <motion.ul style={{ opacity: introFade }} aria-label="नाप, कपडा, शैली — measure, cloth, style" className="absolute left-0 top-[92px] z-20 w-full">
+          <li className="container-x flex gap-7 text-ivory md:gap-12">
+            {[["नाप", "Measure"], ["कपडा", "Cloth"], ["शैली", "Style"]].map(([np, en], i) => (
+              <motion.span key={en} {...t(1.3 + i * 0.14)} className="block">
+                <span className="font-nep block text-2xl font-semibold leading-tight md:text-3xl">{np}</span>
+                <span className="label-micro mt-1 block text-ivory/60">{en}</span>
+              </motion.span>
+            ))}
+          </li>
         </motion.ul>
-        <Flicker play={ready && !reduced} />
 
-        {/* 2 — headline, bottom-left, three masked lines */}
+        {/* headline — bottom-left, two masked lines; one quiet caption + CTA bottom-right */}
         <motion.div style={reduced ? undefined : { y: headY, opacity: headOpacity }} className="absolute inset-x-0 bottom-0 z-20">
-          <div className="container-x pb-10 md:pb-14">
-            <h1 className="h-hero text-ivory">
-              <MaskLine mode="mount" play={ready} index={0} stagger={0.15} delay={0.3} className="text-gold">OUR SUITS <Star /></MaskLine>
-              <MaskLine mode="mount" play={ready} index={1} stagger={0.15} delay={0.3}>JUST REFUSE</MaskLine>
-              <MaskLine mode="mount" play={ready} index={2} stagger={0.15} delay={0.3}>TO BLEND IN</MaskLine>
+          <div className="container-x flex flex-col gap-8 pb-10 md:flex-row md:items-end md:justify-between md:pb-14">
+            <h1 className="h-hero-soft text-ivory">
+              <MaskLine mode="mount" play={ready} index={0} stagger={0.15} delay={0.3}>Suits that refuse</MaskLine>
+              <MaskLine mode="mount" play={ready} index={1} stagger={0.15} delay={0.3}>to <span className="text-gold">blend in.</span></MaskLine>
             </h1>
+            <motion.div {...t(1.6)} className="max-w-[22rem] shrink-0 text-ivory md:pb-3 md:text-right">
+              <p lang="ne" className="font-nep text-xl font-semibold leading-snug md:text-2xl">तपाईंको नापमा, तपाईंकै शैली</p>
+              <p className="mt-1 text-sm text-ivory/70">Bespoke tailoring · Jhamsikhel, Kathmandu</p>
+              <Link href="/#book" className="mt-4 inline-flex items-center gap-2 border-b border-ivory/40 pb-1 text-sm font-semibold transition-colors hover:border-gold hover:text-gold">Book a consultation <span aria-hidden>→</span></Link>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -208,14 +169,13 @@ export function Hero() {
             <Stage p={p} range={[0.3, 0.38, 0.52, 0.6]}>
               <div className="container-x pb-12 text-ivory md:pb-20">
                 <p className="label-micro text-gold">01 — The Fit</p>
-                <h2 className="h-section mt-4 max-w-4xl">The right suit changes how you walk into every room.</h2>
-                <p className="mt-5 max-w-md text-ivory/80">Precision-tailored garments designed around your measurements, lifestyle, and personal style.</p>
+                <h2 className="h-soft mt-4 max-w-4xl">The right suit changes how you walk into every room.</h2>
               </div>
             </Stage>
             <Stage p={p} range={[0.72, 0.84, 1.2, 1.3]}>
               <div className="container-x pb-12 text-center text-ivory md:pb-20">
-                <p className="label-micro text-gold">02 — Wear your confidence</p>
-                <h2 className="h-section mt-4">Tailoring made personal.</h2>
+                <p className="label-micro text-gold">02 — Wear your confidence · <span lang="ne" className="font-nep text-sm font-semibold">आत्मविश्वास पहिरिनुहोस्</span></p>
+                <h2 className="h-soft mt-4">Tailoring, made personal.</h2>
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <Link href="/#book" className="btn btn-light">Book a Consultation</Link>
                   <Link href="/#fabrics" className="btn btn-ghost">Explore Fabrics</Link>

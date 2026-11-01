@@ -86,7 +86,7 @@ export function KineticNumber({
   const go = play ?? seen;
 
   return (
-    <span ref={ref} role="text" aria-label={`${n}${suffix ?? ""}`} className={`inline-flex items-start leading-none [font-variant-numeric:lining-nums_tabular-nums] ${className}`}>
+    <span ref={ref} role="text" aria-label={`${n}${suffix ?? ""}`} className={`inline-flex items-start leading-none [font-variant-numeric:lining-nums] ${className}`}>
       <span className="inline-flex" aria-hidden>
         {Array.from({ length: count }, (_, i) => {
           const k = count - 1 - i;
@@ -116,7 +116,7 @@ function MVPlace({ value, k }: { value: MotionValue<number>; k: number }) {
 
 export function KineticMV({ value, places = 3, suffix, className = "" }: { value: MotionValue<number>; places?: number; suffix?: string; className?: string }) {
   return (
-    <span className={`inline-flex items-start leading-none [font-variant-numeric:lining-nums_tabular-nums] ${className}`} aria-hidden>
+    <span className={`inline-flex items-start leading-none [font-variant-numeric:lining-nums] ${className}`} aria-hidden>
       <span className="inline-flex">
         {Array.from({ length: places }, (_, i) => {
           const k = places - 1 - i;

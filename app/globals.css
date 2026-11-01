@@ -28,7 +28,7 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
 /* Template heading scale: large, tight, medium weight */
-.h-display { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; line-height: 0.92; text-transform: uppercase; }
+.h-display { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.045em; line-height: 0.98; }
 .eyebrow { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; }
 .container-x { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: clamp(20px, 2.8vw, 40px); }
 
@@ -54,10 +54,15 @@ html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 .btn-outline:hover { background: var(--color-charcoal); color: var(--color-ivory); }
 
 /* ── Type scale from the motion spec ── */
-.h-hero { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(3rem, 8vw, 9rem); }
-.h-section { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.04em; line-height: 0.9; font-size: clamp(2.5rem, 5.5vw, 6rem); }
-.h-section-xl { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; letter-spacing: -0.045em; line-height: 0.9; font-size: clamp(2.5rem, 7.2vw, 8rem); }
-.label-micro { font-size: 0.625rem; letter-spacing: 0.24em; text-transform: uppercase; }
+.h-hero { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; font-size: clamp(2.9rem, 7.4vw, 8.25rem); }
+.h-section { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.045em; line-height: 1; font-size: clamp(2.25rem, 5vw, 5.5rem); }
+.h-section-xl { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; font-size: clamp(2.6rem, 7vw, 7.75rem); }
+.h-hero-soft { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; font-size: clamp(2.9rem, 7.4vw, 8.25rem); }
+.h-soft { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.045em; line-height: 1; font-size: clamp(2.1rem, 4.8vw, 5.25rem); }
+/* type hierarchy — one family (Plus Jakarta Sans): display 700 · h2 700 · h3 600 · body 400 · label 600 caps */
+/* Nepali (Devanagari) — Jakarta has no glyphs for the script, so Noto Sans Devanagari covers it; same clean sans look */
+.font-nep { font-family: var(--font-deva), var(--font-display), sans-serif; letter-spacing: 0; text-transform: none; }
+.label-micro { font-weight: 600; font-size: 0.625rem; letter-spacing: 0.24em; text-transform: uppercase; }
 /* staircase indents shrink on mobile */
 .stair { --stair-scale: 1; }
 @media (max-width: 767px) { .stair { --stair-scale: 0.3; } }
@@ -68,4 +73,3 @@ html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
 /* Editorial serif (timeline headings, counters) — falls back gracefully if the font variable is missing */
-.font-editorial { font-family: var(--font-cormorant, "Cormorant Garamond"), Georgia, "Times New Roman", serif; font-variant-numeric: lining-nums tabular-nums; }

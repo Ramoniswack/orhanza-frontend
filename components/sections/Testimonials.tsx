@@ -19,7 +19,7 @@ export function Testimonials() {
       <div className="container-x">
         <SectionLabel label="Testimonials" dark />
         <div className="mx-auto mt-5 max-w-4xl text-center md:mt-6">
-          <LineMaskReveal as="h2" className="h-section-xl" lines={["WHAT CLIENTS", "SAY"]} />
+          <LineMaskReveal as="h2" className="h-section-xl" lines={["What clients", "say"]} />
           <svg viewBox="0 0 24 24" className="mx-auto mt-5 h-8 w-8 fill-gold" aria-hidden><path d="M4 18v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7H4zm10 0v-6c0-4 2-7 6-8l1 2c-2 1-3 3-3 5h3v7h-7z" /></svg>
         </div>
 
@@ -55,7 +55,7 @@ export function Testimonials() {
               dark
               size="md"
               className="absolute left-6 top-8 md:left-12 md:top-12"
-              lines={[{ text: "WHEN THE FIT", tone: "setup" }, { text: "IS RIGHT, THE", tone: "setup" }, { text: "CONFIDENCE", tone: "punch" }, { text: "FOLLOWS", tone: "punch" }]}
+              lines={[{ text: "When the fit", tone: "setup" }, { text: "is right, the", tone: "setup" }, { text: "confidence", tone: "punch" }, { text: "follows", tone: "punch" }]}
             />
           </div>
         </div>

@@ -9,7 +9,6 @@ import { HomeTailoring } from "@/components/sections/HomeTailoring";
 import { Hero } from "@/components/sections/Hero";
 import { SelectedProjects } from "@/components/sections/SelectedProjects";
 import { Showreel } from "@/components/sections/Showreel";
-import { Stats } from "@/components/sections/Stats";
 import { Testimonials } from "@/components/sections/Testimonials";
 
 export default function Home() {
@@ -20,7 +19,6 @@ export default function Home() {
       <Fabrics />           {/* 2  white, pinned horizontal */}
       <HomeTailoring />     {/* 3  dark timeline (replaces Services + Process) */}
       <Craft />             {/* 4  */}
-      <Stats />             {/* 5  odometer rows */}
       <Showreel />          {/* 6  expand on scroll */}
       <Expertise />         {/* 8  bento */}
       <Testimonials />      {/* 9  dark */}

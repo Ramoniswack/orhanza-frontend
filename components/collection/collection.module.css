@@ -1,0 +1,707 @@
+/* ==========================================================================
+   /collection
+   Colours and fonts come from the six --col-* variables below. They fall back
+   to common token names, then to neutral values. Re-point them at your own
+   tokens in ONE place (the .page block) and nothing else needs touching.
+   ========================================================================== */
+
+.page {
+  --col-bg: var(--background, #fff);
+  --col-ink: var(--foreground, #0b0b0b);
+  --col-mute: var(--muted-foreground, #707070);
+  --col-card: var(--muted, #f1f1f0);
+  --col-line: var(--border, #e3e3e1);
+  --col-display: var(--font-display, "Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif);
+
+  --pad: clamp(20px, 3.4vw, 56px);
+  --pad-b: clamp(24px, 4.5vh, 48px);
+  --head: var(--header-h, 72px);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100svh - var(--head));
+  background: var(--col-bg);
+  color: var(--col-ink);
+}
+
+.page button,
+.page a {
+  -webkit-tap-highlight-color: transparent;
+}
+.page :where(button, a):focus-visible {
+  outline: 2px solid var(--col-ink);
+  outline-offset: 3px;
+}
+
+/* ---- view toggle ------------------------------------------------------ */
+.toggleRow {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px var(--pad) 0;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.toggleRow button {
+  padding: 4px 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: none;
+  color: var(--col-mute);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s;
+}
+.toggleRow button:hover {
+  color: var(--col-ink);
+}
+.toggleRow button[aria-pressed="true"] {
+  color: var(--col-ink);
+  border-bottom-color: var(--col-ink);
+}
+.toggleSep {
+  color: var(--col-line);
+}
+
+.viewport {
+  position: relative;
+  flex: 1;
+  min-height: 560px;
+}
+.view {
+  animation: viewIn 0.5s ease both;
+}
+@keyframes viewIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---- shared bits ------------------------------------------------------ */
+.reserve {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 34px;
+  border: 1px solid var(--col-ink);
+  background: transparent;
+  color: var(--col-ink);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.reserve:hover,
+.reserve:focus-visible {
+  background: var(--col-ink);
+  color: var(--col-bg);
+}
+
+.roller {
+  position: relative;
+  display: inline-block;
+  height: 1.1em;
+  overflow: hidden;
+  vertical-align: top;
+}
+.rollerCur {
+  display: block;
+}
+.rollerPrev {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.crossfade {
+  position: relative;
+}
+.crossfadeBase {
+  position: relative;
+}
+.crossfadeTop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+/* ==========================================================================
+   VIEW 1 — SHOWCASE
+   ========================================================================== */
+.showcase {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.modelWrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.modelCanvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.modelCanvas[data-ready="true"] {
+  opacity: 1;
+}
+.modelImg {
+  position: absolute;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  will-change: opacity;
+}
+.modelImgOn {
+  opacity: 1;
+}
+
+.textBlock {
+  position: absolute;
+  z-index: 2;
+  left: var(--pad);
+  top: 46%;
+  width: min(440px, 34vw);
+  transform: translateY(-50%);
+}
+.showcase[data-side="right"] .textBlock {
+  left: auto;
+  right: var(--pad);
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--col-mute);
+}
+.title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 0 0 18px;
+  font-family: var(--col-display);
+  font-size: clamp(42px, 4.5vw, 64px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+.desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  max-width: 36ch;
+  margin: 0 0 22px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--col-mute);
+}
+.price {
+  margin: 0 0 26px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+.cta {
+  display: block;
+}
+
+.counterCard {
+  position: absolute;
+  z-index: 2;
+  left: var(--pad);
+  bottom: var(--pad-b);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 280px;
+  padding: 20px 22px 22px;
+  background: var(--col-card);
+}
+.showcase[data-side="right"] .counterCard {
+  left: auto;
+  right: var(--pad);
+}
+.counterLabel {
+  margin: 0 0 12px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--col-mute);
+}
+.counterNum {
+  display: flex;
+  align-items: flex-start;
+  margin: 0;
+  font-family: var(--col-display);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+.counterTotal {
+  white-space: pre;
+  color: var(--col-mute);
+}
+.dots {
+  margin-top: 2px;
+  fill: var(--col-ink);
+}
+
+.rail {
+  position: absolute;
+  z-index: 2;
+  right: var(--pad);
+  bottom: var(--pad-b);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+.showcase[data-side="right"] .rail {
+  right: auto;
+  left: var(--pad);
+  align-items: flex-start;
+}
+.railThumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.thumb {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  padding: 0;
+  border: 0;
+  background: var(--col-card);
+  overflow: hidden;
+  cursor: pointer;
+}
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.thumbCurrent {
+  outline: 1px solid var(--col-ink);
+  outline-offset: -1px;
+  cursor: default;
+}
+.nextBadge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 4px 7px;
+  background: #000;
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.railArrows {
+  display: flex;
+  gap: 8px;
+}
+.railArrows button {
+  width: 44px;
+  height: 36px;
+  border: 0;
+  background: none;
+  color: var(--col-ink);
+  font-size: 28px;
+  font-weight: 200;
+  line-height: 1;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.railArrows button:hover {
+  opacity: 0.55;
+}
+
+/* ==========================================================================
+   VIEW 2 — LINEUP
+   ========================================================================== */
+.lineup {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 24vw, 340px);
+  column-gap: clamp(16px, 2.4vw, 40px);
+  padding: 0 var(--pad) var(--pad-b);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.lineup[data-ready="true"] {
+  opacity: 1;
+}
+
+.lineupTop {
+  position: absolute;
+  z-index: 3;
+  left: var(--pad);
+  right: var(--pad);
+  top: 12px;
+  pointer-events: none;
+}
+.lineupTop > * {
+  pointer-events: auto;
+}
+.lineupInfo {
+  width: min(420px, 40vw);
+}
+.lineupInfo > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.lineupTitle {
+  margin: 0;
+  font-family: var(--col-display);
+  font-size: clamp(32px, 3.6vw, 52px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+.pill {
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  min-width: 78px;
+  padding: 9px 20px;
+  border: 1px solid var(--col-line);
+  border-radius: 999px;
+  background: var(--col-bg);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  transform: translateX(-50%);
+}
+.pill > div {
+  white-space: nowrap;
+}
+
+.lineStage {
+  position: relative;
+  min-width: 0;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.lineStage[data-dragging="true"] {
+  cursor: grabbing;
+}
+.baseline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--model-h, 600px) * 0.04);
+  height: 1px;
+  background: var(--col-line);
+}
+.lineModel {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--model-w, 400px);
+  height: var(--model-h, 600px);
+  object-fit: contain;
+  transform-origin: 50% 100%;
+  visibility: hidden;
+  will-change: transform, opacity, filter;
+  pointer-events: none;
+}
+
+.listWrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 56px;
+  min-height: 0;
+}
+.listFrame {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--col-card);
+}
+.listViewport {
+  position: relative;
+  height: clamp(280px, 50vh, 400px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 88%, transparent 100%);
+}
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 88px;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+.cardBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  padding: 8px 12px 8px 8px;
+  border: 0;
+  background: var(--col-bg);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.card[data-active="true"] .cardBtn {
+  outline: 1px solid var(--col-ink);
+  outline-offset: -1px;
+}
+.cardBtn img {
+  flex: none;
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  background: var(--col-card);
+}
+.cardText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+.cardName {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cardPrice {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--col-mute);
+}
+.cardTag {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 4px 7px;
+  background: #000;
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.listArrows {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.listArrows button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 34px;
+  border: 1px solid var(--col-line);
+  background: var(--col-bg);
+  color: var(--col-ink);
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+}
+.listArrows button:hover {
+  background: var(--col-ink);
+  color: var(--col-bg);
+}
+.dragPill {
+  align-self: center;
+  margin: 0;
+  padding: 8px 18px;
+  border: 1px solid var(--col-line);
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--col-mute);
+}
+
+/* ==========================================================================
+   MOBILE  (< 768px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .viewport {
+    min-height: 0;
+  }
+
+  /* showcase: model on top, text centred, thumbnails as a strip */
+  .showcase {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--head) - 44px);
+    padding-bottom: 28px;
+  }
+  .modelWrap {
+    position: relative;
+    inset: auto;
+    flex: none;
+    height: 46svh;
+    min-height: 300px;
+  }
+  .textBlock,
+  .showcase[data-side="right"] .textBlock {
+    position: static;
+    left: auto;
+    right: auto;
+    width: auto;
+    padding: 4px var(--pad) 0;
+    text-align: center;
+    transform: none;
+  }
+  .eyebrow {
+    margin-bottom: 12px;
+  }
+  .title {
+    margin-bottom: 12px;
+    font-size: clamp(36px, 11vw, 48px);
+  }
+  .desc {
+    max-width: 34ch;
+    margin: 0 auto 16px;
+  }
+  .price {
+    margin-bottom: 18px;
+  }
+
+  .counterCard,
+  .showcase[data-side="right"] .counterCard {
+    position: static;
+    width: auto;
+    margin: 24px var(--pad) 0;
+    padding: 14px 18px;
+  }
+  .counterNum {
+    font-size: 34px;
+  }
+
+  .rail,
+  .showcase[data-side="right"] .rail {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 14px var(--pad) 0;
+  }
+  .railThumbs {
+    flex-direction: row;
+    gap: 10px;
+  }
+  .thumb {
+    width: 76px;
+    height: 76px;
+  }
+  .nextBadge {
+    padding: 3px 5px;
+    font-size: 8px;
+  }
+
+  /* lineup: 3 nearest models, product list as a strip along the bottom */
+  .lineup {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--pad) 18px;
+  }
+  .lineupTop {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    flex: none;
+    padding-top: 52px;
+  }
+  .lineupInfo {
+    width: auto;
+  }
+  .lineupTitle {
+    font-size: 30px;
+  }
+  .pill {
+    top: 10px;
+  }
+  .lineStage {
+    flex: 1;
+    min-height: 260px;
+  }
+  .listWrap {
+    flex: none;
+    gap: 10px;
+    padding-top: 8px;
+  }
+  .listFrame {
+    padding: 10px;
+  }
+  .listViewport {
+    height: 84px;
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 86%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 86%, transparent 100%);
+  }
+  .card {
+    width: 220px;
+    height: 84px;
+  }
+  .cardBtn img {
+    width: 64px;
+    height: 64px;
+  }
+  .listArrows {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .view {
+    animation: none;
+  }
+  .modelImg {
+    transition-duration: 0.01s;
+  }
+}

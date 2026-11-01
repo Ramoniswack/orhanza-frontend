@@ -6,3 +6,4 @@ export { VelocityBlur } from "./VelocityBlur";
 export { ExpandOnScroll } from "./ExpandOnScroll";
 export { BgFlip } from "./BgFlip";
 export { KineticNumber, KineticMV } from "./KineticNumber";
+export { RollText } from "./RollText";
