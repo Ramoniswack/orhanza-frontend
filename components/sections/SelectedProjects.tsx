@@ -54,10 +54,10 @@ export function SelectedProjects() {
                     width={look.trimModel.w}
                     height={look.trimModel.h}
                     sizes="(min-width:768px) 30vw, 60vw"
-                    className="absolute left-1/2 top-[4%] h-auto w-[78%] max-w-none -translate-x-1/2 grayscale transition-[filter,transform] duration-[1600ms] ease-out group-hover:scale-[1.04] group-hover:grayscale-0 md:w-[19rem]"
+                    className="absolute left-1/2 top-[4%] h-auto w-[78%] max-w-none -translate-x-1/2 grayscale transition-[filter,transform] duration-700 ease-out group-hover:scale-[1.04] group-hover:grayscale-0 md:w-[19rem]"
                   />
-                  <span aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5" style={{ background: `linear-gradient(to top, ${t.dark ? "#0b0b0b" : t.bg}, transparent)` }} />
-                  <span className="absolute inset-x-0 bottom-0 flex flex-col items-center p-5 text-center md:p-7">
+                  <span aria-hidden className="pointer-events-none absolute inset-0 transition-opacity duration-700 group-hover:opacity-70" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.55) 30%, transparent 58%), radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(0,0,0,0.5) 100%)" }} />
+                  <span className="absolute inset-x-0 bottom-0 flex flex-col items-center p-5 text-center text-[#F4F4F4] md:p-7">
                     <span className="text-[1.35rem] font-semibold leading-tight tracking-[-0.035em] md:text-[1.75rem]">{t.name}</span>
                     <span className="mt-1 text-sm opacity-60">{t.tag}</span>
                   </span>

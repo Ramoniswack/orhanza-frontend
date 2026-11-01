@@ -101,21 +101,10 @@ function LookText({ look, i, g, cfg, ease, mobile }: { look: Look; i: number; g:
         </motion.div>
       </div>
 
-      {/* HERO */}
-      <div
-        className="absolute z-[6]"
-        style={{ left: `${cfg.heroTextX}vw`, top: `${cfg.heroTextY}vh`, transform: "translate(-50%,-50%)", width: mobile ? "70vw" : "min(34vw, 520px)" }}
-      >
-        <motion.div style={{ opacity: hOpacity, y: hY, pointerEvents: hPE }} className={`will-change-transform ${mobile ? "rounded-md bg-white/80 p-3 text-left backdrop-blur-sm" : "text-center"}`}>
-          <LineMask g={g} enter={hE()} ease={ease}>
-            <h2 className="leading-[1.05]" style={{ fontFamily: SITE_FONT, fontSize: mobile ? 28 : 40, color: INK, fontWeight: 700, letterSpacing: "-0.04em" }}>{look.name}</h2>
-          </LineMask>
-          <LineMask g={g} enter={hE(st)} ease={ease} fade className="mt-3 text-[11px] tracking-[0.18em]" style={{ color: MUTE }}>
-            {`Look ${String(look.id).padStart(2, "0")} of ${N} · Made to measure`}
-          </LineMask>
-          <div className={mobile ? "" : "flex justify-center"}>
-            <ButtonWipe g={g} enter={hBtn} ease={ease} href="/#book">{look.cta}</ButtonWipe>
-          </div>
+      {/* BOOK — its own block, apart from the description */}
+      <div className="absolute inset-x-0 z-[6] flex justify-center" style={{ bottom: mobile ? "5vh" : "7vh" }}>
+        <motion.div style={{ opacity: dOpacity, y: dY, pointerEvents: dPE }} className="will-change-transform">
+          <ButtonWipe g={g} enter={i === 0 ? [-2, -1.9] : [dEnter[0] + (look.desc.length + 1) * st * (dEnter[1] - dEnter[0]), dEnter[1] + (look.desc.length + 1) * st * (dEnter[1] - dEnter[0])]} ease={ease} href="/#book">{look.cta}</ButtonWipe>
         </motion.div>
       </div>
     </>
@@ -156,6 +145,7 @@ function ReducedStage({ look, scene, cfg, mobile }: { look: Look; scene: "d" | "
           <div className="absolute z-[6]" style={{ left: `${cfg.textLeft}vw`, width: `${cfg.textW}vw`, top: `${cfg.textY}vh`, transform: "translateY(-50%)" }}>
             <p className="font-bold tracking-[-0.03em]" style={{ color: INK, fontSize: NAME_SIZE }}>{look.name}</p>
             <p className="mt-3 leading-[1.55]" style={{ color: MUTE, fontSize: DESC_SIZE }}>{look.desc.join(" ")}</p>
+            <a href="/#book" className="mt-6 flex h-10 w-[200px] items-center justify-center text-[11px] uppercase tracking-[0.12em] text-white" style={{ background: INK }}>{look.cta}</a>
           </div>
         </>
       ) : (
@@ -165,6 +155,7 @@ function ReducedStage({ look, scene, cfg, mobile }: { look: Look; scene: "d" | "
           <div className="absolute z-[6] text-center" style={{ left: `${cfg.heroTextX}vw`, top: `${cfg.heroTextY}vh`, transform: "translate(-50%,-50%)", width: mobile ? "70vw" : "min(34vw,520px)" }}>
             <h2 style={{ fontFamily: SITE_FONT, fontSize: mobile ? 28 : 40, color: INK, fontWeight: 700, letterSpacing: "-0.04em" }}>{look.name}</h2>
             <p className="mt-3 text-[11px] tracking-[0.18em]" style={{ color: MUTE }}>{`Look ${String(look.id).padStart(2, "0")} of ${N} · Made to measure`}</p>
+            <p className="mt-4 leading-[1.55]" style={{ color: MUTE, fontSize: DESC_SIZE }}>{look.desc.join(" ")}</p>
             <a href="/#book" className="mx-auto mt-6 flex h-10 w-[200px] items-center justify-center text-[11px] uppercase tracking-[0.12em] text-white" style={{ background: INK }}>{look.cta}</a>
           </div>
         </>

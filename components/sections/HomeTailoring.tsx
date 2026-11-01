@@ -26,7 +26,7 @@ const steps = [
 const N = steps.length;
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const C = { bg: "#F5F4F0", ink: "#242424", mute: "#898989", off: "#D5D3CE", on: "#333333", line: "#DAD9D4" };
+const C = { bg: "#FFFFFF", ink: "#242424", mute: "#898989", off: "#D5D3CE", on: "#333333", line: "#DAD9D4" };
 
 /** entry text states: inactive entries keep their layout at reduced opacity; the active one reveals date → heading → description */
 const meta = { off: { opacity: 0.3, y: 10 }, on: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } } };
@@ -106,7 +106,7 @@ export function HomeTailoring() {
                       exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
                       transition={{ duration: 0.5, ease: EASE }}
                       className="h-[60%] w-[60%]"
-                      style={{ color: C.ink }}
+                      style={{ color: "#B98B45" }}
                     >
                       <Icon className="h-full w-full" />
                     </motion.div>

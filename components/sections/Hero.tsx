@@ -185,9 +185,9 @@ export function Hero() {
             <div className="absolute right-5 top-1/2 z-20 hidden h-40 w-px -translate-y-1/2 bg-ivory/25 md:right-8 md:block">
               <motion.div style={{ scaleY: bar }} className="h-full w-full origin-top bg-gold" />
             </div>
-            <motion.div style={{ opacity: cue }} className="absolute bottom-8 right-6 z-20 hidden items-center gap-3 text-ivory/80 md:flex">
-              <span className="label-micro">Scroll</span>
-              <span className="relative block h-10 w-px overflow-hidden bg-ivory/30">
+            <motion.div style={{ opacity: cue }} className="pointer-events-none absolute inset-x-0 bottom-2 z-20 flex flex-col items-center gap-2 text-ivory/80 md:bottom-6">
+              <span className="label-micro hidden md:block">Scroll down</span>
+              <span className="relative block h-8 w-px overflow-hidden bg-ivory/30 md:h-11">
                 <motion.span className="absolute inset-x-0 top-0 h-1/2 bg-ivory" animate={{ y: ["-100%", "200%"] }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }} />
               </span>
             </motion.div>

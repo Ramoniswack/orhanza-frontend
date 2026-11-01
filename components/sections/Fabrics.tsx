@@ -55,23 +55,23 @@ export function Fabrics() {
     <>
       {/* desktop: pinned horizontal */}
       <section id="fabrics" ref={ref} className="relative hidden h-[260svh] bg-white text-ink md:block" aria-label="Fabrics">
-        <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pt-20">
-          <h2 className="h-section container-x mb-8">Our fabrics</h2>
+        <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pb-6 pt-28">
+          <h2 className="h-section container-x mb-14">Our fabrics</h2>
 
           <motion.div ref={track} style={{ x }} className="flex w-max items-start gap-[2vw] px-[clamp(20px,2.8vw,40px)]">
             {fabrics.map((f, i) => <Card key={f.slug} f={f} i={i} p={prog} />)}
           </motion.div>
 
-          <div className="container-x mt-8">
+          <div className="container-x mt-14">
             <div className="h-px w-full bg-black/10"><motion.div style={{ scaleX: prog }} className="h-full origin-left bg-ink" /></div>
           </div>
         </div>
       </section>
 
       {/* mobile: horizontal snap strip */}
-      <section id="fabrics-m" className="bg-white py-14 text-ink md:hidden">
+      <section id="fabrics-m" className="bg-white py-20 text-ink md:hidden">
         <h2 className="h-section px-5">Our fabrics</h2>
-        <div className="no-scrollbar mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5">
+        <div className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5">
           {fabrics.map((f, i) => (
             <div key={f.slug} className="w-[72vw] shrink-0 snap-start">
               <div className="relative aspect-[4/5] overflow-hidden bg-card">

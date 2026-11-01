@@ -45,9 +45,6 @@ export function Craft() {
             <div className="relative aspect-[4/5] overflow-hidden bg-card">
               <Image src="/images/banners/craft-hands.webp" alt="Tailor's hands, shears and cloth at the Orhanza workbench" fill sizes="(min-width:768px) 38vw, 100vw" className="object-cover" />
             </div>
-            <Badge className="-right-5 -top-6 md:-right-8"><Scissors className="h-full w-full" /></Badge>
-            <Badge className="-bottom-7 -left-5 md:-left-9" delay={0.8}><Thimble className="h-full w-full" /></Badge>
-            <Badge className="-bottom-5 -right-3 md:-right-6" delay={1.6}><Button className="h-full w-full" /></Badge>
             <Drift delay={0.4} amp={6} rot={2} dur={7} className="absolute -left-4 top-1/3 hidden h-28 w-20 text-ivory md:block"><NeedleThread className="h-full w-full" /></Drift>
           </motion.div>
 
