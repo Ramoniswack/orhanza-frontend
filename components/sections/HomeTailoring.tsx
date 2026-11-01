@@ -55,7 +55,7 @@ function Copy({ i, title, body }: { i: number; title: string; body: string }) {
       <motion.p variants={meta} className="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em]" style={{ color: C.mute }}>
         Step <KineticNumber value={i + 1} pad={2} />
       </motion.p>
-      <h3 className="font-editorial mt-4 text-[clamp(2.2rem,3.5vw,3.8rem)] font-medium leading-[1.02] tracking-[-0.01em]" style={{ color: C.ink }}>
+      <h3 className="mt-4 text-[clamp(2.2rem,3.5vw,3.8rem)] font-extrabold leading-[1.02] tracking-[-0.04em] uppercase" style={{ color: C.ink }}>
         {title.split(" ").map((w, wi) => (
           <span key={wi} className="mr-[0.25em] inline-block overflow-hidden pb-[0.12em] align-bottom">
             <motion.span variants={word(wi)} className="inline-block">{w}</motion.span>
@@ -90,7 +90,7 @@ export function HomeTailoring() {
       <section id="process" aria-label="Home tailoring service" className="relative pb-14 pt-14 md:pb-20 md:pt-20" style={{ background: C.bg, color: C.ink }}>
         <div className="container-x">
           <SectionLabel label="Process" />
-          <h2 className="font-editorial mt-5 text-[clamp(3rem,7vw,7rem)] font-medium leading-[0.92] tracking-[-0.02em]">Home Tailoring<br />Service</h2>
+          <h2 className="mt-5 text-[clamp(3rem,7vw,7rem)] font-extrabold leading-[0.92] tracking-[-0.04em] uppercase">Home Tailoring<br />Service</h2>
         </div>
 
         {/* ─────────── desktop / tablet ─────────── */}
@@ -115,10 +115,10 @@ export function HomeTailoring() {
 
               <div className="mt-5 flex items-end justify-between">
                 <div className="flex items-baseline gap-3">
-                  <KineticNumber value={active + 1} pad={2} play className="font-editorial text-[clamp(2.6rem,4.2vw,4.2rem)] font-medium" />
-                  <span className="font-editorial text-xl" style={{ color: C.mute }}>/ {String(N).padStart(2, "0")}</span>
+                  <KineticNumber value={active + 1} pad={2} play className="text-[clamp(2.6rem,4.2vw,4.2rem)] font-extrabold tracking-[-0.04em]" />
+                  <span className="text-xl font-semibold" style={{ color: C.mute }}>/ {String(N).padStart(2, "0")}</span>
                 </div>
-                <span className="font-editorial flex items-baseline text-xl" style={{ color: C.mute }}>
+                <span className="flex items-baseline text-xl font-semibold" style={{ color: C.mute }}>
                   <KineticMV value={pct} places={3} />
                   <span className="ml-0.5 text-base">%</span>
                 </span>
