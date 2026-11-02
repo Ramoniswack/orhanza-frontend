@@ -15,8 +15,8 @@ import { audience } from "@/lib/content";
 const EASE = [0.22, 1, 0.36, 1] as const;
 const themes = [
   { bg: "#F1EEE7", fg: "#1B1B1D", mute: "rgba(27,27,29,0.55)" },
-  { bg: "#151517", fg: "#EDE5D6", mute: "rgba(237,229,214,0.55)" },
-  { bg: "#E2DACB", fg: "#1B1B1D", mute: "rgba(27,27,29,0.55)" },
+  { bg: "#F1EEE7", fg: "#1B1B1D", mute: "rgba(27,27,29,0.55)" },
+  { bg: "#F1EEE7", fg: "#1B1B1D", mute: "rgba(27,27,29,0.55)" },
 ];
 const icons = [Hanger, Button, Scissors];
 
@@ -32,12 +32,12 @@ function StackCard({ i, a, mv, next }: { i: number; a: (typeof audience)[number]
   const imgScale = useTransform(arrive, [0, 1], [1.25, 1]);
   // the next card covering this one: shrink + dim
   const covered = next ?? arrive;
-  const scale = useTransform(covered, [0, 1], next ? [1, 0.92] : [1, 1]);
+  const scale = useTransform(covered, [0, 1], next ? [1, 0.96] : [1, 1]);
   const dim = useTransform(covered, [0, 1], next ? [0, 0.55] : [0, 0]);
   return (
-    <div ref={ref} className={`sticky ${i < audience.length - 1 ? "mb-[14svh]" : ""}`} style={{ top: 88 + i * 18 }}>
-      <motion.div style={{ scale, backgroundColor: t.bg, color: t.fg }} className="relative grid h-[74svh] origin-top overflow-hidden rounded-[22px] md:grid-cols-[1fr_1.05fr]">
-        <div className="relative order-2 flex flex-col justify-between p-6 md:order-1 md:p-12">
+    <div ref={ref} className={`sticky ${i < audience.length - 1 ? "mb-[14svh]" : ""}`} style={{ top: 72 + i * 14 }}>
+      <motion.div style={{ scale, backgroundColor: t.bg, color: t.fg }} className="relative grid h-[74svh] origin-top overflow-hidden md:grid-cols-[1fr_1.05fr]">
+        <div className="relative order-2 flex flex-col justify-between p-6 md:order-1 md:px-[max(3rem,calc((100vw-80rem)/2+2rem))] md:py-12">
           <div className="flex items-start justify-between">
             <span className="flex items-baseline gap-2" style={{ color: t.mute }}>
               <KineticNumber value={i + 1} pad={2} stagger={0.08} className="text-5xl font-semibold tracking-[-0.05em] md:text-7xl" />
@@ -79,7 +79,7 @@ export function Clients() {
         />
       </div>
 
-      <div className="container-x mt-10 md:mt-14">
+      <div className="mt-10 md:mt-14">
         {audience.map((a, i) => <StackCard key={a.role} i={i} a={a} mv={mvs[i]} next={mvs[i + 1]} />)}
       </div>
     </section>

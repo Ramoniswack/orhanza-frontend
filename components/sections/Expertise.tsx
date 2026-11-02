@@ -9,7 +9,6 @@ import { Button, Drift, Hanger, Ruler, Scissors, Spool, Thimble } from "@/compon
 import { JacketOnHanger, Mannequin, NeedleThread, StitchLines, SwatchStack, TapeMeasure } from "@/components/Illustrations";
 import { KineticNumber, StaircaseHeadline } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
-import { site } from "@/lib/site";
 
 function Card({ children, className = "", i = 0 }: { children: ReactNode; className?: string; i?: number }) {
   return (
@@ -86,11 +85,6 @@ export function Expertise() {
 
         </div>
 
-        <div className="mt-8 flex justify-end">
-          <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-full bg-card py-2 pl-2 pr-5 text-sm font-semibold transition-colors hover:bg-ink hover:text-ivory">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold text-xs text-white">O</span>{site.handle}
-          </a>
-        </div>
       </div>
 
       {/* 100% — full-bleed band, edge to edge */}
@@ -99,9 +93,9 @@ export function Expertise() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.8 }}
-        className="relative mt-10 w-full overflow-hidden bg-burgundy text-ivory md:mt-14"
+        className="relative mx-4 mt-12 overflow-hidden rounded-[28px] bg-burgundy text-ivory md:mx-10 md:mt-20 md:rounded-[40px]"
       >
-        <div className="container-x relative z-10 flex flex-col justify-between gap-8 py-12 md:flex-row md:items-center md:py-16">
+        <div className="container-x relative z-10 flex flex-col justify-between gap-8 px-4 py-14 md:flex-row md:items-center md:px-10 md:py-24">
           <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(6rem,15vw,15rem)] font-extrabold tracking-[-0.06em]" />
           <div className="md:max-w-[28rem]">
             <ul className="flex flex-wrap gap-5 text-ivory/70 md:gap-6" aria-hidden>

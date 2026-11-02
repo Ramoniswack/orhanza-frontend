@@ -96,7 +96,7 @@ export function HomeTailoring() {
         <div className="container-x mt-10 hidden md:grid md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
           <div>
             <div className="sticky top-[14svh] pr-10 lg:pr-16">
-              <div className="relative flex h-[60svh] max-h-[36rem] items-center justify-center overflow-hidden rounded-[6px]" style={{ background: "#ECEAE4" }}>
+              <div className="relative flex h-[60svh] max-h-[36rem] items-center justify-center overflow-hidden rounded-[6px]" style={{ background: "#FFFFFF" }}>
                 <AnimatePresence mode="wait">
                   {steps.map(({ Icon, title }, i) => i === active && (
                     <motion.div

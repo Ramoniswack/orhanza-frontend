@@ -16,7 +16,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const panels = [
   { name: "Business Suits", note: "Boardroom to dinner", href: "/collections", bg: "#EDEDED", fg: "#111111", figs: [8, 7] },
   { name: "Wedding & Occasion", note: "Groom, guests, black tie", href: "/collections", bg: "#111111", fg: "#F4F4F4", figs: [1, 12] },
-  { name: "Coat-Pant & Shirts", note: "Sharp, separate, yours", href: "/collections", bg: "#DCDCDC", fg: "#111111", figs: [9, 3] },
+  { name: "Casual", note: "Sharp, separate, yours", href: "/collections", bg: "#DCDCDC", fg: "#111111", figs: [9, 3] },
 ];
 
 export function Commissions() {
@@ -58,7 +58,7 @@ export function Commissions() {
                     animate={{ x: active ? "-88%" : "-50%", scale: active ? 1 : 0.92 }}
                     transition={{ type: "spring", stiffness: 60, damping: 20 }}
                   >
-                    <Image src={`/collection/${p.figs[0]}.webp`} alt="" fill sizes="22rem" className="object-contain object-bottom grayscale" />
+                    <Image src={`/collection/${p.figs[0]}.webp`} alt="" fill sizes="22rem" className={`object-contain object-bottom transition-[filter] duration-700 ${active ? "grayscale-0" : "grayscale"}`} />
                   </motion.div>
                   <motion.div
                     className="absolute inset-y-0 left-1/2 hidden w-[min(78%,20rem)] md:block"
@@ -66,7 +66,7 @@ export function Commissions() {
                     animate={{ x: active ? "-8%" : "-50%", opacity: active ? 1 : 0, scale: active ? 1 : 0.85 }}
                     transition={{ type: "spring", stiffness: 60, damping: 20 }}
                   >
-                    <Image src={`/collection/${p.figs[1]}.webp`} alt="" fill sizes="22rem" className="object-contain object-bottom grayscale" />
+                    <Image src={`/collection/${p.figs[1]}.webp`} alt="" fill sizes="22rem" className={`object-contain object-bottom transition-[filter] duration-700 ${active ? "grayscale-0" : "grayscale"}`} />
                   </motion.div>
                 </div>
 

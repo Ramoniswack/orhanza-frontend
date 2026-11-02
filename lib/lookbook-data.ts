@@ -6,6 +6,7 @@ export type Look = {
   model: string;
   product: string;
   name: string;
+  category: "Wedding" | "Business" | "Casual";
   ghost: string;
   desc: [string, string, string];
   cta: string;
@@ -31,10 +32,12 @@ const raw: { name: string; ghost: string; desc: [string, string, string] }[] = [
   { name: "Black Blazer Dress", ghost: "Blazer", desc: ["A blazer cut long enough to wear as a dress,", "with a nipped waist and sharp lapel.", "One piece, finished like a jacket."] },
 ];
 
+const cats: Look["category"][] = ["Wedding", "Business", "Business", "Casual", "Wedding", "Wedding", "Wedding", "Casual", "Business", "Casual", "Wedding", "Business", "Casual", "Wedding", "Business"];
+
 export const looks: Look[] = raw.map((r, i) => {
   const id = i + 1;
   const t = (trim as Record<string, { model: Trim; product: Trim }>)[String(id)];
-  return { id, model: `${id}.webp`, product: `${id}.1.webp`, ...r, cta: "Book a fitting", trimModel: t.model, trimProduct: t.product };
+  return { id, category: cats[i], model: `${id}.webp`, product: `${id}.1.webp`, ...r, cta: "Book a fitting", trimModel: t.model, trimProduct: t.product };
 });
 
 export const N = looks.length;
