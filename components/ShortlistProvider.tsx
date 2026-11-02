@@ -4,16 +4,19 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 
 type Ctx = {
   items: string[];
-  has: (slug: string) => boolean;
-  toggle: (slug: string) => void;
-  remove: (slug: string) => void;
+  has: (key: string) => boolean;
+  toggle: (key: string) => void;
+  remove: (key: string) => void;
   clear: () => void;
   open: boolean;
   setOpen: (v: boolean) => void;
+  /** open the shortlist drawer */
+  show: () => void;
 };
 
 const ShortlistContext = createContext<Ctx | null>(null);
 const KEY = "orhanza-shortlist";
+const OLD_FAV_KEY = "orhanza-favourites"; // retired — anything saved there is folded into the shortlist
 
 export function ShortlistProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<string[]>([]);
@@ -21,8 +24,14 @@ export function ShortlistProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) setItems(JSON.parse(raw));
+      const list: string[] = JSON.parse(localStorage.getItem(KEY) ?? "[]");
+      const old: string[] = JSON.parse(localStorage.getItem(OLD_FAV_KEY) ?? "[]");
+      const merged = Array.from(new Set([...list, ...old]));
+      setItems(merged);
+      if (old.length) {
+        localStorage.setItem(KEY, JSON.stringify(merged));
+        localStorage.removeItem(OLD_FAV_KEY);
+      }
     } catch {}
   }, []);
 
@@ -42,6 +51,7 @@ export function ShortlistProvider({ children }: { children: ReactNode }) {
       toggle: (s) => persist(items.includes(s) ? items.filter((i) => i !== s) : [...items, s]),
       remove: (s) => persist(items.filter((i) => i !== s)),
       clear: () => persist([]),
+      show: () => setOpen(true),
     }),
     [items, open, persist],
   );

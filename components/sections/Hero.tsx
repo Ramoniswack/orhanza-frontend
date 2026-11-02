@@ -114,9 +114,7 @@ export function Hero() {
   const { scrollY } = useScroll();
   const headY = useTransform(scrollY, (v) => -v * 0.6);
   const headOpacity = useTransform(scrollY, [0, 380], [1, 0]);
-  const introFade = useTransform(scrollY, [0, 300], [1, 0]);
 
-  const bar = useTransform(p, [0, 1], [0, 1]);
   const cue = useTransform(p, [0, 0.04], [1, 0]);
   const pct = Math.round((loaded / COUNT) * 100);
   const t = (d: number) => ({ initial: { opacity: 0, y: 14 }, animate: ready ? { opacity: 1, y: 0 } : {}, transition: { duration: 0.9, ease: EASE, delay: d } });
@@ -137,17 +135,6 @@ export function Hero() {
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-44 bg-gradient-to-b from-charcoal/70 to-transparent" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[75%] bg-gradient-to-t from-charcoal/90 via-charcoal/40 to-transparent" />
 
-        {/* Nepali words — top-left, large enough to read, each with its English line */}
-        <motion.ul style={{ opacity: introFade }} aria-label="नाप, कपडा, शैली — measure, cloth, style" className="absolute left-0 top-[92px] z-20 w-full">
-          <li className="container-x flex gap-7 text-ivory md:gap-12">
-            {[["नाप", "Measure"], ["कपडा", "Cloth"], ["शैली", "Style"]].map(([np, en], i) => (
-              <motion.span key={en} {...t(1.3 + i * 0.14)} className="block">
-                <span className="font-nep block text-2xl font-semibold leading-tight md:text-3xl">{np}</span>
-                <span className="label-micro mt-1 block text-ivory/60">{en}</span>
-              </motion.span>
-            ))}
-          </li>
-        </motion.ul>
 
         {/* headline — bottom-left, two masked lines; one quiet caption + CTA bottom-right */}
         <motion.div style={reduced ? undefined : { y: headY, opacity: headOpacity }} className="absolute inset-x-0 bottom-0 z-20">
@@ -156,10 +143,8 @@ export function Hero() {
               <MaskLine mode="mount" play={ready} index={0} stagger={0.15} delay={0.3}>Suits that refuse</MaskLine>
               <MaskLine mode="mount" play={ready} index={1} stagger={0.15} delay={0.3}>to <span className="text-gold">blend in.</span></MaskLine>
             </h1>
-            <motion.div {...t(1.6)} className="max-w-[22rem] shrink-0 text-ivory md:pb-3 md:text-right">
-              <p lang="ne" className="font-nep text-xl font-semibold leading-snug md:text-2xl">तपाईंको नापमा, तपाईंकै शैली</p>
-              <p className="mt-1 text-sm text-ivory/70">Bespoke tailoring · Jhamsikhel, Kathmandu</p>
-              <Link href="/#book" className="mt-4 inline-flex items-center gap-2 border-b border-ivory/40 pb-1 text-sm font-semibold transition-colors hover:border-gold hover:text-gold">Book a consultation <span aria-hidden>→</span></Link>
+            <motion.div {...t(1.6)} className="shrink-0 text-ivory md:pb-3">
+              <Link href="/#book" className="inline-flex items-center gap-2 border-b border-ivory/40 pb-1 text-sm font-semibold transition-colors hover:border-gold hover:text-gold">Book a consultation <span aria-hidden>→</span></Link>
             </motion.div>
           </div>
         </motion.div>
@@ -168,23 +153,14 @@ export function Hero() {
           <>
             <Stage p={p} range={[0.3, 0.38, 0.52, 0.6]}>
               <div className="container-x pb-12 text-ivory md:pb-20">
-                <p className="label-micro text-gold">01 — The Fit</p>
-                <h2 className="h-soft mt-4 max-w-4xl">The right suit changes how you walk into every room.</h2>
+                <h2 className="h-soft max-w-4xl">The right suit changes how you walk into every room.</h2>
               </div>
             </Stage>
             <Stage p={p} range={[0.72, 0.84, 1.2, 1.3]}>
-              <div className="container-x pb-12 text-center text-ivory md:pb-20">
-                <p className="label-micro text-gold">02 — Wear your confidence · <span lang="ne" className="font-nep text-sm font-semibold">आत्मविश्वास पहिरिनुहोस्</span></p>
-                <h2 className="h-soft mt-4">Tailoring, made personal.</h2>
-                <div className="mt-8 flex flex-wrap justify-center gap-3">
-                  <Link href="/#book" className="btn btn-light">Book a Consultation</Link>
-                  <Link href="/#fabrics" className="btn btn-ghost">Explore Fabrics</Link>
-                </div>
+              <div className="container-x pb-12 text-ivory md:pb-20">
+                <h2 className="h-soft">Tailoring, made personal.</h2>
               </div>
             </Stage>
-            <div className="absolute right-5 top-1/2 z-20 hidden h-40 w-px -translate-y-1/2 bg-ivory/25 md:right-8 md:block">
-              <motion.div style={{ scaleY: bar }} className="h-full w-full origin-top bg-gold" />
-            </div>
             <motion.div style={{ opacity: cue }} className="pointer-events-none absolute inset-x-0 bottom-2 z-20 flex flex-col items-center gap-2 text-ivory/80 md:bottom-6">
               <span className="label-micro hidden md:block">Scroll down</span>
               <span className="relative block h-8 w-px overflow-hidden bg-ivory/30 md:h-11">

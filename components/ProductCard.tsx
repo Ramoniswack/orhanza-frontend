@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { productImage, type Product } from "@/lib/data";
+import { FavouriteButton } from "./FavouriteButton";
 import { useShortlist } from "./ShortlistProvider";
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
@@ -35,6 +36,8 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           </span>
         )}
 
+        <FavouriteButton slug={product.slug} name={product.name} className="absolute right-3 top-3 z-20" />
+
         <button
           onClick={() => toggle(product.slug)}
           aria-pressed={saved}
@@ -44,7 +47,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
         </button>
       </div>
 
-      <div className="mt-3 flex items-baseline justify-between gap-3 px-1">
+      <div className="mt-3 flex flex-col gap-0.5 px-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
         <Link href={`/collections/${product.slug}`} className="font-medium hover:underline">{product.name}</Link>
         <span className="shrink-0 text-sm text-slate">Made to measure</span>
       </div>

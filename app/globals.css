@@ -18,6 +18,8 @@
 }
 
 html { background: #fff; color: var(--color-ink); }
+/* never let a stray element widen the page on phones (clip, unlike hidden, keeps position:sticky working) */
+html, body { max-width: 100%; overflow-x: clip; }
 body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: var(--color-gold); color: #fff; }
 
@@ -60,8 +62,6 @@ html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 .h-hero-soft { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; font-size: clamp(2.9rem, 7.4vw, 8.25rem); }
 .h-soft { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.045em; line-height: 1; font-size: clamp(2.1rem, 4.8vw, 5.25rem); }
 /* type hierarchy — one family (Plus Jakarta Sans): display 700 · h2 700 · h3 600 · body 400 · label 600 caps */
-/* Nepali (Devanagari) — Jakarta has no glyphs for the script, so Noto Sans Devanagari covers it; same clean sans look */
-.font-nep { font-family: var(--font-deva), var(--font-display), sans-serif; letter-spacing: 0; text-transform: none; }
 .label-micro { font-weight: 600; font-size: 0.625rem; letter-spacing: 0.24em; text-transform: uppercase; }
 /* staircase indents shrink on mobile */
 .stair { --stair-scale: 1; }

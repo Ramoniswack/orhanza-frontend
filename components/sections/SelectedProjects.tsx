@@ -30,7 +30,7 @@ export function SelectedProjects() {
           <LineMaskReveal as="h2" className="h-section" lines={["Selected", "commissions"]} />
         </div>
 
-        <div className="grid grid-cols-12 gap-1 md:auto-rows-[32rem]">
+        <div className="grid grid-flow-dense grid-cols-12 gap-1 md:auto-rows-[32rem]">
           {tiles.map((t, i) => {
             const look = looks[t.id - 1];
             const wide = t.span.includes("col-span-6");

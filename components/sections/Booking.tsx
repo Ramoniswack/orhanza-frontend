@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useState, type FormEvent } from "react";
-import { getProduct } from "@/lib/data";
+import { resolveSaved } from "@/lib/saved";
 import { site } from "@/lib/site";
 import { Reveal } from "../Reveal";
 import { useShortlist } from "../ShortlistProvider";
@@ -13,7 +13,7 @@ const field = "w-full rounded-[10px] border border-transparent bg-field px-4 py-
 export function Booking() {
   const { items } = useShortlist();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const shortlisted = items.map((s) => getProduct(s)?.name).filter(Boolean) as string[];
+  const shortlisted = items.map((s) => resolveSaved(s)?.name).filter(Boolean) as string[];
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

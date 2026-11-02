@@ -4,11 +4,11 @@ import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
-import { getProduct, productImage } from "@/lib/data";
+import { resolveSaved, type Saved } from "@/lib/saved";
 import { useLenis } from "@/lib/lenis";
 import { useShortlist } from "./ShortlistProvider";
 
-/** Equivalent of the template's cart drawer — a bespoke house shortlists pieces to discuss in a consultation. */
+/** One saved list — pieces to talk through at your consultation. */
 export function ShortlistDrawer() {
   const { items, open, setOpen, remove, clear } = useShortlist();
   const lenis = useLenis();
@@ -19,7 +19,7 @@ export function ShortlistDrawer() {
     return () => lenis.start();
   }, [open, lenis]);
 
-  const products = items.map(getProduct).filter(Boolean) as NonNullable<ReturnType<typeof getProduct>>[];
+  const products = items.map(resolveSaved).filter(Boolean) as Saved[];
 
   return (
     <AnimatePresence>
@@ -35,14 +35,16 @@ export function ShortlistDrawer() {
           <motion.aside
             role="dialog"
             aria-label="Your shortlist"
-            className="fixed right-0 top-0 z-[61] flex h-dvh w-full max-w-[440px] flex-col bg-ivory shadow-2xl"
+            className="fixed right-0 top-0 z-[61] flex h-dvh w-full max-w-[440px] flex-col bg-white shadow-2xl"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 260, damping: 32 }}
           >
             <div className="flex items-center justify-between border-b border-charcoal/10 px-6 py-5">
-              <h2 className="font-serif text-2xl">Your Shortlist</h2>
+              <h2 className="text-2xl font-bold tracking-[-0.03em]">
+                Your Shortlist <span className="ml-1 text-sm font-medium text-slate">{products.length}</span>
+              </h2>
               <button onClick={() => setOpen(false)} aria-label="Close" className="text-xl">✕</button>
             </div>
 
@@ -52,16 +54,16 @@ export function ShortlistDrawer() {
               ) : (
                 <ul className="divide-y divide-charcoal/10">
                   {products.map((p) => (
-                    <li key={p.slug} className="flex gap-4 py-4">
+                    <li key={p.key} className="flex gap-4 py-4">
                       <div className="relative h-28 w-20 shrink-0 overflow-hidden rounded-xl bg-field">
-                        <Image src={productImage(p)} alt={p.name} fill sizes="80px" className="object-cover" />
+                        <Image src={p.image} alt={p.name} fill sizes="80px" className="object-cover" style={{ objectPosition: p.position }} />
                       </div>
                       <div className="flex flex-1 flex-col justify-between">
                         <div>
-                          <Link href={`/collections/${p.slug}`} onClick={() => setOpen(false)} className="font-medium hover:underline">{p.name}</Link>
+                          <Link href={p.href} onClick={() => setOpen(false)} className="font-medium hover:underline">{p.name}</Link>
                           <p className="mt-1 text-sm text-slate">Made to measure</p>
                         </div>
-                        <button onClick={() => remove(p.slug)} className="self-start text-sm text-slate underline-offset-4 hover:underline">Remove</button>
+                        <button onClick={() => remove(p.key)} className="self-start text-sm text-slate underline-offset-4 hover:underline">Remove</button>
                       </div>
                     </li>
                   ))}
@@ -74,7 +76,7 @@ export function ShortlistDrawer() {
                 <Link
                   href="/#book"
                   onClick={() => setOpen(false)}
-                  className="block rounded-[10px] bg-burgundy py-3.5 text-center text-sm font-medium text-ivory transition-opacity hover:opacity-90"
+                  className="block rounded-[10px] bg-charcoal py-3.5 text-center text-sm font-medium text-ivory transition-opacity hover:opacity-90"
                 >
                   Book a Consultation
                 </Link>

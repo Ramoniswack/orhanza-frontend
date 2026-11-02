@@ -43,7 +43,7 @@ Spec section → Orhanza content: "Our Clients" → Fabrics · "Recognition" →
 (no prices are published, so rows say *priced after consultation*) · "Team" → The people we dress.
 Numbers in Stats / Bento / Testimonials are counts taken from the content pack (6 services, 5 steps, 6 fabric families, 4 collections) — replace with real figures.
 Design tokens live in `app/globals.css` (`@theme`). The spec's red accent is mapped to Orhanza gold (`--color-accent`); set it to `#E8283C` to use the spec red.
-Typography is Plus Jakarta Sans 800 caps (`--font-display`). The Devanagari caption "बेस्पोक टेलरिङ" stands in for the spec's Japanese caption.
+Typography is Plus Jakarta Sans 800 caps (`--font-display`).
 Pinned sections (Fabrics, Services) fall back to normal flow below 768px; `prefers-reduced-motion` disables parallax, odometer, velocity blur and scrubbing.
 
 ## Template → Orhanza mapping

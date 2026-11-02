@@ -16,7 +16,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ButtonWipe } from "@/components/motion/ButtonWipe";
 import { Layer } from "@/components/motion/Layer";
 import { LineMask } from "@/components/motion/LineMask";
+import { useShortlist } from "@/components/ShortlistProvider";
 import { useLenis } from "@/lib/lenis";
+import { lookKey } from "@/lib/saved";
 import { MEN_COUNT, MONO_PHOTOS, N, SCREENS_PER_LOOK, defaults, looks, type Cfg, type Look } from "@/lib/lookbook-data";
 
 const Debug = dynamic(() => import("./LookbookDebug"), { ssr: false });
@@ -180,6 +182,7 @@ function ReducedStage({ look, scene, cfg, mobile }: { look: Look; scene: "d" | "
 export function Lookbook() {
   const reduce = useReducedMotion();
   const lenis = useLenis();
+  const { has, toggle, show } = useShortlist();
   const section = useRef<HTMLElement>(null);
   const [mobile, setMobile] = useState(false);
   const [debug, setDebug] = useState(false);
@@ -276,9 +279,19 @@ export function Lookbook() {
             );
           })}
         </nav>
-        <div className="pointer-events-none absolute right-4 top-[76px] z-10 flex items-center gap-2 md:right-8 md:top-[80px] md:gap-3" style={{ color: INK }}>
-          <span className="text-[11px] tracking-[0.18em]" style={{ color: MUTE }}>{String(cur + 1).padStart(2, "0")} / {N}</span>
-          <span aria-hidden className="grid h-8 w-8 place-items-center rounded-full border md:h-9 md:w-9" style={{ borderColor: INK }}><span className="h-1 w-1 rounded-full" style={{ background: INK }} /></span>
+        <div className="absolute right-4 top-[76px] z-10 flex items-center gap-2 md:right-8 md:top-[80px] md:gap-3" style={{ color: INK }}>
+          <span className="pointer-events-none text-[11px] tracking-[0.18em]" style={{ color: MUTE }}>{String(cur + 1).padStart(2, "0")} / {N}</span>
+        </div>
+        <div className="absolute bottom-5 left-4 z-10 md:bottom-8 md:left-8">
+          <button
+            type="button"
+            onClick={() => { const k = lookKey(looks[cur].id); const added = !has(k); toggle(k); if (added) show(); }}
+            aria-pressed={has(lookKey(looks[cur].id))}
+            className="h-10 rounded-full border px-4 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-black hover:text-white md:h-11 md:px-5 md:text-[11px]"
+            style={{ borderColor: "rgba(0,0,0,.25)", color: INK, background: has(lookKey(looks[cur].id)) ? "rgba(0,0,0,.06)" : "rgba(255,255,255,.8)" }}
+          >
+            {has(lookKey(looks[cur].id)) ? "Shortlisted ✓" : <><span className="md:hidden">Shortlist</span><span className="hidden md:inline">Add to shortlist</span></>}
+          </button>
         </div>
         <div className="absolute bottom-5 right-5 z-10 flex gap-2 md:bottom-8 md:right-8">
           {([-1, 1] as const).map((d) => (

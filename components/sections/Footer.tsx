@@ -31,8 +31,8 @@ export function Footer() {
   }
 
   return (
-    <footer ref={ref} className="relative h-[100svh] bg-white" style={{ clipPath: "inset(0)" }}>
-      <div className="fixed bottom-0 left-0 flex h-[100svh] w-full flex-col justify-between overflow-hidden bg-white text-ink">
+    <footer ref={ref} className="relative h-[72svh] bg-white md:h-[100svh]" style={{ clipPath: "inset(0)" }}>
+      <div className="fixed bottom-0 left-0 flex h-[72svh] w-full md:h-[100svh] flex-col justify-between overflow-hidden bg-white text-ink">
         <div className="relative flex-1 overflow-hidden">
           <motion.p aria-hidden style={{ scale, y, color }} className="absolute inset-x-0 bottom-0 origin-bottom whitespace-nowrap text-center text-[20vw] font-extrabold uppercase leading-[0.8] tracking-[-0.06em]">
             ORHANZA
@@ -45,6 +45,7 @@ export function Footer() {
             <button disabled={state === "sending"} className="group flex shrink-0 items-center gap-3 text-sm font-semibold">{state === "done" ? "Thank you" : state === "error" ? "Try again" : "Subscribe"}<span className="block h-px w-8 bg-ink transition-all duration-500 group-hover:w-16" /></button>
           </form>
           <ul className="flex gap-6 text-sm">
+            <li><Link href="/shop" className="hover:underline">Shop</Link></li>
             <li><Link href="/collections" className="hover:underline">Collections</Link></li>
             <li><a href={site.instagram} target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a></li>
             <li><Link href="/#book" className="hover:underline">Contact</Link></li>

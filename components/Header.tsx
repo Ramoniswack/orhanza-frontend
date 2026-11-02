@@ -3,10 +3,12 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLenis } from "@/lib/lenis";
 import { useShortlist } from "./ShortlistProvider";
 
 const links = [
+  { href: "/shop", label: "Shop" },
   { href: "/collections", label: "Collections" },
   { href: "/#about", label: "About" },
   { href: "/#process", label: "Process" },
@@ -14,10 +16,11 @@ const links = [
 ];
 
 /** Full-width bar. On the home page it is transparent while the hero is on screen, then turns solid once you scroll past it. */
-export function Header({ onSearch }: { onSearch: () => void }) {
+export function Header() {
   const [menu, setMenu] = useState(false);
-  const { items, setOpen } = useShortlist();
+  const { items, show } = useShortlist();
   const pathname = usePathname();
+  const lenis = useLenis();
   const isHome = pathname === "/";
   const [pastHero, setPastHero] = useState(false);
   const { scrollY } = useScroll();
@@ -26,8 +29,14 @@ export function Header({ onSearch }: { onSearch: () => void }) {
     const end = hero ? hero.offsetTop + hero.offsetHeight - 64 : 80;
     setPastHero(y > end);
   });
+  useEffect(() => { setMenu(false); }, [pathname]);
+  useEffect(() => {
+    if (!lenis) return;
+    menu ? lenis.stop() : lenis.start();
+    return () => lenis.start();
+  }, [menu, lenis]);
   const clear = isHome && !pastHero && !menu;
-  const light = pathname.startsWith("/collections") && !menu;
+  const light = (pathname.startsWith("/collections") || pathname.startsWith("/shop")) && !menu;
   const fade = (d: number) => ({ initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.8, delay: d } });
 
   return (
@@ -40,17 +49,16 @@ export function Header({ onSearch }: { onSearch: () => void }) {
 
           <motion.nav {...fade(0.3)} className="hidden items-center gap-9 md:flex" aria-label="Primary">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="transition-opacity hover:opacity-60">{l.label}</Link>
+              <Link key={l.href} href={l.href} className="font-display font-semibold tracking-[-0.01em] transition-opacity hover:opacity-60">{l.label}</Link>
             ))}
-            <button onClick={onSearch} className="transition-opacity hover:opacity-60">Search</button>
-            <button onClick={() => setOpen(true)} className="transition-opacity hover:opacity-60">
+            <button onClick={() => show()} className="font-display font-semibold tracking-[-0.01em] transition-opacity hover:opacity-60">
               Shortlist{items.length > 0 && <span className="ml-1.5 rounded-full bg-gold px-2 py-0.5 text-[11px] text-charcoal">{items.length}</span>}
             </button>
           </motion.nav>
 
-          <button className="md:hidden" onClick={() => setMenu((v) => !v)} aria-expanded={menu} aria-label="Menu">
-            <span className="block h-px w-7 bg-current" />
-            <span className="mt-2 block h-px w-7 bg-current" />
+          <button className="-mr-2 flex h-11 w-11 flex-col items-center justify-center md:hidden" onClick={() => setMenu((v) => !v)} aria-expanded={menu} aria-label={menu ? "Close menu" : "Open menu"}>
+            <span className={`block h-px w-7 bg-current transition-transform duration-300 ${menu ? "translate-y-[4.5px] rotate-45" : ""}`} />
+            <span className={`mt-2 block h-px w-7 bg-current transition-transform duration-300 ${menu ? "-translate-y-[4.5px] -rotate-45" : ""}`} />
           </button>
         </div>
       </header>
@@ -58,7 +66,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
       <AnimatePresence>
         {menu && (
           <motion.div
-            className="fixed inset-0 z-40 flex flex-col justify-center gap-5 bg-charcoal px-8 text-ivory md:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-center gap-4 overflow-y-auto bg-charcoal px-8 pb-10 pt-24 text-ivory md:hidden"
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
@@ -67,8 +75,7 @@ export function Header({ onSearch }: { onSearch: () => void }) {
             {links.map((l) => (
               <Link key={l.href} href={l.href} onClick={() => setMenu(false)} className="h-section">{l.label}</Link>
             ))}
-            <button className="h-section text-left" onClick={() => { setMenu(false); onSearch(); }}>Search</button>
-            <button className="h-section text-left" onClick={() => { setMenu(false); setOpen(true); }}>Shortlist ({items.length})</button>
+            <button className="h-section text-left" onClick={() => { setMenu(false); show(); }}>Shortlist ({items.length})</button>
           </motion.div>
         )}
       </AnimatePresence>

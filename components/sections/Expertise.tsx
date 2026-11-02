@@ -42,22 +42,22 @@ export function Expertise() {
             <p className="mt-6 text-2xl font-semibold tracking-[-0.03em]">Kriti Maharjan</p>
             <Mannequin className="pointer-events-none absolute bottom-6 right-6 h-[52%] min-h-[14rem] text-gold" />
             <Drift className="pointer-events-none absolute right-6 top-6 h-16 w-16 text-gold"><Scissors className="h-full w-full" /></Drift>
-            <Drift delay={1} dur={7} className="pointer-events-none absolute bottom-8 left-7 h-14 w-14 text-ink/40"><Button className="h-full w-full" /></Drift>
-            <Drift delay={2} dur={5} className="pointer-events-none absolute bottom-28 left-24 h-12 w-12 text-gold/70"><Thimble className="h-full w-full" /></Drift>
+            <Drift delay={1} dur={7} className="pointer-events-none absolute bottom-8 left-7 hidden h-14 w-14 text-ink/40 md:block"><Button className="h-full w-full" /></Drift>
+            <Drift delay={2} dur={5} className="pointer-events-none absolute bottom-28 left-24 hidden h-12 w-12 text-gold/70 md:block"><Thimble className="h-full w-full" /></Drift>
           </Card>
 
           <Card i={1} className="bg-black text-ivory md:col-span-4">
             <p className="text-3xl font-bold leading-[0.95] tracking-[-0.04em] md:[writing-mode:vertical-rl] md:rotate-180 md:text-5xl">Wear your confidence</p>
             <JacketOnHanger className="pointer-events-none absolute bottom-5 right-6 h-[70%] text-ivory/60" />
             <Drift className="pointer-events-none absolute right-6 top-6 h-12 w-12 text-gold"><Spool className="h-full w-full" /></Drift>
-            <Drift delay={1.5} className="pointer-events-none absolute bottom-6 left-6 h-12 w-12 text-ivory/40"><Hanger className="h-full w-full" /></Drift>
+            <Drift delay={1.5} className="pointer-events-none absolute bottom-6 left-6 hidden h-12 w-12 text-ivory/40 md:block"><Hanger className="h-full w-full" /></Drift>
           </Card>
 
-          <Card i={2} className="bg-card md:col-span-4">
+          <Card i={2} className="min-h-[14rem] bg-card md:col-span-4 md:min-h-0">
             <h3 className="text-2xl font-semibold tracking-[-0.03em]">Precision fit</h3>
             <TapeMeasure className="pointer-events-none absolute inset-x-6 bottom-5 w-[calc(100%-3rem)] text-gold" />
             <Drift className="pointer-events-none absolute right-6 top-6 h-14 w-14 text-gold"><Ruler className="h-full w-full" /></Drift>
-            <Drift delay={1.2} dur={7} className="pointer-events-none absolute left-7 top-1/3 h-12 w-12 text-ink/30"><Spool className="h-full w-full" /></Drift>
+            <Drift delay={1.2} dur={7} className="pointer-events-none absolute left-7 top-1/3 hidden h-12 w-12 text-ink/30 md:block"><Spool className="h-full w-full" /></Drift>
           </Card>
 
           <Card i={3} className="bg-card md:col-span-4">
@@ -95,7 +95,7 @@ export function Expertise() {
         transition={{ duration: 0.8 }}
         className="relative mx-4 mt-12 overflow-hidden rounded-[28px] bg-burgundy text-ivory md:mx-10 md:mt-20 md:rounded-[40px]"
       >
-        <div className="container-x relative z-10 flex flex-col justify-between gap-8 px-4 py-14 md:flex-row md:items-center md:px-10 md:py-24">
+        <div className="relative z-10 flex flex-col justify-between gap-8 px-8 py-14 sm:px-12 md:flex-row md:items-center md:px-14 md:py-24 lg:px-20 xl:px-28 2xl:px-36">
           <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(6rem,15vw,15rem)] font-extrabold tracking-[-0.06em]" />
           <div className="md:max-w-[28rem]">
             <ul className="flex flex-wrap gap-5 text-ivory/70 md:gap-6" aria-hidden>

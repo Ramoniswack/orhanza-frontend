@@ -8,6 +8,7 @@ import { Faq } from "@/components/sections/Faq";
 import { HomeTailoring } from "@/components/sections/HomeTailoring";
 import { Hero } from "@/components/sections/Hero";
 import { SelectedProjects } from "@/components/sections/SelectedProjects";
+import { ShopPreview } from "@/components/sections/ShopPreview";
 import { Showreel } from "@/components/sections/Showreel";
 import { Testimonials } from "@/components/sections/Testimonials";
 
@@ -16,6 +17,7 @@ export default function Home() {
     <>
       <Hero />              {/* 0  */}
       <SelectedProjects />  {/* 1  dark, 3 rows */}
+      <ShopPreview />       {/* shop — men / women, links straight to product pages */}
       <Fabrics />           {/* 2  white, pinned horizontal */}
       <HomeTailoring />     {/* 3  dark timeline (replaces Services + Process) */}
       <Craft />             {/* 4  */}
