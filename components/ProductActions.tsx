@@ -8,7 +8,7 @@ const fits = ["Slim", "Regular", "Classic"];
 
 /** Template's size selector / quantity / "Add to Cart" → fit preference / shortlist / consultation. */
 export function ProductActions({ slug }: { slug: string }) {
-  const { has, toggle, show, isFav, toggleFav } = useShortlist();
+  const { has, toggle, show } = useShortlist();
   const [fit, setFit] = useState("Regular");
   const saved = has(slug);
 
@@ -27,11 +27,8 @@ export function ProductActions({ slug }: { slug: string }) {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <button onClick={() => { toggle(slug); if (!saved) show("shortlist"); }} className="btn btn-burgundy">
+        <button onClick={() => { toggle(slug); if (!saved) show(); }} className="btn btn-burgundy">
           {saved ? "Remove from shortlist" : "Add to shortlist"}
-        </button>
-        <button onClick={() => toggleFav(slug)} aria-pressed={isFav(slug)} className="btn btn-outline">
-          <span aria-hidden>{isFav(slug) ? "♥" : "♡"}</span> {isFav(slug) ? "Favourited" : "Add to favourites"}
         </button>
         <Link href="/#book" className="btn btn-outline">Book a Consultation</Link>
       </div>

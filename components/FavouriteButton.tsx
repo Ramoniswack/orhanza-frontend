@@ -5,12 +5,12 @@ import { useShortlist } from "./ShortlistProvider";
 
 /** Heart toggle — saves a piece to Favourites (kept in the browser, separate from the consultation shortlist). */
 export function FavouriteButton({ slug, name, className = "" }: { slug: string; name: string; className?: string }) {
-  const { isFav, toggleFav } = useShortlist();
-  const fav = isFav(slug);
+  const { has, toggle } = useShortlist();
+  const fav = has(slug);
   return (
     <motion.button
       type="button"
-      onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFav(slug); }}
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggle(slug); }}
       aria-pressed={fav}
       aria-label={fav ? `Remove ${name} from favourites` : `Add ${name} to favourites`}
       whileTap={{ scale: 0.82 }}
