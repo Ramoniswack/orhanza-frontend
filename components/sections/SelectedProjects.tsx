@@ -45,7 +45,7 @@ export function SelectedProjects() {
               >
                 <Link
                   href="/collections"
-                  className={`group relative block overflow-hidden rounded-[6px] md:h-full ${wide ? "aspect-[4/3]" : "aspect-[3/4]"} md:aspect-auto`}
+                  className={`group relative block overflow-hidden rounded-[22px] md:h-full ${wide ? "aspect-[4/3]" : "aspect-[3/4]"} md:aspect-auto`}
                   style={{ background: t.dark ? "radial-gradient(ellipse at 50% 30%, #3a3a3a, #161616 85%)" : t.bg, color: t.fg }}
                 >
                   <Image

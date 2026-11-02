@@ -14,43 +14,6 @@ npm run dev                  # http://localhost:3000
 npm run build && npm start
 ```
 
-## Deploy to Vercel
-
-### Quick Deploy
-
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com) and click "Add New Project"
-3. Import your repository
-4. Vercel will auto-detect Next.js and configure everything
-
-### Environment Variables
-
-Add these in Vercel Project Settings → Environment Variables:
-
-```
-NEXT_PUBLIC_SITE_URL=https://your-domain.vercel.app
-NEXT_PUBLIC_PHONE=
-NEXT_PUBLIC_WHATSAPP=
-NEXT_PUBLIC_EMAIL=
-NEXT_PUBLIC_MAP_URL=
-NEXT_PUBLIC_OPENING_HOURS=
-```
-
-### Custom Domain
-
-After deployment, add your custom domain in Vercel:
-1. Go to Project Settings → Domains
-2. Add your domain (e.g., `orhanza.com`)
-3. Update `NEXT_PUBLIC_SITE_URL` to match your custom domain
-4. Redeploy
-
-### Deployment Commands
-
-Vercel automatically uses these from `vercel.json`:
-- Build: `npm run build`
-- Install: `npm install`
-- Dev: `npm run dev`
-
 ## How the hero works (`components/sections/Hero.tsx`)
 
 - `HeroScroll` is a 320svh section containing a `sticky` 100svh viewport.

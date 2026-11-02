@@ -42,7 +42,7 @@ export function Craft() {
             transition={{ duration: 0.9, ease: EASE }}
             className="relative mx-auto w-full max-w-md md:max-w-none"
           >
-            <div className="relative aspect-[4/5] overflow-hidden bg-card">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-card">
               <Image src="/images/banners/craft-hands.webp" alt="Tailor's hands, shears and cloth at the Orhanza workbench" fill sizes="(min-width:768px) 38vw, 100vw" className="object-cover" />
             </div>
             <Drift delay={0.4} amp={6} rot={2} dur={7} className="absolute -left-4 top-1/3 hidden h-28 w-20 text-ivory md:block"><NeedleThread className="h-full w-full" /></Drift>

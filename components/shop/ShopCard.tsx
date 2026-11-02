@@ -13,20 +13,20 @@ export function ShopCard({ product, priority = false }: { product: ShopProduct; 
 
   return (
     <article className="group">
-      <div className="relative aspect-[3/4] overflow-hidden rounded-[6px] bg-[#F3F3F3]">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-[22px] bg-[#F3F3F3]">
         <Image
           src={product.image}
           alt={`${product.name} — made to measure by Orhanza`}
           fill
           priority={priority}
-          sizes="(min-width:1024px) 33vw, 50vw"
+          sizes="(min-width:1024px) 25vw, 50vw"
           className="object-cover object-top transition-all duration-[900ms] ease-out group-hover:scale-[1.08] group-hover:opacity-0"
         />
         <Image
           src={product.flat}
           alt=""
           fill
-          sizes="(min-width:1024px) 33vw, 50vw"
+          sizes="(min-width:1024px) 25vw, 50vw"
           className="scale-100 object-cover object-top opacity-0 transition-all duration-[900ms] ease-out group-hover:scale-[1.08] group-hover:opacity-100"
         />
         <Link href={href} aria-label={product.name} className="absolute inset-0 z-10" />

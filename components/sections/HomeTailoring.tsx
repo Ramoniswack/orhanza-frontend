@@ -146,17 +146,17 @@ function Thread({ listRef, progress, cx, anchor }: { listRef: RefObject<HTMLOLis
 function Copy({ i, title, body }: { i: number; title: string; body: string }) {
   return (
     <>
-      <motion.p variants={meta} className="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em]" style={{ color: C.mute }}>
+      <motion.p variants={meta} className="flex items-center gap-2 text-[13px] uppercase tracking-[0.22em]" style={{ color: C.mute }}>
         Step <KineticNumber value={i + 1} pad={2} />
       </motion.p>
-      <h3 className="mt-2 text-[clamp(1.5rem,2.2vw,2.4rem)] font-semibold leading-[1.05] tracking-[-0.035em]" style={{ color: C.ink }}>
+      <h3 className="mt-2 text-[clamp(1.9rem,3vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.035em]" style={{ color: C.ink }}>
         {title.split(" ").map((w, wi) => (
           <span key={wi} className="mr-[0.25em] inline-block overflow-hidden pb-[0.12em] align-bottom">
             <motion.span variants={word(wi)} className="inline-block">{w}</motion.span>
           </span>
         ))}
       </h3>
-      <motion.p variants={desc} className="mt-3 max-w-[22rem] text-sm leading-relaxed" style={{ color: C.mute }}>{body}</motion.p>
+      <motion.p variants={desc} className="mt-4 max-w-[28rem] text-base leading-relaxed md:text-lg" style={{ color: C.mute }}>{body}</motion.p>
     </>
   );
 }
@@ -192,7 +192,7 @@ export function HomeTailoring() {
         <div className="container-x mt-6 hidden md:grid md:grid-cols-[minmax(0,4fr)_minmax(0,6fr)]">
           <div>
             <div className="sticky top-[16svh] pr-10 lg:pr-16">
-              <div className="relative flex h-[48svh] max-h-[28rem] items-center justify-center overflow-hidden rounded-[6px]" style={{ background: "#FFFFFF" }}>
+              <div className="relative flex h-[56svh] max-h-[34rem] items-center justify-center overflow-hidden rounded-[22px]" style={{ background: "#FFFFFF" }}>
                 <AnimatePresence mode="wait">
                   {steps.map(({ Icon, title }, i) => i === active && (
                     <motion.div
@@ -212,7 +212,7 @@ export function HomeTailoring() {
 
               <div className="mt-3 flex items-end justify-between">
                 <div className="flex items-baseline gap-3">
-                  <KineticNumber value={active + 1} pad={2} play className="text-[clamp(2rem,3vw,3rem)] font-semibold tracking-[-0.04em]" />
+                  <KineticNumber value={active + 1} pad={2} play className="text-[clamp(2.4rem,3.6vw,3.6rem)] font-semibold tracking-[-0.04em]" />
                   <span className="text-lg" style={{ color: C.mute }}>/ {String(N).padStart(2, "0")}</span>
                 </div>
               </div>
@@ -229,7 +229,7 @@ export function HomeTailoring() {
                     key={s.title}
                     initial="off"
                     animate={i === active ? "on" : "off"}
-                    className="relative flex min-h-[23svh] items-center py-5 pl-12 pr-4 lg:pl-20"
+                    className="relative flex min-h-[28svh] items-center py-5 pl-12 pr-4 lg:pl-20"
                   >
                     <Marker state={i === active ? "on" : i < active ? "past" : "future"} />
                     <div><Copy i={i} title={s.title} body={s.body} /></div>

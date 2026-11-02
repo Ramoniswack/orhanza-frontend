@@ -12,6 +12,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ButtonWipe } from "@/components/motion/ButtonWipe";
 import { Layer } from "@/components/motion/Layer";
@@ -19,6 +20,7 @@ import { LineMask } from "@/components/motion/LineMask";
 import { useShortlist } from "@/components/ShortlistProvider";
 import { useLenis } from "@/lib/lenis";
 import { lookKey } from "@/lib/saved";
+import { shopProducts } from "@/lib/shop";
 import { MEN_COUNT, MONO_PHOTOS, N, SCREENS_PER_LOOK, defaults, looks, type Cfg, type Look } from "@/lib/lookbook-data";
 
 const Debug = dynamic(() => import("./LookbookDebug"), { ssr: false });
@@ -32,6 +34,8 @@ const NAME_SIZE = "clamp(20px, 1.8vw, 32px)";
 const DESC_SIZE = "clamp(14px, 1.1vw, 19px)";
 const expoOut = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 const clampI = (v: number) => Math.max(0, Math.min(N - 1, v));
+
+const productHref = (id: number) => `/shop/${shopProducts.find((p) => p.id === id)?.slug ?? ""}`;
 
 type Ease = (t: number) => number;
 const useEased = (g: MotionValue<number>, input: number[], output: number[], ease: Ease) => useTransform(g, input, output, { ease, clamp: true });
@@ -92,7 +96,7 @@ function LookText({ look, i, g, cfg, ease, mobile }: { look: Look; i: number; g:
   return (
     <>
       {/* DETAIL */}
-      <div className="absolute z-[6]" style={{ left: `${cfg.textLeft}vw`, width: `${cfg.textW}vw`, top: `${cfg.textY}vh`, transform: "translateY(-50%)" }}>
+      <div className="pointer-events-none absolute z-[6]" style={{ left: `${cfg.textLeft}vw`, width: `${cfg.textW}vw`, top: `${cfg.textY}vh`, transform: "translateY(-50%)" }}>
         <motion.div style={{ opacity: dOpacity, y: dY, pointerEvents: dPE }} className={`will-change-transform ${mobile ? "rounded-md bg-white/80 p-3 backdrop-blur-sm" : ""}`}>
           <LineMask g={g} enter={dE()} ease={ease} fade className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: MUTE }}>{look.category}</LineMask>
           <LineMask g={g} enter={dE()} ease={ease} className="font-bold leading-[1.15] tracking-[-0.03em]" style={{ color: INK, fontSize: NAME_SIZE }}>{look.name}</LineMask>
@@ -101,13 +105,16 @@ function LookText({ look, i, g, cfg, ease, mobile }: { look: Look; i: number; g:
               <LineMask key={k} g={g} enter={dE((k + 1) * st)} ease={ease} fade>{line}</LineMask>
             ))}
           </div>
+          <LineMask g={g} enter={dE(4 * st)} ease={ease} fade className="mt-5">
+            <Link href={productHref(look.id)} className="inline-block border-b border-current pb-0.5 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: INK }}>View product →</Link>
+          </LineMask>
         </motion.div>
       </div>
 
       {/* HERO — second section: category + Book a fitting */}
       <div
-        className="absolute z-[6]"
-        style={{ left: `${cfg.heroTextX}vw`, top: `${cfg.heroTextY}vh`, transform: "translate(-50%,-50%)", width: mobile ? "70vw" : "min(34vw, 520px)" }}
+        className="pointer-events-none absolute z-[6]"
+        style={{ left: `${cfg.heroTextX}vw`, top: `${cfg.heroTextY}vh`, transform: "translate(-50%,-50%)", width: mobile ? "88vw" : "min(34vw, 520px)" }}
       >
         <motion.div style={{ opacity: hOpacity, y: hY, pointerEvents: hPE }} className={`will-change-transform ${mobile ? "rounded-md bg-white/80 p-3 text-left backdrop-blur-sm" : "text-center"}`}>
           <LineMask g={g} enter={hE()} ease={ease} fade className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: MUTE }}>
@@ -116,8 +123,9 @@ function LookText({ look, i, g, cfg, ease, mobile }: { look: Look; i: number; g:
           <LineMask g={g} enter={hE(st)} ease={ease} className="mt-3">
             <h2 className="leading-[1.05]" style={{ fontFamily: SITE_FONT, fontSize: mobile ? 28 : 40, color: INK, fontWeight: 700, letterSpacing: "-0.04em" }}>{look.name}</h2>
           </LineMask>
-          <div className={mobile ? "" : "flex justify-center"}>
-            <ButtonWipe g={g} enter={hBtn} ease={ease} href="/#book">{look.cta}</ButtonWipe>
+          <div className={`flex flex-wrap gap-x-3 ${mobile ? "flex-col" : "justify-center"}`}>
+            <ButtonWipe g={g} enter={hBtn} ease={ease} href={productHref(look.id)}>View product</ButtonWipe>
+            <ButtonWipe g={g} enter={hBtn} ease={ease} href="/#book" outline>{look.cta}</ButtonWipe>
           </div>
         </motion.div>
       </div>
@@ -159,18 +167,19 @@ function ReducedStage({ look, scene, cfg, mobile }: { look: Look; scene: "d" | "
           <div className="absolute z-[6]" style={{ left: `${cfg.textLeft}vw`, width: `${cfg.textW}vw`, top: `${cfg.textY}vh`, transform: "translateY(-50%)" }}>
             <p className="font-bold tracking-[-0.03em]" style={{ color: INK, fontSize: NAME_SIZE }}>{look.name}</p>
             <p className="mt-3 leading-[1.55]" style={{ color: MUTE, fontSize: DESC_SIZE }}>{look.desc.join(" ")}</p>
-            <a href="/#book" className="mt-6 flex h-10 w-[200px] items-center justify-center text-[11px] uppercase tracking-[0.12em] text-white" style={{ background: INK }}>{look.cta}</a>
+            <a href={productHref(look.id)} className="mt-6 flex h-10 w-[200px] items-center justify-center text-[11px] uppercase tracking-[0.12em] text-white" style={{ background: INK }}>View product</a>
           </div>
         </>
       ) : (
         <>
           <Layer {...small} x={sl} z={2} />
           <Layer src={look.model} trim={look.trimModel} x={hx} z={3} H={cfg.heroH} top={cfg.heroTop} alt={`${look.name} — worn`} filter={GREY} origin="0 0" />
-          <div className="absolute z-[6] text-center" style={{ left: `${cfg.heroTextX}vw`, top: `${cfg.heroTextY}vh`, transform: "translate(-50%,-50%)", width: mobile ? "70vw" : "min(34vw,520px)" }}>
+          <div className="absolute z-[6] text-center" style={{ left: `${cfg.heroTextX}vw`, top: `${cfg.heroTextY}vh`, transform: "translate(-50%,-50%)", width: mobile ? "88vw" : "min(34vw,520px)" }}>
             <h2 style={{ fontFamily: SITE_FONT, fontSize: mobile ? 28 : 40, color: INK, fontWeight: 700, letterSpacing: "-0.04em" }}>{look.name}</h2>
             <p className="mt-3 text-[11px] tracking-[0.18em]" style={{ color: MUTE }}>{`Look ${String(look.id).padStart(2, "0")} of ${N} · Made to measure`}</p>
             <p className="mt-4 leading-[1.55]" style={{ color: MUTE, fontSize: DESC_SIZE }}>{look.desc.join(" ")}</p>
-            <a href="/#book" className="mx-auto mt-6 flex h-10 w-[200px] items-center justify-center text-[11px] uppercase tracking-[0.12em] text-white" style={{ background: INK }}>{look.cta}</a>
+            <a href={productHref(look.id)} className="mx-auto mt-6 flex h-10 w-[200px] items-center justify-center text-[11px] uppercase tracking-[0.12em] text-white" style={{ background: INK }}>View product</a>
+            <a href="/#book" className="mx-auto mt-3 flex h-10 w-[200px] items-center justify-center border text-[11px] uppercase tracking-[0.12em]" style={{ borderColor: INK, color: INK }}>{look.cta}</a>
           </div>
         </>
       )}
@@ -178,10 +187,37 @@ function ReducedStage({ look, scene, cfg, mobile }: { look: Look; scene: "d" | "
   );
 }
 
+/* ─────────────── phones: one fixed card per look (description + both buttons always visible) ─────────────── */
+function MobileCard({ look }: { look: Look }) {
+  return (
+    <div className="absolute inset-x-3 bottom-[76px] z-[7]">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={look.id}
+          initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-[22px] bg-white/90 p-5 shadow-[0_8px_30px_rgba(0,0,0,.08)] backdrop-blur-md"
+        >
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: MUTE }}>{`${look.category} · Look ${String(look.id).padStart(2, "0")} of ${N}`}</p>
+          <h2 className="mt-1.5 text-[24px] font-bold leading-[1.1] tracking-[-0.03em]" style={{ color: INK }}>{look.name}</h2>
+          <p className="mt-2 text-[14px] leading-[1.5]" style={{ color: MUTE }}>{look.desc.join(" ")}</p>
+          <div className="mt-4 grid grid-cols-2 gap-2.5">
+            <a href={productHref(look.id)} className="flex h-11 items-center justify-center rounded-full text-[11px] font-semibold uppercase tracking-[0.12em] text-white" style={{ background: INK }}>View product</a>
+            <a href="/#book" className="flex h-11 items-center justify-center rounded-full border text-[11px] font-semibold uppercase tracking-[0.12em]" style={{ borderColor: INK, color: INK }}>{look.cta}</a>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /* ─────────────── section ─────────────── */
-export function Lookbook() {
+export function Lookbook({ initial = "men" }: { initial?: "men" | "women" }) {
   const reduce = useReducedMotion();
   const lenis = useLenis();
+  // /collections/women opens with the womenswear looks first, then the menswear
+  const womenFirst = initial === "women";
+  const list = useMemo(() => (womenFirst ? [...looks.slice(MEN_COUNT), ...looks.slice(0, MEN_COUNT)] : looks), [womenFirst]);
   const { has, toggle, show } = useShortlist();
   const section = useRef<HTMLElement>(null);
   const [mobile, setMobile] = useState(false);
@@ -245,32 +281,32 @@ export function Lookbook() {
   const go = (dir: 1 | -1) => goTo(Math.round(g.get()) + dir);
 
   const win = [cur - 1, cur, cur + 1].filter((k) => k >= 0 && k < N);
-  const ghost = looks[ghostIdx];
+  const ghost = list[ghostIdx];
 
   return (
     <section ref={section} id="lookbook" aria-label="Collection lookbook" className="relative" style={{ height: `${N * SCREENS_PER_LOOK}vh`, background: BG }}>
-      <div className="sticky top-0 h-screen overflow-hidden" style={{ background: BG }}>
+      <div className="sticky top-0 h-[100svh] overflow-hidden" style={{ background: BG }}>
         {/* studio-floor fade */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1]" style={{ height: mobile ? "40%" : "28%", background: `linear-gradient(transparent, rgba(255,255,255,${mobile ? 0.92 : 0.7}))` }} />
 
         {reduce ? (
           <AnimatePresence initial={false}>
-            <ReducedStage key={`${cur}-${scene}`} look={looks[cur]} scene={scene} cfg={cfg} mobile={mobile} />
+            <ReducedStage key={`${cur}-${scene}`} look={list[cur]} scene={scene} cfg={cfg} mobile={mobile} />
           </AnimatePresence>
         ) : (
           <>
             <AnimatePresence initial={false}>
               <Ghost key={ghost.id} look={ghost} i={ghostIdx} g={g} cfg={cfg} ease={ease} />
             </AnimatePresence>
-            {win.map((i) => <LookFigures key={`f${i}`} look={looks[i]} i={i} g={g} cfg={cfg} ease={ease} />)}
-            {win.map((i) => <LookText key={`t${i}`} look={looks[i]} i={i} g={g} cfg={cfg} ease={ease} mobile={mobile} />)}
+            {win.map((i) => <LookFigures key={`f${i}`} look={list[i]} i={i} g={g} cfg={cfg} ease={ease} />)}
+            {mobile ? <MobileCard look={list[cur]} /> : win.map((i) => <LookText key={`t${i}`} look={list[i]} i={i} g={g} cfg={cfg} ease={ease} mobile={mobile} />)}
           </>
         )}
 
         {/* persistent UI */}
         <nav aria-label="Filter by men or women" className="absolute left-4 top-[76px] z-10 flex items-baseline gap-4 font-bold tracking-[-0.04em] md:left-8 md:top-[80px] md:gap-6" style={{ fontSize: mobile ? 22 : 32 }}>
-          {([["Men", 0], ["Women", MEN_COUNT]] as const).map(([label, k]) => {
-            const on = (k === 0) === (cur < MEN_COUNT);
+          {(womenFirst ? ([["Women", 0], ["Men", N - MEN_COUNT]] as const) : ([["Men", 0], ["Women", MEN_COUNT]] as const)).map(([label, k]) => {
+            const on = (k === 0) === (cur < (womenFirst ? N - MEN_COUNT : MEN_COUNT));
             return (
               <button key={label} type="button" onClick={() => goTo(k)} aria-pressed={on} className="relative pb-1 transition-colors duration-[900ms]" style={{ color: on ? INK : "rgba(0,0,0,.28)" }}>
                 {label}
@@ -285,12 +321,12 @@ export function Lookbook() {
         <div className="absolute bottom-5 left-4 z-10 md:bottom-8 md:left-8">
           <button
             type="button"
-            onClick={() => { const k = lookKey(looks[cur].id); const added = !has(k); toggle(k); if (added) show(); }}
-            aria-pressed={has(lookKey(looks[cur].id))}
+            onClick={() => { const k = lookKey(list[cur].id); const added = !has(k); toggle(k); if (added) show(); }}
+            aria-pressed={has(lookKey(list[cur].id))}
             className="h-10 rounded-full border px-4 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-black hover:text-white md:h-11 md:px-5 md:text-[11px]"
-            style={{ borderColor: "rgba(0,0,0,.25)", color: INK, background: has(lookKey(looks[cur].id)) ? "rgba(0,0,0,.06)" : "rgba(255,255,255,.8)" }}
+            style={{ borderColor: "rgba(0,0,0,.25)", color: INK, background: has(lookKey(list[cur].id)) ? "rgba(0,0,0,.06)" : "rgba(255,255,255,.8)" }}
           >
-            {has(lookKey(looks[cur].id)) ? "Shortlisted ✓" : <><span className="md:hidden">Shortlist</span><span className="hidden md:inline">Add to shortlist</span></>}
+            {has(lookKey(list[cur].id)) ? "Shortlisted ✓" : <><span className="md:hidden">Shortlist</span><span className="hidden md:inline">Add to shortlist</span></>}
           </button>
         </div>
         <div className="absolute bottom-5 right-5 z-10 flex gap-2 md:bottom-8 md:right-8">

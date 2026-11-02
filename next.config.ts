@@ -2,10 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false, // hides the floating Next.js "N" badge in dev
-  images: {
-    formats: ["image/avif", "image/webp"],
-    unoptimized: true, // disable Next.js Image optimization for static assets
-  },
+  images: { formats: ["image/avif", "image/webp"] },
   async headers() {
     return [
       {

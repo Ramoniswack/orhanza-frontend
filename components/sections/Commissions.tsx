@@ -46,7 +46,7 @@ export function Commissions() {
                 onFocus={() => setOpen(i)}
                 onClick={() => setOpen(i)}
                 style={{ backgroundColor: p.bg, color: p.fg, flexBasis: 0 }}
-                className="group relative h-[30rem] min-w-0 cursor-pointer overflow-hidden md:h-auto"
+                className="group relative h-[30rem] min-w-0 cursor-pointer overflow-hidden rounded-[22px] md:h-auto"
               >
                 <Link href={p.href} className="absolute inset-0 z-10" aria-label={`${p.name} — view collection`} tabIndex={0} />
 

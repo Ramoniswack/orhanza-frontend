@@ -1,12 +1,15 @@
 "use client";
 
 /**
- * Tailoring line illustrations — single-weight strokes in currentColor, drawn in as they scroll into view.
+ * Tailoring line illustrations — bold single-weight strokes in currentColor, drawn in as they scroll into view.
  * Colour them with a text-* class on the wrapper/className.
  */
 import { motion } from "motion/react";
 
 type P = { className?: string };
+
+/** Line weight for every illustration on the site (screen px, constant at any size). */
+const STROKE = 2.6;
 
 export function Path({ d, delay = 0, dash }: { d: string; delay?: number; dash?: string }) {
   return (
@@ -14,7 +17,7 @@ export function Path({ d, delay = 0, dash }: { d: string; delay?: number; dash?:
       d={d}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.25}
+      strokeWidth={STROKE}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeDasharray={dash}
@@ -42,7 +45,7 @@ export function Mannequin({ className }: P) {
       <Path d="M56 112 C72 120 88 120 104 112" delay={0.8} dash="2 4" />
       <Path d="M80 152 V240" delay={0.9} />
       <Path d="M80 240 L48 258 M80 240 L112 258 M80 240 V262" delay={1} />
-      <circle cx="80" cy="12" r="3.2" stroke="currentColor" strokeWidth="1.25" vectorEffect="non-scaling-stroke" />
+      <circle cx="80" cy="12" r="3.2" stroke="currentColor" strokeWidth={STROKE} vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }
@@ -58,8 +61,8 @@ export function JacketOnHanger({ className }: P) {
       <Path d="M148 82 L120 142 L110 120 L128 100" delay={0.7} />
       <Path d="M110 142 V226" delay={0.8} />
       <Path d="M68 160 H92 M128 204 H152" delay={0.9} />
-      <circle cx="117" cy="174" r="2.2" stroke="currentColor" strokeWidth="1.25" vectorEffect="non-scaling-stroke" />
-      <circle cx="117" cy="194" r="2.2" stroke="currentColor" strokeWidth="1.25" vectorEffect="non-scaling-stroke" />
+      <circle cx="117" cy="174" r="2.2" stroke="currentColor" strokeWidth={STROKE} vectorEffect="non-scaling-stroke" />
+      <circle cx="117" cy="194" r="2.2" stroke="currentColor" strokeWidth={STROKE} vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }
@@ -106,7 +109,7 @@ export function NeedleThread({ className }: P) {
   return (
     <svg {...svg("0 0 200 200", className)}>
       <Path d="M154 26 L50 176" />
-      <ellipse cx="148" cy="35" rx="2.2" ry="7" transform="rotate(35 148 35)" stroke="currentColor" strokeWidth="1.25" vectorEffect="non-scaling-stroke" />
+      <ellipse cx="148" cy="35" rx="2.2" ry="7" transform="rotate(35 148 35)" stroke="currentColor" strokeWidth={STROKE} vectorEffect="non-scaling-stroke" />
       <Path d="M146 38 C112 12 84 44 108 72 C132 100 66 112 80 142 C90 164 126 150 150 176" delay={0.3} />
       <Path d="M30 188 H46 M56 188 H72 M82 188 H98" delay={0.8} />
     </svg>

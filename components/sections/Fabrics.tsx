@@ -6,7 +6,7 @@
  * Replace the files in /public/images/fabrics/<slug>.webp with your own photos (same names) — nothing else to change.
  */
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef } from "react";
 
 const fabrics = [
@@ -23,9 +23,10 @@ function Card({ f, i, p }: { f: (typeof fabrics)[number]; i: number; p: MotionVa
   const imgX = useTransform(p, [0, 1], [`${-4 + i * 0.4}%`, `${4 - i * 0.4}%`]);
   return (
     <article className="w-[clamp(15rem,24vw,23rem)] shrink-0">
-      <div className="relative aspect-[4/5] overflow-hidden bg-card">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-card">
         <motion.div style={{ x: imgX }} className="absolute -inset-x-[6%] inset-y-0">
-          <Image src={`/images/fabrics/${f.slug}.webp`} alt={`${f.name} cloth swatch — Orhanza`} fill sizes="30vw" className="object-cover" loading="eager" />
+          {/* plain <img>: loads straight from /public, no optimiser step that can fail */}
+          <img src={`/images/fabrics/${f.slug}.webp`} alt={`${f.name} cloth swatch — Orhanza`} width={1000} height={1250} decoding="async" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
         </motion.div>
       </div>
       <h3 className="mt-4 whitespace-nowrap text-lg font-semibold tracking-[-0.02em]">{f.name}</h3>
@@ -74,8 +75,8 @@ export function Fabrics() {
         <div className="no-scrollbar relative mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5">
           {fabrics.map((f, i) => (
             <div key={f.slug} className="w-[72vw] shrink-0 snap-start">
-              <div className="relative aspect-[4/5] overflow-hidden bg-card">
-                <Image src={`/images/fabrics/${f.slug}.webp`} alt={`${f.name} cloth swatch — Orhanza`} fill sizes="72vw" loading="eager" className="object-cover" />
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-card">
+                <img src={`/images/fabrics/${f.slug}.webp`} alt={`${f.name} cloth swatch — Orhanza`} width={1000} height={1250} decoding="async" draggable={false} className="absolute inset-0 h-full w-full object-cover" />
               </div>
               <h3 className="mt-3 text-lg font-semibold tracking-[-0.02em]">{f.name}</h3>
               <span className="sr-only">{i + 1} of {fabrics.length}</span>

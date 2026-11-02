@@ -66,7 +66,7 @@ export const defaults = {
     peekX: 112, peekScale: 0.7,
     giantExitX: -70, heroExitX: -60, smallExitX: -60, giantSpeed: 1.35,
     ghostCap: 14, ghostY: 40, ghostParallax: 0.35, ghostOpacity: 0.08,
-    textLeft: 6, textW: 70, textY: 82, heroTextX: 41, heroTextY: 82,
+    textLeft: 5, textW: 90, textY: 70, heroTextX: 50, heroTextY: 71,
     exitEnd: 0.25, enterStart: 0.65, enterTail: 0.2,
     panEase: [0.22, 0.61, 0.36, 1] as [number, number, number, number],
     buttonDelay: 0.15, lineStagger: 0.08,

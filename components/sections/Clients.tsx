@@ -36,7 +36,7 @@ function StackCard({ i, a, mv, next }: { i: number; a: (typeof audience)[number]
   const dim = useTransform(covered, [0, 1], next ? [0, 0.55] : [0, 0]);
   return (
     <div ref={ref} className={`sticky ${i < audience.length - 1 ? "mb-[14svh]" : ""}`} style={{ top: 72 + i * 14 }}>
-      <motion.div style={{ scale, backgroundColor: t.bg, color: t.fg }} className="relative grid h-[74svh] origin-top overflow-hidden md:grid-cols-[1fr_1.05fr]">
+      <motion.div style={{ scale, backgroundColor: t.bg, color: t.fg }} className="relative grid h-[74svh] origin-top overflow-hidden rounded-[22px] md:grid-cols-[1fr_1.05fr]">
         <div className="relative order-2 flex flex-col justify-between p-6 md:order-1 md:px-[max(3rem,calc((100vw-80rem)/2+2rem))] md:py-12">
           <div className="flex items-start justify-between">
             <span className="flex items-baseline gap-2" style={{ color: t.mute }}>

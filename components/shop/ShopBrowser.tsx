@@ -70,7 +70,7 @@ export function ShopBrowser({ initial }: Props) {
         </div>
       </div>
 
-      <motion.div layout className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-3">
+      <motion.div layout className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
         <AnimatePresence mode="popLayout">
           {list.map((p, i) => (
             <motion.div key={p.slug} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.97 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
