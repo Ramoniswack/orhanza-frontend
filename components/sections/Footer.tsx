@@ -48,7 +48,7 @@ export function Footer() {
             <li><Link href="/shop" className="hover:underline">Shop</Link></li>
             <li><Link href="/collections" className="hover:underline">Collections</Link></li>
             <li><a href={site.instagram} target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a></li>
-            <li><Link href="/#book" className="hover:underline">Contact</Link></li>
+            <li><Link href="/contact" className="hover:underline">Contact</Link></li>
           </ul>
         </div>
 

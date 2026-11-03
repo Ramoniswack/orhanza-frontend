@@ -13,7 +13,7 @@ const links: { href: string; label: string; featured?: boolean }[] = [
   { href: "/collections/women", label: "Women's collection", featured: true },
   { href: "/shop", label: "Shop" },
   { href: "/about", label: "About" },
-  { href: "/#book", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ];
 
 /** Full-width bar. On the home page it is transparent while the hero is on screen, then turns solid once you scroll past it. */

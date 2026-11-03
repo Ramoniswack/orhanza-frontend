@@ -14,6 +14,7 @@ import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { Box, House } from "@/components/Icons";
 import { JacketOnHanger, Mannequin, NeedleThread, SwatchStack } from "@/components/Illustrations";
 import { KineticNumber } from "@/components/motion";
+import { useLenis } from "@/lib/lenis";
 import { SectionLabel } from "@/components/SectionLabel";
 
 const steps = [
@@ -26,6 +27,8 @@ const steps = [
 ];
 const N = steps.length;
 const EASE = [0.22, 1, 0.36, 1] as const;
+const SNAP_IDLE_MS = 140; // scrolling must be still this long before the page settles on a step
+const DWELL_MS = 2000;    // desktop: scrolling is held this long on each new step, so its illustration finishes drawing
 const NEEDLE_ZONE = 150; // px reserved under the last step for the needle
 
 const C = { bg: "#FFFFFF", ink: "#242424", mute: "#898989", off: "#D5D3CE", on: "#333333", line: "#DAD9D4" };
@@ -179,6 +182,38 @@ export function HomeTailoring() {
     const i = Math.min(N - 1, Math.max(0, Math.floor(v * N)));
     setActive((a) => (a === i ? a : i));
   });
+
+  // Desktop: when scrolling pauses inside the timeline, glide to the centre of the nearest step and hold there for DWELL_MS,
+  // so the illustration can finish drawing before the page moves on. Not used on phones or with reduced motion.
+  const lenis = useLenis();
+  const snapTimer = useRef<number | undefined>(undefined);
+  const holdTimer = useRef<number | undefined>(undefined);
+  const lastHeld = useRef(-1);
+  useMotionValueEvent(p, "change", (v) => {
+    window.clearTimeout(snapTimer.current);
+    if (v <= 0 || v >= 1) lastHeld.current = -1; // left the timeline: the next visit holds again
+    if (!lenis || v <= 0 || v >= 1 || !window.matchMedia("(min-width: 768px)").matches) return;
+    snapTimer.current = window.setTimeout(() => {
+      const items = Array.from(list.current?.children ?? []) as HTMLElement[];
+      if (!items.length) return;
+      const mid = window.innerHeight / 2;
+      let best = 0, bestD = Infinity, bestDelta = 0;
+      items.forEach((el, k) => {
+        const r = el.getBoundingClientRect();
+        const delta = r.top + r.height / 2 - mid;
+        if (Math.abs(delta) < bestD) { bestD = Math.abs(delta); best = k; bestDelta = delta; }
+      });
+      const hold = () => {
+        if (lastHeld.current === best) return;
+        lastHeld.current = best;
+        lenis.stop();
+        holdTimer.current = window.setTimeout(() => lenis.start(), DWELL_MS);
+      };
+      if (bestD > 6) lenis.scrollTo(window.scrollY + bestDelta, { duration: 0.8, easing: (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t)), force: true, onComplete: hold });
+      else hold();
+    }, SNAP_IDLE_MS);
+  });
+  useEffect(() => () => { window.clearTimeout(snapTimer.current); window.clearTimeout(holdTimer.current); lenis?.start(); }, [lenis]);
 
   return (
     <MotionConfig reducedMotion="user">
