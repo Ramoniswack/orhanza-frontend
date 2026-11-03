@@ -25,7 +25,7 @@ export function Path({ d, delay = 0, dash }: { d: string; delay?: number; dash?:
       initial={{ pathLength: 0, opacity: 0 }}
       whileInView={{ pathLength: 1, opacity: 1 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 3, delay: delay * 2, ease: [0.22, 1, 0.36, 1] }}
     />
   );
 }

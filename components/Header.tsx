@@ -7,11 +7,12 @@ import { useEffect, useState } from "react";
 import { useLenis } from "@/lib/lenis";
 import { useShortlist } from "./ShortlistProvider";
 
-const links = [
+// The two collections are the headline of the menu (pills, listed first); Shop is a plain link so it never outshines them.
+const links: { href: string; label: string; featured?: boolean }[] = [
+  { href: "/collections/men", label: "Men's collection", featured: true },
+  { href: "/collections/women", label: "Women's collection", featured: true },
   { href: "/shop", label: "Shop" },
-  { href: "/collections/men", label: "Men's collection" },
-  { href: "/collections/women", label: "Women's collection" },
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About" },
   { href: "/#book", label: "Contact" },
 ];
 
@@ -48,7 +49,16 @@ export function Header() {
 
           <motion.nav {...fade(0.3)} className="hidden items-center gap-5 text-[14px] lg:flex xl:gap-9 xl:text-[15px]" aria-label="Primary">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="font-display font-semibold tracking-[-0.01em] transition-opacity hover:opacity-60">{l.label}</Link>
+              l.featured ? (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  aria-current={pathname.startsWith(l.href) ? "page" : undefined}
+                  className={`rounded-full border px-4 py-1.5 font-display font-semibold tracking-[-0.01em] transition-colors duration-300 ${pathname.startsWith(l.href) ? "border-gold bg-gold text-charcoal" : "border-ivory/45 hover:border-gold hover:bg-gold hover:text-charcoal"}`}
+                >{l.label}</Link>
+              ) : (
+                <Link key={l.href} href={l.href} aria-current={pathname === l.href ? "page" : undefined} className={`font-display font-medium tracking-[-0.01em] transition-opacity hover:opacity-100 ${pathname === l.href ? "opacity-100" : "opacity-70"}`}>{l.label}</Link>
+              )
             ))}
             <button onClick={() => show()} className="font-display font-semibold tracking-[-0.01em] transition-opacity hover:opacity-60">
               Shortlist{items.length > 0 && <span className="ml-1.5 rounded-full bg-gold px-2 py-0.5 text-[11px] text-charcoal">{items.length}</span>}
@@ -72,7 +82,7 @@ export function Header() {
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
             {links.map((l) => (
-              <Link key={l.href} href={l.href} onClick={() => setMenu(false)} className="h-section">{l.label}</Link>
+              <Link key={l.href} href={l.href} onClick={() => setMenu(false)} className={`h-section ${l.featured ? "text-gold" : "opacity-60"}`}>{l.label}</Link>
             ))}
             <button className="h-section text-left" onClick={() => { setMenu(false); show(); }}>Shortlist ({items.length})</button>
           </motion.div>

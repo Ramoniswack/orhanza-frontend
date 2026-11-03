@@ -18,7 +18,7 @@ export function Gallery({ name, image, flat }: { name: string; image: string; fl
   const v = views[i];
 
   return (
-    <div>
+    <div className="mx-auto w-full max-w-[26rem] lg:mx-0">
       <div
         className="relative aspect-[4/5] cursor-zoom-in overflow-hidden rounded-[6px] bg-[#F3F3F3] md:aspect-[5/6]"
         onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 }); }}

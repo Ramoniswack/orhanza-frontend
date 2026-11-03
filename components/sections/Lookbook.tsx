@@ -13,6 +13,7 @@ import {
 } from "motion/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ButtonWipe } from "@/components/motion/ButtonWipe";
 import { Layer } from "@/components/motion/Layer";
@@ -215,6 +216,7 @@ function MobileCard({ look }: { look: Look }) {
 export function Lookbook({ initial = "men" }: { initial?: "men" | "women" }) {
   const reduce = useReducedMotion();
   const lenis = useLenis();
+  const router = useRouter();
   // /collections/women opens with the womenswear looks first, then the menswear
   const womenFirst = initial === "women";
   const list = useMemo(() => (womenFirst ? [...looks.slice(MEN_COUNT), ...looks.slice(0, MEN_COUNT)] : looks), [womenFirst]);
@@ -308,7 +310,7 @@ export function Lookbook({ initial = "men" }: { initial?: "men" | "women" }) {
           {(womenFirst ? ([["Women", 0], ["Men", N - MEN_COUNT]] as const) : ([["Men", 0], ["Women", MEN_COUNT]] as const)).map(([label, k]) => {
             const on = (k === 0) === (cur < (womenFirst ? N - MEN_COUNT : MEN_COUNT));
             return (
-              <button key={label} type="button" onClick={() => goTo(k)} aria-pressed={on} className="relative pb-1 transition-colors duration-[900ms]" style={{ color: on ? INK : "rgba(0,0,0,.28)" }}>
+              <button key={label} type="button" onClick={() => (label.toLowerCase() === initial ? goTo(k) : router.push(`/collections/${label.toLowerCase()}`))} aria-pressed={on} className="relative pb-1 transition-colors duration-[900ms]" style={{ color: on ? INK : "rgba(0,0,0,.28)" }}>
                 {label}
                 <span aria-hidden className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-black transition-transform duration-[900ms]" style={{ transform: `scaleX(${on ? 1 : 0})` }} />
               </button>

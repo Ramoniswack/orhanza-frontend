@@ -229,7 +229,7 @@ export function HomeTailoring() {
                     key={s.title}
                     initial="off"
                     animate={i === active ? "on" : "off"}
-                    className="relative flex min-h-[28svh] items-center py-5 pl-12 pr-4 lg:pl-20"
+                    className="relative flex min-h-[48svh] items-center py-5 pl-12 pr-4 lg:pl-20"
                   >
                     <Marker state={i === active ? "on" : i < active ? "past" : "future"} />
                     <div><Copy i={i} title={s.title} body={s.body} /></div>
