@@ -12,6 +12,7 @@ const links: { href: string; label: string; featured?: boolean }[] = [
   { href: "/collections/men", label: "Men's collection", featured: true },
   { href: "/collections/women", label: "Women's collection", featured: true },
   { href: "/shop", label: "Shop" },
+  { href: "/custom-made", label: "Custom Made" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];

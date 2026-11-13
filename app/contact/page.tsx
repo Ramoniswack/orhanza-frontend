@@ -26,7 +26,7 @@ export default function ContactPage() {
 
         <div className="mt-12 grid gap-8 md:mt-16 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
           <Reveal><ContactCards /></Reveal>
-          <Reveal delay={0.1}><EnquiryForm /></Reveal>
+          <div id="book" className="scroll-mt-24"><Reveal delay={0.1}><EnquiryForm /></Reveal></div>
         </div>
       </section>
 

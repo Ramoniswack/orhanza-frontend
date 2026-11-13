@@ -7,3 +7,4 @@ export { ExpandOnScroll } from "./ExpandOnScroll";
 export { BgFlip } from "./BgFlip";
 export { KineticNumber, KineticMV } from "./KineticNumber";
 export { RollText } from "./RollText";
+export { ButtonWipe } from "./ButtonWipe";

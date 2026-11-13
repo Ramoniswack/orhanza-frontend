@@ -6,8 +6,9 @@ import { Expertise } from "@/components/sections/Expertise";
 import { Fabrics } from "@/components/sections/Fabrics";
 import { Faq } from "@/components/sections/Faq";
 import { HomeTailoring } from "@/components/sections/HomeTailoring";
-import { Hero } from "@/components/sections/Hero";
+import { SuitStory } from "@/components/sections/SuitStory";
 import { SelectedProjects } from "@/components/sections/SelectedProjects";
+import { CustomMadeTeaser } from "@/components/sections/CustomMadeTeaser";
 import { ShopPreview } from "@/components/sections/ShopPreview";
 import { Showreel } from "@/components/sections/Showreel";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -15,9 +16,10 @@ import { Testimonials } from "@/components/sections/Testimonials";
 export default function Home() {
   return (
     <>
-      <Hero />              {/* 0  */}
+      <SuitStory />         {/* 0  landing — pinned scroll-driven suit story ("Cut once") */}
       <SelectedProjects />  {/* 1  dark, 3 rows */}
       <ShopPreview />       {/* shop — men / women, links straight to product pages */}
+      <CustomMadeTeaser />  {/* made to measure — cloth cross-fade on scroll */}
       <Fabrics />           {/* 2  white, pinned horizontal */}
       <HomeTailoring />     {/* 3  dark timeline (replaces Services + Process) */}
       <Craft />             {/* 4  */}

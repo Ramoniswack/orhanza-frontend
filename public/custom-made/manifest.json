@@ -1,0 +1,241 @@
+{
+ "basePreview": {
+  "jacket": "/custom-made/models/base-jacket.webp",
+  "suit": "/custom-made/models/base-suit.webp",
+  "size": [
+   329,
+   1113
+  ]
+ },
+ "fabrics": [
+  {
+   "slug": "navy-pure-wool",
+   "name": "Navy Pure Wool",
+   "category": "Suiting",
+   "hex": "#1d2b4a",
+   "image": "/custom-made/fabrics/navy-pure-wool.webp",
+   "thumb": "/custom-made/fabrics/navy-pure-wool-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-navy-pure-wool.webp",
+   "suitPreview": "/custom-made/models/suit-navy-pure-wool.webp",
+   "priceNpr": 64000
+  },
+  {
+   "slug": "midnight-barathea",
+   "name": "Midnight Barathea",
+   "category": "Evening",
+   "hex": "#0f1424",
+   "image": "/custom-made/fabrics/midnight-barathea.webp",
+   "thumb": "/custom-made/fabrics/midnight-barathea-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-midnight-barathea.webp",
+   "suitPreview": "/custom-made/models/suit-midnight-barathea.webp",
+   "priceNpr": 78000
+  },
+  {
+   "slug": "charcoal-herringbone",
+   "name": "Charcoal Herringbone",
+   "category": "Suiting",
+   "hex": "#3b3e45",
+   "image": "/custom-made/fabrics/charcoal-herringbone.webp",
+   "thumb": "/custom-made/fabrics/charcoal-herringbone-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-charcoal-herringbone.webp",
+   "suitPreview": "/custom-made/models/suit-charcoal-herringbone.webp",
+   "priceNpr": 72000
+  },
+  {
+   "slug": "mid-grey-sharkskin",
+   "name": "Mid-Grey Sharkskin",
+   "category": "Suiting",
+   "hex": "#7d8186",
+   "image": "/custom-made/fabrics/mid-grey-sharkskin.webp",
+   "thumb": "/custom-made/fabrics/mid-grey-sharkskin-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-mid-grey-sharkskin.webp",
+   "suitPreview": "/custom-made/models/suit-mid-grey-sharkskin.webp",
+   "priceNpr": 69000
+  },
+  {
+   "slug": "light-grey-flannel",
+   "name": "Light Grey Flannel",
+   "category": "Flannel",
+   "hex": "#a7a9ab",
+   "image": "/custom-made/fabrics/light-grey-flannel.webp",
+   "thumb": "/custom-made/fabrics/light-grey-flannel-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-light-grey-flannel.webp",
+   "suitPreview": "/custom-made/models/suit-light-grey-flannel.webp",
+   "priceNpr": 76000
+  },
+  {
+   "slug": "navy-pinstripe",
+   "name": "Navy Pinstripe",
+   "category": "Business",
+   "hex": "#1a2440",
+   "image": "/custom-made/fabrics/navy-pinstripe.webp",
+   "thumb": "/custom-made/fabrics/navy-pinstripe-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-navy-pinstripe.webp",
+   "suitPreview": "/custom-made/models/suit-navy-pinstripe.webp",
+   "priceNpr": 82000
+  },
+  {
+   "slug": "charcoal-chalk-stripe",
+   "name": "Charcoal Chalk Stripe",
+   "category": "Business",
+   "hex": "#34373d",
+   "image": "/custom-made/fabrics/charcoal-chalk-stripe.webp",
+   "thumb": "/custom-made/fabrics/charcoal-chalk-stripe-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-charcoal-chalk-stripe.webp",
+   "suitPreview": "/custom-made/models/suit-charcoal-chalk-stripe.webp",
+   "priceNpr": 82000
+  },
+  {
+   "slug": "grey-glen-check",
+   "name": "Grey Glen Check",
+   "category": "Heritage",
+   "hex": "#8a8d92",
+   "image": "/custom-made/fabrics/grey-glen-check.webp",
+   "thumb": "/custom-made/fabrics/grey-glen-check-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-grey-glen-check.webp",
+   "suitPreview": "/custom-made/models/suit-grey-glen-check.webp",
+   "priceNpr": 88000
+  },
+  {
+   "slug": "navy-check",
+   "name": "Navy Check",
+   "category": "Heritage",
+   "hex": "#222d4b",
+   "image": "/custom-made/fabrics/navy-check.webp",
+   "thumb": "/custom-made/fabrics/navy-check-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-navy-check.webp",
+   "suitPreview": "/custom-made/models/suit-navy-check.webp",
+   "priceNpr": 84000
+  },
+  {
+   "slug": "stone-windowpane",
+   "name": "Stone Windowpane",
+   "category": "Heritage",
+   "hex": "#b9ad98",
+   "image": "/custom-made/fabrics/stone-windowpane.webp",
+   "thumb": "/custom-made/fabrics/stone-windowpane-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-stone-windowpane.webp",
+   "suitPreview": "/custom-made/models/suit-stone-windowpane.webp",
+   "priceNpr": 86000
+  },
+  {
+   "slug": "sand-linen",
+   "name": "Sand Linen",
+   "category": "Summer",
+   "hex": "#c8b698",
+   "image": "/custom-made/fabrics/sand-linen.webp",
+   "thumb": "/custom-made/fabrics/sand-linen-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-sand-linen.webp",
+   "suitPreview": "/custom-made/models/suit-sand-linen.webp",
+   "priceNpr": 52000
+  },
+  {
+   "slug": "ivory-linen",
+   "name": "Ivory Linen",
+   "category": "Summer",
+   "hex": "#e6dfcf",
+   "image": "/custom-made/fabrics/ivory-linen.webp",
+   "thumb": "/custom-made/fabrics/ivory-linen-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-ivory-linen.webp",
+   "suitPreview": "/custom-made/models/suit-ivory-linen.webp",
+   "priceNpr": 52000
+  },
+  {
+   "slug": "sky-blue-cotton",
+   "name": "Sky Blue Cotton",
+   "category": "Summer",
+   "hex": "#9fb4cc",
+   "image": "/custom-made/fabrics/sky-blue-cotton.webp",
+   "thumb": "/custom-made/fabrics/sky-blue-cotton-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-sky-blue-cotton.webp",
+   "suitPreview": "/custom-made/models/suit-sky-blue-cotton.webp",
+   "priceNpr": 42000
+  },
+  {
+   "slug": "tobacco-wool-flannel",
+   "name": "Tobacco Wool Flannel",
+   "category": "Flannel",
+   "hex": "#6a4a33",
+   "image": "/custom-made/fabrics/tobacco-wool-flannel.webp",
+   "thumb": "/custom-made/fabrics/tobacco-wool-flannel-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-tobacco-wool-flannel.webp",
+   "suitPreview": "/custom-made/models/suit-tobacco-wool-flannel.webp",
+   "priceNpr": 81000
+  },
+  {
+   "slug": "forest-green-twill",
+   "name": "Forest Green Twill",
+   "category": "Statement",
+   "hex": "#1f4535",
+   "image": "/custom-made/fabrics/forest-green-twill.webp",
+   "thumb": "/custom-made/fabrics/forest-green-twill-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-forest-green-twill.webp",
+   "suitPreview": "/custom-made/models/suit-forest-green-twill.webp",
+   "priceNpr": 79000
+  },
+  {
+   "slug": "olive-herringbone",
+   "name": "Olive Herringbone",
+   "category": "Statement",
+   "hex": "#4b4f2f",
+   "image": "/custom-made/fabrics/olive-herringbone.webp",
+   "thumb": "/custom-made/fabrics/olive-herringbone-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-olive-herringbone.webp",
+   "suitPreview": "/custom-made/models/suit-olive-herringbone.webp",
+   "priceNpr": 76000
+  },
+  {
+   "slug": "burgundy-twill",
+   "name": "Burgundy Twill",
+   "category": "Statement",
+   "hex": "#5b1f27",
+   "image": "/custom-made/fabrics/burgundy-twill.webp",
+   "thumb": "/custom-made/fabrics/burgundy-twill-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-burgundy-twill.webp",
+   "suitPreview": "/custom-made/models/suit-burgundy-twill.webp",
+   "priceNpr": 79000
+  },
+  {
+   "slug": "black-wool",
+   "name": "Black Wool",
+   "category": "Evening",
+   "hex": "#141416",
+   "image": "/custom-made/fabrics/black-wool.webp",
+   "thumb": "/custom-made/fabrics/black-wool-sm.webp",
+   "jacketPreview": "/custom-made/models/jacket-black-wool.webp",
+   "suitPreview": "/custom-made/models/suit-black-wool.webp",
+   "priceNpr": 74000
+  }
+ ],
+ "garments": {
+  "jacket": "/custom-made/garments/jacket.svg",
+  "trousers": "/custom-made/garments/trousers.svg",
+  "waistcoat": "/custom-made/garments/waistcoat.svg",
+  "shirt": "/custom-made/garments/shirt.svg",
+  "overcoat": "/custom-made/garments/overcoat.svg"
+ },
+ "trims": {
+  "buttons": [
+   "/custom-made/trims/button-horn-brown.png",
+   "/custom-made/trims/button-horn-black.png",
+   "/custom-made/trims/button-gold.png",
+   "/custom-made/trims/button-mother-of-pearl.png",
+   "/custom-made/trims/button-navy.png"
+  ],
+  "linings": [
+   "/custom-made/trims/lining-burgundy.webp",
+   "/custom-made/trims/lining-navy.webp",
+   "/custom-made/trims/lining-ivory.webp",
+   "/custom-made/trims/lining-forest.webp",
+   "/custom-made/trims/lining-gold-paisley.webp",
+   "/custom-made/trims/lining-charcoal.webp"
+  ]
+ },
+ "ui": {
+  "skeletonSuit": "/custom-made/ui/skeleton-suit.svg",
+  "groundShadow": "/custom-made/ui/ground-shadow.png",
+  "grain": "/custom-made/ui/grain.png",
+  "shimmer": "/custom-made/ui/shimmer.png"
+ },
+ "_note": "priceNpr values are PLACEHOLDERS - replace with real prices."
+}
