@@ -3,8 +3,8 @@
   "jacket": "/custom-made/models/base-jacket.webp",
   "suit": "/custom-made/models/base-suit.webp",
   "size": [
-   329,
-   1113
+   658,
+   2226
   ]
  },
  "fabrics": [
@@ -237,5 +237,9 @@
   "grain": "/custom-made/ui/grain.png",
   "shimmer": "/custom-made/ui/shimmer.png"
  },
- "_note": "priceNpr values are PLACEHOLDERS - replace with real prices."
+ "_note": "priceNpr values are PLACEHOLDERS - replace with real prices.",
+ "masks": {
+  "suit": "/custom-made/models/mask-suit.webp",
+  "jacket": "/custom-made/models/mask-jacket.webp"
+ }
 }

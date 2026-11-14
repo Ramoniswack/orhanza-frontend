@@ -34,12 +34,12 @@ export function MenuDrawer({ open, onClose, reduce = false }: { open: boolean; o
     <AnimatePresence>
       {open && (
         <>
-          <motion.div className="fixed inset-0 z-[55] bg-black/40" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: d, ease: EASE_OUT }} onClick={onClose} />
-          <motion.nav aria-label="Menu" className="fixed left-0 top-0 z-[56] flex h-dvh w-full max-w-[640px] bg-white pt-16" initial={reduce ? { opacity: 0 } : { x: "-100%" }} animate={reduce ? { opacity: 1 } : { x: 0 }} exit={reduce ? { opacity: 0 } : { x: "-100%" }} transition={{ duration: d, ease: EASE_OUT }}>
-            <ul className="w-1/2 border-r border-black/[0.08] px-8 py-10">
+          <motion.div className="fixed inset-0 z-[55] bg-black/60" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: d, ease: EASE_OUT }} onClick={onClose} />
+          <motion.nav aria-label="Menu" className="fixed left-0 top-0 z-[56] flex h-dvh w-full max-w-[640px] bg-[#0E0E10] pt-16 text-ivory" initial={reduce ? { opacity: 0 } : { x: "-100%" }} animate={reduce ? { opacity: 1 } : { x: 0 }} exit={reduce ? { opacity: 0 } : { x: "-100%" }} transition={{ duration: d, ease: EASE_OUT }}>
+            <ul className="w-1/2 border-r border-ivory/10 px-8 py-10">
               {MENU.map((m) => (
                 <li key={m.label} onMouseEnter={() => setHover(m.label)}>
-                  <Link href={m.href} onClick={onClose} className={`block py-2 text-[22px] font-bold tracking-[-0.03em] transition-colors duration-300 ${hover === m.label ? "text-ink" : "text-ink/40"}`}>{m.label}</Link>
+                  <Link href={m.href} onClick={onClose} className={`block py-2 text-[22px] font-bold tracking-[-0.03em] transition-colors duration-300 ${hover === m.label ? "text-ivory" : "text-ivory/40"}`}>{m.label}</Link>
                 </li>
               ))}
             </ul>
@@ -49,9 +49,9 @@ export function MenuDrawer({ open, onClose, reduce = false }: { open: boolean; o
                   {subs.map((s) => (
                     <li key={s.label}>
                       {s.href ? (
-                        <Link href={s.href} onClick={onClose} className="block py-1.5 text-[15px] font-medium text-ink hover:opacity-60">{s.label}</Link>
+                        <Link href={s.href} onClick={onClose} className="block py-1.5 text-[15px] font-medium text-ivory hover:opacity-60">{s.label}</Link>
                       ) : (
-                        <span className="block py-1.5 text-[15px] text-slate">{s.label} <span className="ml-1 text-[11px]">Soon</span></span>
+                        <span className="block py-1.5 text-[15px] text-ivory/50">{s.label} <span className="ml-1 text-[11px]">Soon</span></span>
                       )}
                     </li>
                   ))}

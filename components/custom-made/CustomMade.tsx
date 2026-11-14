@@ -54,7 +54,7 @@ export function CustomMade({ initialFabric, initialPieces }: { initialFabric: st
   const closeSheet = useCallback(() => setSheet(false), []);
 
   return (
-    <section data-custom-made aria-label="Custom made suit configurator" aria-busy={!ready} className="relative pt-16 md:grid md:h-dvh md:grid-cols-2 md:grid-rows-[minmax(0,1fr)]">
+    <section data-custom-made aria-label="Custom made suit configurator" aria-busy={!ready} className="relative bg-[#0E0E10] pt-16 md:grid md:h-dvh md:grid-cols-2 md:grid-rows-[minmax(0,1fr)]">
       <div className="sticky top-16 z-10 h-[46svh] md:static md:h-full md:min-h-0">
         <Stage fabric={fabric} stage={stage} total={total} tab={tab} waistcoat={pieces.waistcoat} reduce={reduce} />
       </div>

@@ -1,93 +1,81 @@
 "use client";
 
 /**
- * 10 — Commissions: three panels in a row. The hovered (or tapped) panel opens on a spring while the others narrow;
- * its two coloured cutouts rise in, its title rolls and its number is a KineticNumber.
+ * Selected commissions — deliberately simple. Two monochrome panels side by side; scrolling trades the width between them:
+ * while the left one is open the right one shows only half of its figure, then they swap. The portrait inside a panel never
+ * moves (it is anchored to the outer edge), the panel just slides open over it like a curtain. Half-body crops, black and white only.
+ * The narrow panel changes its look while it is mostly closed, so a swap is never seen.
  */
-import { motion } from "motion/react";
-import Image from "next/image";
+import { cubicBezier } from "motion";
+import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "motion/react";
 import Link from "next/link";
-import { useState } from "react";
-import { KineticNumber, MaskLine, RollText } from "@/components/motion";
-import { SectionLabel } from "@/components/SectionLabel";
+import { useRef } from "react";
+import { looks } from "@/lib/lookbook-data";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const ease = cubicBezier(0.65, 0, 0.35, 1);
 
-const panels = [
-  { name: "Business Suits", note: "Boardroom to dinner", href: "/collections", bg: "#EDEDED", fg: "#111111", figs: [8, 7] },
-  { name: "Wedding & Occasion", note: "Groom, guests, black tie", href: "/collections", bg: "#E4E4E4", fg: "#111111", figs: [1, 12] },
-  { name: "Casual", note: "Sharp, separate, yours", href: "/collections", bg: "#DCDCDC", fg: "#111111", figs: [9, 3] },
-];
+/** [look id, fade-in range]. The first layer of a side is always underneath at full opacity. */
+const LEFT: { id: number; at?: [number, number] }[] = [{ id: 6 }, { id: 3, at: [0.24, 0.34] }, { id: 9, at: [0.74, 0.84] }];
+const RIGHT: { id: number; at?: [number, number] }[] = [{ id: 7 }, { id: 12, at: [0.52, 0.62] }];
+
+function Layer({ p, id, at, grow, still }: { p: MotionValue<number>; id: number; at?: [number, number]; grow: MotionValue<number>; still: boolean }) {
+  const look = looks[id - 1];
+  const op = useTransform(p, at ?? [0, 1], at ? [0, 1] : [1, 1], { clamp: true });
+  const cap = useTransform(grow, [1, 1.7], [0, 1], { clamp: true });
+  return (
+    <motion.div style={{ opacity: still ? (at ? 0 : 1) : op }} className="absolute inset-0">
+      <img
+        src={`/lookbook/${look.model}`}
+        alt={look.name}
+        width={look.trimModel.w}
+        height={look.trimModel.h}
+        loading="lazy"
+        decoding="async"
+        draggable={false}
+        className="absolute left-1/2 top-[-8%] h-[185%] w-auto max-w-none -translate-x-1/2 select-none grayscale contrast-[1.06]"
+      />
+      <motion.p style={{ opacity: cap }} className="absolute bottom-4 left-4 right-4 z-10 text-sm font-semibold leading-snug tracking-[-0.02em] text-ink md:bottom-6 md:left-6 md:text-base">
+        {look.name}
+        <span className="mt-0.5 block text-xs font-normal text-slate">{look.category}</span>
+      </motion.p>
+    </motion.div>
+  );
+}
+
+function Panel({ side, grow, p, layers, still }: { side: "left" | "right"; grow: MotionValue<number>; p: MotionValue<number>; layers: typeof LEFT; still: boolean }) {
+  return (
+    <motion.div style={{ flexGrow: grow, flexBasis: 0, backgroundColor: side === "left" ? "#EDEDED" : "#E3E3E3" }} className="relative min-w-0 overflow-hidden rounded-[18px]">
+      {/* fixed-width holder, anchored to the outer edge: the figure sits on its centre line, so a half-open panel shows half of it */}
+      <div style={{ width: "66.67cqw" }} className={`absolute inset-y-0 ${side === "left" ? "left-0" : "right-0"}`}>
+        {layers.map((l) => <Layer key={l.id} p={p} id={l.id} at={l.at} grow={grow} still={still} />)}
+      </div>
+    </motion.div>
+  );
+}
 
 export function Commissions() {
-  const [open, setOpen] = useState(0);
+  const reduced = !!useReducedMotion();
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const p = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4, restDelta: 0.0005 });
+  const left = useTransform(p, [0, 0.05, 0.2, 0.3, 0.45, 0.55, 0.7, 0.8, 0.95, 1], [2, 2, 1, 1, 2, 2, 1, 1, 2, 2], { ease });
+  const right = useTransform(left, (v) => 3 - v);
+  const fixedL = useMotionValue(2);
+  const fixedR = useMotionValue(1);
+
   return (
-    <section id="commissions" className="bg-white py-14 text-ink md:py-20">
-      <div className="container-x">
-        <SectionLabel label="Commissions" />
-        <h2 className="h-section-xl mt-5 md:mt-6">
-          <MaskLine>Made for the</MaskLine>
-          <MaskLine index={1} >occasion</MaskLine>
-        </h2>
-
-        <div className="mt-8 flex flex-col gap-2 md:mt-12 md:h-[40rem] md:flex-row">
-          {panels.map((p, i) => {
-            const active = open === i;
-            return (
-              <motion.div
-                key={p.name}
-                layout
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                animate={{ flexGrow: active ? 3.4 : 1 }}
-                transition={{ flexGrow: { type: "spring", stiffness: 70, damping: 20 }, opacity: { duration: 0.8, delay: i * 0.1 }, y: { duration: 0.8, ease: EASE, delay: i * 0.1 } }}
-                onMouseEnter={() => setOpen(i)}
-                onFocus={() => setOpen(i)}
-                onClick={() => setOpen(i)}
-                style={{ backgroundColor: p.bg, color: p.fg, flexBasis: 0 }}
-                className="group relative h-[30rem] min-w-0 cursor-pointer overflow-hidden rounded-[22px] md:h-auto"
-              >
-                <Link href={p.href} className="absolute inset-0 z-10" aria-label={`${p.name} — view collection`} tabIndex={0} />
-
-                {/* cutouts */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-[5.5rem] top-[14%] md:bottom-24">
-                  <motion.div
-                    className="absolute inset-y-0 left-1/2 w-[min(78%,20rem)]"
-                    initial={false}
-                    animate={{ x: active ? "-88%" : "-50%", scale: active ? 1 : 0.92 }}
-                    transition={{ type: "spring", stiffness: 60, damping: 20 }}
-                  >
-                    <Image src={`/collection/${p.figs[0]}.webp`} alt="" fill sizes="22rem" className={`object-contain object-bottom`} />
-                  </motion.div>
-                  <motion.div
-                    className="absolute inset-y-0 left-1/2 hidden w-[min(78%,20rem)] md:block"
-                    initial={false}
-                    animate={{ x: active ? "-8%" : "-50%", opacity: active ? 1 : 0, scale: active ? 1 : 0.85 }}
-                    transition={{ type: "spring", stiffness: 60, damping: 20 }}
-                  >
-                    <Image src={`/collection/${p.figs[1]}.webp`} alt="" fill sizes="22rem" className={`object-contain object-bottom`} />
-                  </motion.div>
-                </div>
-
-                {/* copy */}
-                <div className="relative z-[5] flex items-start justify-between gap-4 p-5 md:p-7">
-                  <span className="text-sm opacity-60"><KineticNumber value={i + 1} pad={2} stagger={0.08} /></span>
-                  <motion.span animate={{ opacity: active ? 1 : 0, x: active ? 0 : 12 }} transition={{ duration: 0.5, ease: EASE }} className="label-micro hidden whitespace-nowrap md:block">{p.note}</motion.span>
-                </div>
-                <div className="absolute inset-x-0 bottom-0 z-[5] flex items-end justify-between gap-4 bg-gradient-to-t from-black/0 p-5 md:p-7">
-                  <h3 className="flex min-w-0 flex-wrap text-[clamp(1.5rem,2.3vw,2.4rem)] font-semibold leading-[1.02] tracking-[-0.04em]">
-                    {p.name.split(" ").map((w, wi) => <RollText key={wi} active={active} className="mr-[0.25em]">{w}</RollText>)}
-                  </h3>
-                  <motion.span aria-hidden animate={{ rotate: active ? -45 : 0 }} transition={{ type: "spring", stiffness: 220, damping: 18 }} className="hidden h-11 w-11 shrink-0 md:flex items-center justify-center rounded-full border border-current/30 text-lg">→</motion.span>
-                </div>
-              </motion.div>
-            );
-          })}
+    <section ref={ref} id="commissions" aria-labelledby="commissions-h" className={`bg-white text-ink ${reduced ? "section-y" : "h-[320svh]"}`}>
+      <div className={`${reduced ? "" : "sticky top-0 h-svh pb-6 pt-20 md:pb-8 md:pt-24"} container-x flex flex-col`}>
+        <div className="flex items-end justify-between gap-6 pb-5 md:pb-7">
+          <h2 id="commissions-h" className="text-[clamp(1.75rem,3.4vw,3.25rem)] font-bold leading-none tracking-[-0.045em]">Selected commissions</h2>
+          <Link href="/collections" className="group inline-flex shrink-0 items-center gap-3 text-sm font-semibold">
+            View all
+            <span aria-hidden className="block h-px w-8 bg-ink transition-all duration-500 group-hover:w-16" />
+          </Link>
         </div>
-
-        <div className="mt-8 flex justify-end">
-          <Link href="/#book" className="btn bg-[#111] text-white hover:bg-black">Book a Consultation</Link>
+        <div style={{ containerType: "inline-size" }} className={`flex w-full gap-2 md:gap-3 ${reduced ? "h-[70svh]" : "min-h-0 flex-1"}`}>
+          <Panel side="left" grow={reduced ? fixedL : left} p={p} layers={LEFT} still={reduced} />
+          <Panel side="right" grow={reduced ? fixedR : right} p={p} layers={RIGHT} still={reduced} />
         </div>
       </div>
     </section>

@@ -13,11 +13,11 @@ export function Booking() {
   ].filter(Boolean) as { label: string; value: string; href: string }[];
 
   return (
-    <section id="book" className="container-x py-14 md:py-20" aria-labelledby="book-h">
+    <section id="book" className="container-x section-y" aria-labelledby="book-h">
       <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr]">
         <Reveal className="flex flex-col justify-between gap-12">
           <div>
-            <h2 id="book-h" className="h-display mt-3 text-[clamp(2.4rem,5vw,4.6rem)]">Book a Consultation</h2>
+            <h2 id="book-h" className="t-h2 mt-5">Book a Consultation</h2>
           </div>
           <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
             {contacts.map((c) => (

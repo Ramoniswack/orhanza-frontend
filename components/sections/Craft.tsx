@@ -25,7 +25,7 @@ function Badge({ children, className, delay = 0 }: { children: React.ReactNode; 
 
 export function Craft() {
   return (
-    <section id="about" className="relative overflow-hidden bg-white py-14 text-ink md:py-20">
+    <section id="about" className="relative overflow-hidden bg-white section-y text-ink">
       <div className="container-x">
         <SectionLabel label="Craft" />
         <StaircaseHeadline
@@ -34,7 +34,7 @@ export function Craft() {
           indents={[0, 0.6, 1.2]}
         />
 
-        <div className="mt-10 grid items-center gap-14 md:mt-14 md:grid-cols-[0.85fr_1.15fr] md:gap-20">
+        <div className="section-gap grid items-center gap-14 md:grid-cols-[0.85fr_1.15fr] md:gap-20">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -62,7 +62,7 @@ export function Craft() {
                 >
                   <span className="w-7 shrink-0 text-sm text-mute"><KineticNumber value={i + 1} pad={2} stagger={0.08} /></span>
                   <span className="flex-1">
-                    <span className="block text-xl font-semibold tracking-[-0.03em] md:text-[1.9rem] md:leading-[1.05]">{v.name}</span>
+                    <span className="t-h3 block">{v.name}</span>
                   </span>
                   <span className="h-12 w-12 shrink-0 text-gold transition-transform duration-500 group-hover:-rotate-12 group-hover:scale-110 md:h-14 md:w-14"><Icon className="h-full w-full" /></span>
                 </motion.li>

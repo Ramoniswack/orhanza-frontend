@@ -36,6 +36,23 @@ html.lenis, html.lenis body { height: auto; }
 
 .gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--color-gold), transparent); }
 
+.commission-color-reveal {
+  -webkit-mask-image: linear-gradient(#000 0 0);
+  mask-image: linear-gradient(#000 0 0);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 0% 100%;
+  mask-size: 0% 100%;
+  transition: -webkit-mask-size .8s cubic-bezier(.22, 1, .36, 1), mask-size .8s cubic-bezier(.22, 1, .36, 1);
+}
+@media (hover: hover) {
+  .group:hover .commission-color-reveal,
+  .group:focus-visible .commission-color-reveal {
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
@@ -79,7 +96,7 @@ body:has([data-custom-made]) footer { display: none; } /* the page is an app-lik
 .cm-tile, .cm-tile .cm-name { transition: opacity .3s cubic-bezier(.22,1,.36,1), color .3s cubic-bezier(.22,1,.36,1); }
 @media (hover: hover) {
   .cm-grid:hover .cm-tile:not(:hover) { opacity: .55; }
-  .cm-tile:hover .cm-name { color: #8E8E93; }
+  .cm-tile:hover .cm-name { color: var(--color-gold); }
 }
 .cm-fade { animation: cm-fade .3s cubic-bezier(.22,1,.36,1) both; }
 @keyframes cm-fade { from { opacity: 0; } to { opacity: 1; } }
@@ -87,3 +104,12 @@ body:has([data-custom-made]) footer { display: none; } /* the page is an app-lik
 .cm-shimmer::after { content: ""; position: absolute; inset: 0; background: url(/custom-made/ui/shimmer.png) center / 100% 100% no-repeat; transform: translateX(-100%); animation: cm-shimmer 1.6s cubic-bezier(.4,0,.2,1) infinite; }
 @keyframes cm-shimmer { to { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { .cm-shimmer::after { animation: none; display: none; } .cm-fade { animation-duration: .15s !important; } }
+
+/* ── Home page hierarchy: one rhythm, one heading scale (Plus Jakarta Sans) ──
+   label-micro (eyebrow, 600 caps) → t-h2 (700) → t-lead (400) → t-h3 (600) → body.
+   Every section uses .section-y for its vertical padding and .section-gap between heading and content. */
+.section-y { padding-block: clamp(4.5rem, 8vw, 8rem); }
+.section-gap { margin-top: clamp(2.5rem, 5vw, 4.5rem); }
+.t-h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 4.4vw, 4.25rem); letter-spacing: -0.045em; line-height: 1.02; }
+.t-h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 2vw, 1.875rem); letter-spacing: -0.03em; line-height: 1.15; }
+.t-lead { font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.65; color: var(--color-slate); max-width: 34rem; }

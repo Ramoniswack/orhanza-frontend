@@ -20,12 +20,12 @@ export function Faq() {
   const [active, setActive] = useState(0);
   const Art = art[active % art.length];
   return (
-    <section id="faq" className="bg-white py-14 text-ink md:py-20">
+    <section id="faq" className="bg-white section-y text-ink">
       <div className="container-x">
         <SectionLabel label="FAQ" />
-        <h2 className="h-section-xl mt-5 md:mt-6"><MaskLine>Good to know</MaskLine></h2>
+        <h2 className="t-h2 mt-5 md:mt-6"><MaskLine>Good to know</MaskLine></h2>
 
-        <div className="mt-8 grid gap-3 md:mt-12 md:grid-cols-[5fr_7fr] md:gap-5">
+        <div className="section-gap grid gap-3 md:grid-cols-[5fr_7fr] md:gap-5">
           <ul className="flex flex-col gap-1.5" role="tablist" aria-label="Questions">
             {faqs.map((f, i) => {
               const on = active === i;

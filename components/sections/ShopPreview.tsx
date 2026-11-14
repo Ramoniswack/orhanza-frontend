@@ -12,12 +12,12 @@ export function ShopPreview() {
   const list = shopProducts.filter((p) => p.gender === g).slice(0, 4);
 
   return (
-    <section id="shop" aria-labelledby="shop-home-h" className="bg-white py-14 md:py-24">
+    <section id="shop" aria-labelledby="shop-home-h" className="bg-white section-y">
       <div className="container-x">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <h2 id="shop-home-h" className="h-display text-[clamp(2.4rem,5vw,4.6rem)]">Shop</h2>
-            <div role="tablist" aria-label="Men or women" className="mt-5 flex items-baseline gap-6 text-2xl font-bold tracking-[-0.04em]">
+            <h2 id="shop-home-h" className="t-h2">Shop</h2>
+            <div role="tablist" aria-label="Men or women" className="mt-5 flex items-baseline gap-6 t-h3">
               {genders.map((x) => (
                 <button key={x.slug} role="tab" aria-selected={g === x.slug} onClick={() => setG(x.slug)} className="relative pb-1 transition-colors duration-500" style={{ color: g === x.slug ? "#111" : "rgba(0,0,0,.28)" }}>
                   {x.label}

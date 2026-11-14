@@ -26,7 +26,7 @@ function Card({ children, className = "", i = 0 }: { children: ReactNode; classN
 
 export function Expertise() {
   return (
-    <section className="bg-white pb-16 pt-4 text-ink md:pb-24">
+    <section className="bg-white section-y text-ink">
       <div className="container-x">
         <SectionLabel label="Expertise" />
         <StaircaseHeadline
@@ -35,7 +35,7 @@ export function Expertise() {
           indents={[0, 0.6, 1.2]}
         />
 
-        <div className="mt-6 grid gap-3 md:mt-8 md:grid-cols-12 md:grid-rows-[repeat(2,minmax(15rem,auto))]">
+        <div className="section-gap grid gap-3 md:grid-cols-12 md:grid-rows-[repeat(2,minmax(15rem,auto))]">
           <Card i={0} className="bg-card md:col-span-4 md:row-span-2">
             <p className="label-micro text-mute">Founder & Owner</p>
             <p className="mt-6 text-[7rem] font-extrabold leading-none tracking-[-0.06em] text-gold md:text-[9rem]">K</p>
@@ -54,7 +54,7 @@ export function Expertise() {
           </Card>
 
           <Card i={2} className="min-h-[14rem] bg-card md:col-span-4 md:min-h-0">
-            <h3 className="text-2xl font-semibold tracking-[-0.03em]">Precision fit</h3>
+            <h3 className="t-h3">Precision fit</h3>
             <TapeMeasure className="pointer-events-none absolute inset-x-6 bottom-5 w-[calc(100%-3rem)] text-gold" />
             <Drift className="pointer-events-none absolute right-6 top-6 h-14 w-14 text-gold"><Ruler className="h-full w-full" /></Drift>
             <Drift delay={1.2} dur={7} className="pointer-events-none absolute left-7 top-1/3 hidden h-12 w-12 text-ink/30 md:block"><Spool className="h-full w-full" /></Drift>
@@ -63,7 +63,7 @@ export function Expertise() {
           <Card i={3} className="bg-card md:col-span-4">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-2xl font-semibold tracking-[-0.03em]">Premium fabrics</h3>
+                <h3 className="t-h3">Premium fabrics</h3>
                 <Link href="/collections" className="mt-6 inline-block text-sm font-semibold underline-offset-4 hover:underline">View Collections →</Link>
               </div>
               <div className="relative h-36 w-24 shrink-0 overflow-hidden rounded-xl">

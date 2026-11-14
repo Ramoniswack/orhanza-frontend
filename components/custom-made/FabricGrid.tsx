@@ -33,15 +33,17 @@ export function FabricGrid({ fabrics, selected, onSelect }: { fabrics: Fabric[];
             tabIndex={f.slug === roving ? 0 : -1}
             onClick={() => onSelect(f.slug)}
             onPointerEnter={() => { preload(f.jacketPreview); preload(f.suitPreview); }}
-            className="cm-tile rounded-[6px] text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+            className="cm-tile group/t rounded-[6px] text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
           >
-            <span className="relative block aspect-[1/1] overflow-hidden rounded-[6px] bg-[#ECECEC]">
+            <span className={`relative block aspect-[1/1] overflow-hidden rounded-[6px] bg-[#1a1a1c] ring-1 transition-shadow duration-500 ${on ? "ring-2 ring-gold" : "ring-ivory/10 group-hover/t:ring-ivory/30"}`}>
               <img src={f.thumb} alt="" width={240} height={240} decoding="async" loading={i < 9 ? "eager" : "lazy"} draggable={false} className="h-full w-full object-cover" />
-              {on && <span aria-hidden className="absolute right-2 top-2 block h-3 w-3 rounded-full bg-white ring-1 ring-gold" />}
+              {on && <span aria-hidden className="absolute right-2 top-2 block h-3 w-3 rounded-full bg-gold ring-2 ring-charcoal" />}
+              {/* soft-box falloff over the swatch so it reads as cloth under light, not a flat square */}
+              <span aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.14), transparent 45%, rgba(0,0,0,0.22))" }} />
             </span>
             <span className="mt-2 block">
-              <span className="cm-name block truncate text-[13px] font-semibold leading-tight text-ink">{f.name}</span>
-              <span className="mt-0.5 block text-[12px] text-slate">{formatNpr(f.priceNpr)}</span>
+              <span className="cm-name block truncate text-[13px] font-semibold leading-tight text-ivory">{f.name}</span>
+              <span className="mt-0.5 block text-[12px] text-ivory/50">{formatNpr(f.priceNpr)}</span>
             </span>
           </button>
         );
