@@ -237,9 +237,5 @@
   "grain": "/custom-made/ui/grain.png",
   "shimmer": "/custom-made/ui/shimmer.png"
  },
- "_note": "priceNpr values are PLACEHOLDERS - replace with real prices.",
- "masks": {
-  "suit": "/custom-made/models/mask-suit.webp",
-  "jacket": "/custom-made/models/mask-jacket.webp"
- }
+ "_note": "priceNpr values are PLACEHOLDERS - replace with real prices."
 }

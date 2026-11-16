@@ -28,10 +28,9 @@ export const fabrics: Fabric[] = manifest.fabrics.map((f) => ({ ...f, priceNpr: 
 export const categories: string[] = Array.from(new Set(fabrics.map((f) => f.category)));
 export const garmentIcon: Record<string, string> = manifest.garments;
 export const ui = manifest.ui;
-export const masks = manifest.masks as { suit: string; jacket: string };
 
 /** Model canvas. The jacket preview is the top part of the full-body canvas at the same scale. */
-export const MODEL = { w: 658, h: 2226, jacketH: 1334 } as const;
+export const MODEL = { w: 658, h: 2226 } as const;
 
 export const getFabric = (slug: string): Fabric => fabrics.find((f) => f.slug === slug) ?? fabrics[0];
 export const previewFor = (f: Fabric, stage: Stage) => (stage === "suit" ? f.suitPreview : f.jacketPreview);

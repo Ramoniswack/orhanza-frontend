@@ -182,8 +182,8 @@ export function SuitStory() {
           <h1 className={`${display} text-[clamp(2.8rem,9.5vw,9.5rem)]`}>
             <MaskLine mode="mount" play={ready} index={0} stagger={0.15} delay={0.5}><span style={outline}>Orhanza</span></MaskLine>
           </h1>
-          <motion.p {...fade(1.3)} className="label-micro mt-5 text-gold">Tailoring made personal</motion.p>
-          <motion.div {...fade(1.5)} className="mt-8 flex justify-center">
+          <motion.p {...fade(1.3)} className="label-micro mt-2 text-gold">Tailoring made personal</motion.p>
+          <motion.div {...fade(1.5)} className="mt-5 flex justify-center">
             <Link href="/custom-made" className={btn}>Start customising</Link>
           </motion.div>
         </motion.div>
