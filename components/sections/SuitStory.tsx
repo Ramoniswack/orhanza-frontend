@@ -82,29 +82,29 @@ function Stars({ p }: { p: MotionValue<number> }) {
 
 /** Selected commissions float up through the stage. h = figure height (svh), x = left edge (%), d = depth 0.5 (far) – 1 (near). */
 const FLOAT = [
-  { id: 6,  x: 6,  h: 62, s: 0.56, e: 0.71, d: 1,    rot: 2 },
-  { id: 7,  x: 70, h: 58, s: 0.59, e: 0.75, d: 0.95, rot: -2 },
-  { id: 3,  x: 22, h: 38, s: 0.6,  e: 0.8,  d: 0.55, rot: 3 },
-  { id: 12, x: 80, h: 36, s: 0.64, e: 0.84, d: 0.5,  rot: -3 },
-  { id: 5,  x: 8,  h: 60, s: 0.7,  e: 0.85, d: 0.9,  rot: -2 },
-  { id: 9,  x: 67, h: 64, s: 0.74, e: 0.89, d: 1,    rot: 2 },
-  { id: 1,  x: 25, h: 34, s: 0.76, e: 0.95, d: 0.5,  rot: 3 },
-  { id: 4,  x: 77, h: 54, s: 0.8,  e: 0.95, d: 0.85, rot: -2 },
+  { id: 6,  x: 6,  h: 65, s: 0.56, e: 0.71, d: 1,    rot: 2 },
+  { id: 7,  x: 70, h: 61, s: 0.59, e: 0.75, d: 0.95, rot: -2 },
+  { id: 3,  x: 22, h: 40, s: 0.6,  e: 0.8,  d: 0.55, rot: 3 },
+  { id: 12, x: 80, h: 38, s: 0.64, e: 0.84, d: 0.5,  rot: -3 },
+  { id: 5,  x: 8,  h: 63, s: 0.7,  e: 0.85, d: 0.9,  rot: -2 },
+  { id: 9,  x: 67, h: 67, s: 0.74, e: 0.89, d: 1,    rot: 2 },
+  { id: 1,  x: 25, h: 36, s: 0.76, e: 0.95, d: 0.5,  rot: 3 },
+  { id: 4,  x: 77, h: 57, s: 0.8,  e: 0.95, d: 0.85, rot: -2 },
 ] as const;
 
 function Floating({ p, cfg }: { p: MotionValue<number>; cfg: (typeof FLOAT)[number] }) {
   const look = looks[cfg.id - 1];
   const y = useTransform(p, [cfg.s, cfg.e], ["112svh", `-${cfg.h + 14}svh`]);
   const op = useTransform(p, [cfg.s, cfg.s + 0.02, cfg.e - 0.02, cfg.e], [0, 1, 1, 0]);
-  const pe = useTransform(op, (o) => (o > 0.5 && cfg.d > 0.7 ? "auto" : "none"));
+  const pe = useTransform(op, (o) => (o > 0.5 ? "auto" : "none"));
   const near = cfg.d > 0.7;
   const xm = cfg.x > 50 ? 58 : Math.min(cfg.x, 30);
   return (
     <motion.div
-      style={{ y, opacity: op, pointerEvents: pe, filter: `blur(${((1 - cfg.d) * 5).toFixed(1)}px) brightness(${(0.7 + cfg.d * 0.3).toFixed(2)})`, "--h": `${cfg.h}svh`, "--x": `${cfg.x}%`, "--xm": `${xm}%` } as never}
+      style={{ y, opacity: op, pointerEvents: pe, "--f": `blur(${((1 - cfg.d) * 5).toFixed(1)}px) brightness(${(0.7 + cfg.d * 0.3).toFixed(2)})`, "--h": `${cfg.h}svh`, "--x": `${cfg.x}%`, "--xm": `${xm}%` } as never}
       className="absolute top-0 left-[var(--xm)] z-[15] h-[calc(var(--h)*0.72)] md:left-[var(--x)] md:h-[var(--h)]"
     >
-      <Link href="/collections" tabIndex={near ? 0 : -1} aria-hidden={!near} aria-label={`${look.name} — view collection`} className="group block h-full">
+      <Link href="/collections" tabIndex={near ? 0 : -1} aria-hidden={!near} aria-label={`${look.name} — view collection`} className="group block h-full transition-[filter] duration-500 [filter:var(--f)] hover:[filter:none]">
         <img
           src={`/lookbook/${look.model}`}
           alt=""
@@ -113,7 +113,7 @@ function Floating({ p, cfg }: { p: MotionValue<number>; cfg: (typeof FLOAT)[numb
           loading="lazy"
           decoding="async"
           draggable={false}
-          className="block h-full w-auto max-w-none select-none grayscale contrast-[1.08]"
+          className="block h-full w-auto max-w-none select-none grayscale contrast-[1.08] transition-[filter] duration-500 group-hover:grayscale-0"
           style={{ WebkitMaskImage: "linear-gradient(to bottom, #000 52%, transparent 90%)", maskImage: "linear-gradient(to bottom, #000 52%, transparent 90%)" }}
         />
         {near && <span className="absolute -bottom-1 left-0 block max-w-40 text-xs font-semibold leading-snug tracking-[-0.02em] text-ivory md:text-sm">{look.name}</span>}
