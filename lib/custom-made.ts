@@ -21,10 +21,12 @@ export type Tab = "fabric" | PieceKey;
    Cloth prices come from manifest.json (also placeholders). Put a real price for a cloth in
    FABRIC_PRICE_OVERRIDES and it wins over the manifest. Piece prices are the making charge. */
 export const FABRIC_PRICE_OVERRIDES: Record<string, number> = {};
-export const PIECE_PRICE: Record<PieceKey, number> = { jacket: 18000, trousers: 9000, waistcoat: 7500 };
+/** Every price on the page is the list price × this (0.5 = 50% off). Set to 1 for the original prices. */
+export const PRICE_FACTOR = 0.5;
+export const PIECE_PRICE: Record<PieceKey, number> = { jacket: 18000 * PRICE_FACTOR, trousers: 9000 * PRICE_FACTOR, waistcoat: 7500 * PRICE_FACTOR };
 export const DELIVERY_TEXT = "3–4 weeks delivery"; // placeholder
 
-export const fabrics: Fabric[] = manifest.fabrics.map((f) => ({ ...f, priceNpr: FABRIC_PRICE_OVERRIDES[f.slug] ?? f.priceNpr }));
+export const fabrics: Fabric[] = manifest.fabrics.map((f) => ({ ...f, priceNpr: Math.round((FABRIC_PRICE_OVERRIDES[f.slug] ?? f.priceNpr) * PRICE_FACTOR) }));
 export const categories: string[] = Array.from(new Set(fabrics.map((f) => f.category)));
 export const garmentIcon: Record<string, string> = manifest.garments;
 export const ui = manifest.ui;

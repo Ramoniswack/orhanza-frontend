@@ -92,7 +92,7 @@ const FLOAT = [
   { id: 4,  x: 77, h: 57, s: 0.8,  e: 0.95, d: 0.85, rot: -2 },
 ] as const;
 
-function Floating({ p, cfg }: { p: MotionValue<number>; cfg: (typeof FLOAT)[number] }) {
+function Floating({ p, cfg, hot }: { p: MotionValue<number>; cfg: (typeof FLOAT)[number]; hot: boolean }) {
   const look = looks[cfg.id - 1];
   const y = useTransform(p, [cfg.s, cfg.e], ["112svh", `-${cfg.h + 14}svh`]);
   const op = useTransform(p, [cfg.s, cfg.s + 0.02, cfg.e - 0.02, cfg.e], [0, 1, 1, 0]);
@@ -102,9 +102,9 @@ function Floating({ p, cfg }: { p: MotionValue<number>; cfg: (typeof FLOAT)[numb
   return (
     <motion.div
       style={{ y, opacity: op, pointerEvents: pe, "--f": `blur(${((1 - cfg.d) * 5).toFixed(1)}px) brightness(${(0.7 + cfg.d * 0.3).toFixed(2)})`, "--h": `${cfg.h}svh`, "--x": `${cfg.x}%`, "--xm": `${xm}%` } as never}
-      className="absolute top-0 left-[var(--xm)] z-[15] h-[calc(var(--h)*0.72)] md:left-[var(--x)] md:h-[var(--h)]"
+      className={`absolute top-0 left-[var(--xm)] h-[calc(var(--h)*0.72)] md:left-[var(--x)] md:h-[var(--h)] ${hot ? "z-[16]" : "z-[15]"}`}
     >
-      <Link href="/collections" tabIndex={near ? 0 : -1} aria-hidden={!near} aria-label={`${look.name} — view collection`} className="group block h-full transition-[filter] duration-500 [filter:var(--f)] hover:[filter:none]">
+      <Link href="/collections" data-cursor="plain" data-float={cfg.id} tabIndex={near ? 0 : -1} aria-hidden={!near} aria-label={`${look.name} — view collection`} className={`block h-full transition-[filter] duration-500 ${hot ? "[filter:none]" : "[filter:var(--f)]"}`}>
         <img
           src={`/lookbook/${look.model}`}
           alt=""
@@ -113,7 +113,7 @@ function Floating({ p, cfg }: { p: MotionValue<number>; cfg: (typeof FLOAT)[numb
           loading="lazy"
           decoding="async"
           draggable={false}
-          className="block h-full w-auto max-w-none select-none grayscale contrast-[1.08] transition-[filter] duration-500 group-hover:grayscale-0"
+          className={`block h-full w-auto max-w-none select-none contrast-[1.08] transition-[filter] duration-500 ${hot ? "grayscale-0" : "grayscale"}`}
           style={{ WebkitMaskImage: "linear-gradient(to bottom, #000 52%, transparent 90%)", maskImage: "linear-gradient(to bottom, #000 52%, transparent 90%)" }}
         />
         {near && <span className="absolute -bottom-1 left-0 block max-w-40 text-xs font-semibold leading-snug tracking-[-0.02em] text-ivory md:text-sm">{look.name}</span>}
@@ -128,6 +128,7 @@ export function SuitStory() {
   const [ready, setReady] = useState(false);
   const lenis = useLenis();
   const reduced = useReducedMotion();
+  const [hot, setHot] = useState<number | null>(null); // which floating figure is under the pointer
 
   useEffect(() => {
     if (img.current?.complete) setReady(true);
@@ -138,6 +139,36 @@ export function SuitStory() {
 
   const { scrollYProgress } = useScroll({ target: section, offset: ["start start", "end end"] });
   const p = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.3, restDelta: 0.0002 });
+
+  // Hover is hit-tested by hand: the figures move every frame (and the page scrolls under a still mouse), and the browser only
+  // refreshes :hover on real mouse moves — so colour would stick, lag or never arrive. Test on move, on scroll and while the figures glide.
+  useEffect(() => {
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    let x = -1, y = -1, raf = 0;
+    const test = () => {
+      raf = 0;
+      if (x < 0) return;
+      const el = document.elementsFromPoint(x, y).find((e) => (e as HTMLElement).dataset?.float);
+      const id = el ? Number((el as HTMLElement).dataset.float) : null;
+      setHot((h) => (h === id ? h : id));
+    };
+    const queue = () => { if (!raf) raf = requestAnimationFrame(test); };
+    const move = (e: MouseEvent) => { x = e.clientX; y = e.clientY; queue(); };
+    const leave = () => { x = -1; setHot(null); };
+    window.addEventListener("mousemove", move, { passive: true });
+    window.addEventListener("scroll", queue, { passive: true });
+    document.documentElement.addEventListener("mouseleave", leave);
+    const offLenis = lenis?.on("scroll", queue);
+    const offP = p.on("change", queue);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("scroll", queue);
+      document.documentElement.removeEventListener("mouseleave", leave);
+      if (typeof offLenis === "function") offLenis();
+      offP();
+      cancelAnimationFrame(raf);
+    };
+  }, [lenis, p]);
 
   // the subject follows the scroll: pinned, drifting down and pushing in slowly
   const suitY = useTransform(p, [0, 1], ["0svh", "3svh"]);
@@ -202,7 +233,7 @@ export function SuitStory() {
             <Block p={p} c={0.53}>
               <h2 className={`${display} text-[clamp(2.2rem,6.6vw,6.6rem)]`}>Selected<br /><span style={outline}>commissions</span></h2>
             </Block>
-            {FLOAT.map((cfg) => <Floating key={cfg.id} p={p} cfg={cfg} />)}
+            {FLOAT.map((cfg) => <Floating key={cfg.id} p={p} cfg={cfg} hot={hot === cfg.id} />)}
             <Block p={p} c={0.99} last>
               <Link href="/collections" className="group inline-block">
                 <span className={`${display} block text-[clamp(2.2rem,6.6vw,6.6rem)]`}>More <span style={outline}>commissions</span></span>

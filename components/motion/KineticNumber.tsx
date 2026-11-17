@@ -66,6 +66,7 @@ export function KineticNumber({
   stagger = 0.06,
   duration = 0.8,
   play,
+  group = false,
 }: {
   value: number | string;
   /** minimum digit count — `pad={2}` renders 1 as "01" */
@@ -77,6 +78,8 @@ export function KineticNumber({
   duration?: number;
   /** force-start (e.g. a counter that is always on screen). Default: start when scrolled into view. */
   play?: boolean;
+  /** thousands separators (12,500) — the commas stay put while the digits roll */
+  group?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const seen = useInView(ref, { amount: 0.4, once: true });
@@ -90,7 +93,12 @@ export function KineticNumber({
       <span className="inline-flex" aria-hidden>
         {Array.from({ length: count }, (_, i) => {
           const k = count - 1 - i;
-          return <Place key={k} k={k} n={n} go={go} delay={i * stagger} duration={duration} reduce={reduce} />;
+          return (
+            <span key={k} className="inline-flex">
+              <Place k={k} n={n} go={go} delay={i * stagger} duration={duration} reduce={reduce} />
+              {group && k > 0 && k % 3 === 0 && <span className="block h-[1em] w-[0.34em] text-center leading-none">,</span>}
+            </span>
+          );
         })}
       </span>
       {suffix && <Suffix>{suffix}</Suffix>}

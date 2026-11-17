@@ -5,7 +5,7 @@ import Lenis from "lenis";
 import { cancelFrame, frame } from "motion";
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { EASE_OUT } from "@/components/motion";
+import { EASE_OUT, KineticNumber } from "@/components/motion";
 import { FabricGrid } from "./FabricGrid";
 import { PIECE_PRICE, categories, formatNpr, garmentIcon, type Fabric, type PieceKey, type Pieces, type Tab } from "@/lib/custom-made";
 
@@ -129,7 +129,7 @@ export function Panel(props: {
       <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between border-t border-ivory/10 bg-[#0E0E10] px-4 py-3 md:hidden">
         <div>
           <p className="label-micro text-ivory/55">Total</p>
-          <p className="text-[18px] font-bold tracking-[-0.02em] text-ivory">{formatNpr(total)}</p>
+          <p className="flex items-center gap-[0.3em] text-[18px] font-bold tracking-[-0.02em] text-ivory"><span>Rs.</span><KineticNumber value={total} group play duration={0.9} stagger={0.04} /></p>
         </div>
         <button onClick={onFinish} className={`inline-flex ${finishBtn}`}>Finish</button>
       </div>

@@ -4,10 +4,10 @@
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useEffect } from "react";
-import { EASE_OUT } from "@/components/motion";
+import { EASE_OUT, KineticNumber } from "@/components/motion";
 import { useShortlist } from "@/components/ShortlistProvider";
 import { useLenis } from "@/lib/lenis";
-import { configQuery, formatNpr, lineItems, savedKey, type Fabric, type Pieces } from "@/lib/custom-made";
+import { configQuery, lineItems, savedKey, type Fabric, type Pieces } from "@/lib/custom-made";
 
 export function FinishSheet({ open, onClose, fabric, pieces, total, reduce }: { open: boolean; onClose: () => void; fabric: Fabric; pieces: Pieces; total: number; reduce: boolean }) {
   const { has, toggle } = useShortlist();
@@ -54,10 +54,10 @@ export function FinishSheet({ open, onClose, fabric, pieces, total, reduce }: { 
               </div>
               <ul className="mt-6 divide-y divide-ivory/10 border-y border-ivory/10">
                 {lineItems(fabric, pieces).map((i) => (
-                  <li key={i.label} className="flex justify-between py-3 text-[14px] text-ivory"><span>{i.label}</span><span className="text-ivory/60">{formatNpr(i.price)}</span></li>
+                  <li key={i.label} className="flex justify-between py-3 text-[14px] text-ivory"><span>{i.label}</span><span className="inline-flex items-center gap-[0.3em] text-ivory/60"><span>Rs.</span><KineticNumber value={i.price} group play duration={0.9} stagger={0.04} /></span></li>
                 ))}
               </ul>
-              <p className="mt-5 flex justify-between text-[17px] font-bold tracking-[-0.02em] text-ivory"><span>Total</span><span>{formatNpr(total)}</span></p>
+              <p className="mt-5 flex justify-between text-[17px] font-bold tracking-[-0.02em] text-ivory"><span>Total</span><span className="inline-flex items-center gap-[0.3em]"><span>Rs.</span><KineticNumber value={total} group play duration={1.1} stagger={0.05} /></span></p>
               <p className="mt-2 text-[12px] text-ivory/55">Final price is confirmed at your fitting.</p>
             </div>
 

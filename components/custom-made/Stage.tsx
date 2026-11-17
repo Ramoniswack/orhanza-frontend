@@ -7,7 +7,7 @@
  */
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { EASE_OUT, OdometerNumber } from "@/components/motion";
+import { EASE_OUT, KineticNumber } from "@/components/motion";
 import { DELIVERY_TEXT, MODEL, decodeImage, fabrics, garmentIcon, previewFor, ui, type Fabric, type Stage as StageKind, type Tab } from "@/lib/custom-made";
 
 /** Symmetric ease for every change on this stage (fabric swap, jacket ↔ suit, zoom) so they all move as one. */
@@ -99,7 +99,7 @@ export function Stage({ fabric, stage, total, tab, waistcoat, reduce }: { fabric
         <p className="label-micro text-ivory/55">Total</p>
         <p className="mt-1.5 flex items-baseline gap-1.5 text-[26px] font-bold leading-none tracking-[-0.03em] text-ivory md:text-[34px]">
           <span className="text-[0.42em] font-semibold text-gold">Rs.</span>
-          <OdometerNumber value={total.toLocaleString("en-US")} duration={0.9} />
+          <KineticNumber value={total} group play duration={1} stagger={0.05} />
         </p>
         <p className="mt-2 text-[12px] text-ivory/55">{DELIVERY_TEXT}</p>
       </div>
