@@ -87,15 +87,16 @@ export function Expertise() {
 
       </div>
 
-      {/* 100% — full-bleed band, edge to edge */}
+      {/* 100% — same side margins as the bento above (container-x), so it lines up with the grid */}
+      <div className="container-x mt-12 md:mt-20">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.8 }}
-        className="relative mx-4 mt-12 overflow-hidden rounded-[28px] bg-burgundy text-ivory md:mx-10 md:mt-20 md:rounded-[40px]"
+        className="relative overflow-hidden rounded-[28px] bg-burgundy text-ivory md:rounded-[40px]"
       >
-        <div className="relative z-10 flex flex-col justify-between gap-8 px-8 py-14 sm:px-12 md:flex-row md:items-center md:px-14 md:py-24 lg:px-20 xl:px-28 2xl:px-36">
+        <div className="relative z-10 flex flex-col justify-between gap-8 px-8 py-14 sm:px-12 md:flex-row md:items-center md:px-14 md:py-24 lg:px-20 xl:px-24">
           <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(6rem,15vw,15rem)] font-extrabold tracking-[-0.06em]" />
           <div className="md:max-w-[28rem]">
             <ul className="flex flex-wrap gap-5 text-ivory/70 md:gap-6" aria-hidden>
@@ -108,6 +109,7 @@ export function Expertise() {
         </div>
         <StitchLines className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-3/5 text-ivory/25 md:block" />
       </motion.div>
+      </div>
     </section>
   );
 }

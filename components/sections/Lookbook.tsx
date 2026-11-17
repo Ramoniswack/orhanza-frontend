@@ -319,6 +319,13 @@ export function Lookbook({ initial = "men" }: { initial?: "men" | "women" }) {
         </nav>
         <div className="absolute right-4 top-[76px] z-10 flex items-center gap-2 md:right-8 md:top-[80px] md:gap-3" style={{ color: INK }}>
           <span className="pointer-events-none text-[11px] tracking-[0.18em]" style={{ color: MUTE }}>{String(cur + 1).padStart(2, "0")} / {N}</span>
+          <Link
+            href="/custom-made"
+            className="flex h-9 items-center rounded-full border px-3.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors hover:bg-black hover:text-white md:h-11 md:px-5 md:text-[11px]"
+            style={{ borderColor: "rgba(0,0,0,.25)", color: INK, background: "rgba(255,255,255,.8)" }}
+          >
+            Custom made <span aria-hidden className="ml-1.5">→</span>
+          </Link>
         </div>
         <div className="absolute bottom-5 left-4 z-10 md:bottom-8 md:left-8">
           <button

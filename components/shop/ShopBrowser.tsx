@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { genders, occasions, shopProducts, shopTypes, type Gender, type Occasion, type ShopType } from "@/lib/shop";
 import { ShopCard } from "./ShopCard";
@@ -37,7 +38,8 @@ export function ShopBrowser({ initial }: Props) {
 
   return (
     <>
-      {/* Men / Women */}
+      {/* Men / Women  +  link to the configurator */}
+      <div className="flex items-center justify-between gap-4">
       <div role="tablist" aria-label="Men or women" className="flex items-baseline gap-6 text-[clamp(1.6rem,3vw,2.4rem)] font-bold tracking-[-0.04em]">
         {([{ slug: "all", label: "All" }, ...genders] as const).map((g) => {
           const on = gender === g.slug;
@@ -48,6 +50,8 @@ export function ShopBrowser({ initial }: Props) {
             </button>
           );
         })}
+      </div>
+      <Link href="/custom-made" className="btn btn-outline shrink-0 !px-5 !py-3 text-sm">Custom made <span aria-hidden>→</span></Link>
       </div>
 
       {/* filters */}
