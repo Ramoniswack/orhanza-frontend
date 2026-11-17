@@ -1,18 +1,17 @@
 "use client";
 
-/** 3-column fabric picker. Hover dimming is pure CSS (.cm-grid / .cm-tile in globals.css) — no per-tile state. */
+/** Compact fabric picker: square swatches, name and price beneath. Selected = fine charcoal outline + small check. Arrow keys move focus. */
 import type { KeyboardEvent } from "react";
-import { formatNpr, preload, type Fabric } from "@/lib/custom-made";
+import { formatNpr, preload, previewSrc, type Fabric, type Gender } from "@/lib/custom-made";
 
-const COLS = 3;
-
-export function FabricGrid({ fabrics, selected, onSelect }: { fabrics: Fabric[]; selected: string; onSelect: (slug: string) => void }) {
+export function FabricGrid({ fabrics, selected, gender, onSelect }: { fabrics: Fabric[]; selected: string; gender: Gender; onSelect: (slug: string) => void }) {
   const roving = fabrics.some((f) => f.slug === selected) ? selected : fabrics[0]?.slug;
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
-    const step = e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" ? -COLS : e.key === "ArrowDown" ? COLS : 0;
+    const cols = getComputedStyle(e.currentTarget).gridTemplateColumns.split(" ").length || 3;
+    const step = e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" ? -cols : e.key === "ArrowDown" ? cols : 0;
     if (!step) return;
-    const tiles = Array.from(e.currentTarget.querySelectorAll<HTMLButtonElement>("button.cm-tile"));
+    const tiles = Array.from(e.currentTarget.querySelectorAll<HTMLButtonElement>("button[data-tile]"));
     const i = tiles.indexOf(document.activeElement as HTMLButtonElement);
     const next = tiles[i + step];
     if (i < 0 || !next) return;
@@ -21,29 +20,32 @@ export function FabricGrid({ fabrics, selected, onSelect }: { fabrics: Fabric[];
   }
 
   return (
-    <div role="group" aria-label="Fabrics" onKeyDown={onKeyDown} className="cm-grid grid grid-cols-3 gap-x-2.5 gap-y-5 md:gap-x-4 md:gap-y-7">
+    <div role="group" aria-label="Fabrics" onKeyDown={onKeyDown} className="grid grid-cols-3 gap-x-3 gap-y-6 md:gap-x-4 md:gap-y-7 xl:grid-cols-4">
       {fabrics.map((f, i) => {
         const on = f.slug === selected;
         return (
           <button
             key={f.slug}
+            data-tile
             type="button"
             aria-pressed={on}
             aria-label={`${f.name}, ${formatNpr(f.priceNpr)}`}
             tabIndex={f.slug === roving ? 0 : -1}
             onClick={() => onSelect(f.slug)}
-            onPointerEnter={() => { preload(f.jacketPreview); preload(f.suitPreview); }}
-            className="cm-tile group/t rounded-[6px] text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+            onPointerEnter={() => { preload(previewSrc(f, "jacket", gender)); preload(previewSrc(f, "suit", gender)); }}
+            className="group/t text-left focus-visible:outline-none"
           >
-            <span className={`relative block aspect-[1/1] overflow-hidden rounded-[6px] bg-[#1a1a1c] ring-1 transition-shadow duration-500 ${on ? "ring-2 ring-gold" : "ring-ivory/10 group-hover/t:ring-ivory/30"}`}>
-              <img src={f.thumb} alt="" width={240} height={240} decoding="async" loading={i < 9 ? "eager" : "lazy"} draggable={false} className="h-full w-full object-cover" />
-              {on && <span aria-hidden className="absolute right-2 top-2 block h-3 w-3 rounded-full bg-gold ring-2 ring-charcoal" />}
-              {/* soft-box falloff over the swatch so it reads as cloth under light, not a flat square */}
-              <span aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.14), transparent 45%, rgba(0,0,0,0.22))" }} />
+            <span className={`relative block aspect-square overflow-hidden bg-[#E7E1D6] outline outline-1 outline-offset-[3px] transition-[outline-color] duration-300 group-focus-visible/t:outline-2 group-focus-visible/t:outline-gold ${on ? "outline-ink" : "outline-transparent group-hover/t:outline-ink/30"}`}>
+              <img src={f.thumb} alt="" width={240} height={240} decoding="async" loading={i < 12 ? "eager" : "lazy"} draggable={false} className="h-full w-full object-cover" />
+              {on && (
+                <span aria-hidden className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center bg-ink text-ivory">
+                  <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square"><path d="M2.5 6.3 5 8.8l4.5-5.2" /></svg>
+                </span>
+              )}
             </span>
-            <span className="mt-2 block">
-              <span className="cm-name block truncate text-[13px] font-semibold leading-tight text-ivory">{f.name}</span>
-              <span className="mt-0.5 block text-[12px] text-ivory/50">{formatNpr(f.priceNpr)}</span>
+            <span className="mt-2.5 block">
+              <span className={`block truncate text-[12px] leading-tight md:text-[13px] ${on ? "font-medium text-ink" : "text-ink/80"}`}>{f.name}</span>
+              <span className="mt-0.5 block text-[11px] text-slate md:text-[12px]">{formatNpr(f.priceNpr)}</span>
             </span>
           </button>
         );

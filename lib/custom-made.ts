@@ -15,6 +15,7 @@ export type Fabric = {
 export type PieceKey = "jacket" | "trousers" | "waistcoat";
 export type Pieces = { jacket: true; trousers: boolean; waistcoat: boolean };
 export type Stage = "jacket" | "suit";
+export type Gender = "men" | "women";
 export type Tab = "fabric" | PieceKey;
 
 /* ── PRICES (NPR) ─ PLACEHOLDERS: replace these. ──────────────────────────────────────────────
@@ -35,7 +36,14 @@ export const ui = manifest.ui;
 export const MODEL = { w: 658, h: 2226 } as const;
 
 export const getFabric = (slug: string): Fabric => fabrics.find((f) => f.slug === slug) ?? fabrics[0];
-export const previewFor = (f: Fabric, stage: Stage) => (stage === "suit" ? f.suitPreview : f.jacketPreview);
+/** Men's previews live in /models, women's in /models/women — same file names, same 658×2226 frame (head, shoulders and soles on the same pixels). */
+export const previewSrc = (f: Fabric, stage: Stage, gender: Gender = "men") => {
+  const src = stage === "suit" ? f.suitPreview : f.jacketPreview;
+  return gender === "women" ? src.replace("/models/", "/models/women/") : src;
+};
+export const previewFor = (f: Fabric, stage: Stage, gender: Gender = "men") => previewSrc(f, stage, gender);
+export const parseGender = (s?: string | null): Gender => (s === "women" ? "women" : "men");
+export const genderLabel = (g: Gender) => (g === "women" ? "Women" : "Men");
 
 /** "Rs. 64,000" — en-US grouping on purpose so server and client render identically. */
 export const formatNpr = (n: number) => `Rs. ${n.toLocaleString("en-US")}`;
@@ -53,15 +61,16 @@ export const parsePieces = (s?: string | null): Pieces => {
   const l = (s ?? "").split(",");
   return { jacket: true, trousers: l.includes("trousers"), waistcoat: l.includes("waistcoat") };
 };
-export const configQuery = (slug: string, p: Pieces) => `fabric=${encodeURIComponent(slug)}&pieces=${piecesList(p)}`;
+/** men is the default and stays out of the URL, so every link made before the women's model existed still works. */
+export const configQuery = (slug: string, p: Pieces, gender: Gender = "men") => `fabric=${encodeURIComponent(slug)}&pieces=${piecesList(p)}${gender === "women" ? "&gender=women" : ""}`;
 
 /** Key used in the single saved list (ShortlistProvider): "custom:<fabric>:<pieces joined by +>". */
-export const savedKey = (slug: string, p: Pieces) => `custom:${slug}:${piecesList(p).split(",").join("+")}`;
+export const savedKey = (slug: string, p: Pieces, gender: Gender = "men") => `custom:${slug}:${piecesList(p).split(",").join("+")}${gender === "women" ? ":women" : ""}`;
 export function parseSavedKey(key: string) {
-  const [tag, slug, pcs] = key.split(":");
+  const [tag, slug, pcs, g] = key.split(":");
   if (tag !== "custom" || !slug) return null;
   const fabric = fabrics.find((f) => f.slug === slug);
-  return fabric ? { fabric, pieces: parsePieces((pcs ?? "").split("+").join(",")) } : null;
+  return fabric ? { fabric, pieces: parsePieces((pcs ?? "").split("+").join(",")), gender: parseGender(g) } : null;
 }
 
 /* ── image helpers (client only) ── */

@@ -14,6 +14,10 @@ npm run dev                  # http://localhost:3000
 npm run build && npm start
 ```
 
+## Project structure
+
+The project uses the Next.js App Router: `app/` contains the home page, about, contact, collections, shop, and custom-made routes, plus enquiry and subscription API handlers, shared layout and styles, and sitemap/robots metadata. The custom-made runway has separate Men and Women collections that open the corresponding model looks and link into the suit configurator. `components/` holds reusable site UI and feature-specific components grouped into `about/`, `collection/`, `contact/`, `custom-made/`, `motion/`, `sections/`, and `shop/`; the custom-made area includes the configurator and the three-step fit advisor. `data/` and `lib/` contain collection content, product and site data, the fit-estimation logic in `lib/fit-advisor.ts`, custom-made configuration, saved-item helpers, animation setup, and JSON data. Fit recommendations can be saved with a shortlist item and included with a consultation enquiry. `public/` stores the images, video, frames, and other assets served by the site. `scripts/` and `tools/` contain asset-processing and generation utilities. At the root, `package.json` and `package-lock.json` manage scripts and dependencies, `next.config.ts`, `postcss.config.mjs`, and `tsconfig.json` configure the app and tooling, `.env.example` documents environment variables, `.gitignore` defines ignored files, and `vercel.json` contains deployment configuration.
+
 ## How the hero works (`components/sections/Hero.tsx`)
 
 - `HeroScroll` is a 320svh section containing a `sticky` 100svh viewport.

@@ -10,7 +10,7 @@ import { useShortlist } from "./ShortlistProvider";
 
 /** One saved list — pieces to talk through at your consultation. */
 export function ShortlistDrawer() {
-  const { items, open, setOpen, remove, clear } = useShortlist();
+  const { items, fitProfiles, open, setOpen, remove, clear } = useShortlist();
   const lenis = useLenis();
 
   useEffect(() => {
@@ -62,6 +62,11 @@ export function ShortlistDrawer() {
                         <div>
                           <Link href={p.href} onClick={() => setOpen(false)} className="font-medium hover:underline">{p.name}</Link>
                           <p className="mt-1 text-sm text-slate">Made to measure</p>
+                          {fitProfiles[p.key] && (
+                            <p className="mt-2 text-xs leading-relaxed text-slate">
+                              Fit suggestion: <span className="font-medium text-charcoal">{fitProfiles[p.key].baseSize}</span>
+                            </p>
+                          )}
                         </div>
                         <button onClick={() => remove(p.key)} className="self-start text-sm text-slate underline-offset-4 hover:underline">Remove</button>
                       </div>

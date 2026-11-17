@@ -22,8 +22,6 @@ const MENU: { label: string; href: string; subs?: Sub[] }[] = [
       { label: "How it works", href: "/#book" },
     ],
   },
-  { label: "Men's collection", href: "/collections/men" },
-  { label: "Women's collection", href: "/collections/women" },
 ];
 
 export function MenuDrawer({ open, onClose, reduce = false }: { open: boolean; onClose: () => void; reduce?: boolean }) {

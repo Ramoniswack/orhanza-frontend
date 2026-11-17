@@ -65,12 +65,12 @@ export function CustomCursor() {
         <motion.div
           animate={{ scale: !show ? 0 : down ? 0.8 : hover ? 1.9 : 1, opacity: show ? 1 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 24 }}
-          className="-ml-[18px] -mt-[18px] h-9 w-9 rounded-full border border-white"
+          className="cursor-circle -ml-[18px] -mt-[18px] h-9 w-9 rounded-full border border-white"
           style={{ background: hover && !plain ? "rgba(255,255,255,1)" : "transparent", boxShadow: plain ? "0 0 0 1px rgba(0,0,0,0.35)" : "none" }}
         />
       </motion.div>
       <motion.div style={{ x, y }} className="absolute left-0 top-0">
-        <motion.div animate={{ scale: show && !hover ? 1 : 0 }} transition={{ duration: 0.15 }} className="-ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-white" />
+        <motion.div animate={{ scale: show && !hover ? 1 : 0 }} transition={{ duration: 0.15 }} className="cursor-circle -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-white" />
       </motion.div>
     </div>
   );

@@ -11,9 +11,9 @@
   --color-burgundy: #5B1F27;
   --color-card: #F5F5F5;
   --color-field: #EFEFEF;
-  --font-display: var(--font-jakarta), "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-display);
-  --font-sans: var(--font-display);
+  --font-sans: var(--font-jost), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-serif: var(--font-sans);
   --radius-card: 16px;
 }
 
@@ -30,7 +30,7 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: hidden; }
 
 /* Template heading scale: large, tight, medium weight */
-.h-display { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.045em; line-height: 0.98; }
+.h-display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 0.98; }
 .eyebrow { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; }
 .container-x { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: clamp(20px, 2.8vw, 40px); }
 
@@ -62,8 +62,8 @@ html.has-cursor, html.has-cursor * { cursor: none !important; }
 html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 
 /* Buttons (template: 10px radius, compact, high-contrast) */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; border-radius: 10px; padding: .9rem 1.6rem; font-size: .9rem; font-weight: 500; line-height: 1; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, border-color .3s, opacity .3s; }
-.btn:hover { transform: translateY(-2px); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; border-radius: 0; padding: 1.05rem 2.1rem; font-size: .7rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; line-height: 1; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, border-color .3s, opacity .3s; }
+.btn:hover { transform: none; }
 .btn-light { background: var(--color-ivory); color: var(--color-charcoal); }
 .btn-ghost { border: 1px solid rgb(245 241 232 / .55); color: var(--color-ivory); backdrop-filter: blur(6px); }
 .btn-ghost:hover { background: rgb(245 241 232 / .14); }
@@ -73,16 +73,23 @@ html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 .btn-outline:hover { background: var(--color-charcoal); color: var(--color-ivory); }
 
 /* ── Type scale from the motion spec ── */
-.h-hero { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; font-size: clamp(2.9rem, 7.4vw, 8.25rem); }
-.h-section { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.045em; line-height: 1; font-size: clamp(2.25rem, 5vw, 5.5rem); }
-.h-section-xl { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; font-size: clamp(2.6rem, 7vw, 7.75rem); }
-.h-hero-soft { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.05em; line-height: 0.98; font-size: clamp(2.9rem, 7.4vw, 8.25rem); }
-.h-soft { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.045em; line-height: 1; font-size: clamp(2.1rem, 4.8vw, 5.25rem); }
+.h-hero { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 0.98; font-size: clamp(2.9rem, 7.4vw, 8.25rem); }
+.h-section { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 1; font-size: clamp(2.25rem, 5vw, 5.5rem); }
+.h-section-xl { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 0.98; font-size: clamp(2.6rem, 7vw, 7.75rem); }
+.h-hero-soft { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 0.98; font-size: clamp(2.9rem, 7.4vw, 8.25rem); }
+.h-soft { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 1; font-size: clamp(2.1rem, 4.8vw, 5.25rem); }
 /* type hierarchy — one family (Plus Jakarta Sans): display 700 · h2 700 · h3 600 · body 400 · label 600 caps */
 .label-micro { font-weight: 600; font-size: 0.625rem; letter-spacing: 0.24em; text-transform: uppercase; }
 /* staircase indents shrink on mobile */
 .stair { --stair-scale: 1; }
-@media (max-width: 767px) { .stair { --stair-scale: 0.3; } }
+@media (max-width: 767px) {
+  .stair { --stair-scale: 0.3; }
+  .section-y { padding-block: clamp(4rem, 16vw, 5rem); }
+  .section-gap { margin-top: clamp(1.75rem, 7vw, 3rem); }
+  .container-x { padding-inline: 1.1rem; }
+  .label-micro { letter-spacing: 0.18em; }
+  .btn { padding: 0.9rem 1.35rem; font-size: 0.62rem; letter-spacing: 0.16em; }
+}
 /* faint halftone grain over the hero photo */
 .halftone { background-image: radial-gradient(rgba(0,0,0,.55) 1px, transparent 1.2px); background-size: 4px 4px; mix-blend-mode: multiply; opacity: .28; }
 .hairline { border-color: rgba(0,0,0,0.08); }
@@ -113,3 +120,20 @@ body:has([data-custom-made]) footer { display: none; } /* the page is an app-lik
 .t-h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 4.4vw, 4.25rem); letter-spacing: -0.045em; line-height: 1.02; }
 .t-h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 2vw, 1.875rem); letter-spacing: -0.03em; line-height: 1.15; }
 .t-lead { font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.65; color: var(--color-slate); max-width: 34rem; }
+@media (max-width: 767px) {
+  .t-h2 { font-size: clamp(2rem, 8vw, 2.8rem); letter-spacing: -0.04em; }
+  .t-h3 { font-size: clamp(1.35rem, 5vw, 1.7rem); }
+  .t-lead { font-size: 1rem; max-width: 100%; }
+}
+
+
+/* ───────── Minimal luxury · boxy ─────────
+   One rule for the whole site: no rounded corners anywhere — cards, images, buttons, pills, inputs, the cursor. */
+*, *::before, *::after { border-radius: 0 !important; }
+
+/* One minimal sans. Headlines are light and open (the old bold / tight-tracked styles are overridden here). */
+h1, h2, h3 { font-family: var(--font-sans); font-weight: 400 !important; letter-spacing: -0.01em !important; }
+body { font-weight: 400; }
+
+/* …except the cursor, which is the one deliberate circle on the site. */
+.cursor-circle { border-radius: 9999px !important; }

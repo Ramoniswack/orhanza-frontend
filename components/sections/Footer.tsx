@@ -39,12 +39,12 @@ export function Footer() {
           </motion.p>
         </div>
 
-        <div className="container-x relative z-10 flex flex-wrap items-end justify-between gap-8 border-t hairline bg-white py-8">
-          <form onSubmit={subscribe} className="flex w-full max-w-sm items-end gap-4 border-b border-ink/30 pb-2">
+        <div className="container-x relative z-10 flex flex-col items-stretch justify-between gap-8 border-t hairline bg-white py-8 sm:flex-row sm:items-end">
+          <form onSubmit={subscribe} className="flex w-full max-w-sm flex-col items-stretch gap-3 border-b border-ink/30 pb-2 sm:flex-row sm:items-end">
             <input name="email" type="email" required placeholder="Your email" className="w-full bg-transparent text-base outline-none placeholder:text-mute" />
-            <button disabled={state === "sending"} className="group flex shrink-0 items-center gap-3 text-sm font-semibold">{state === "done" ? "Thank you" : state === "error" ? "Try again" : "Subscribe"}<span className="block h-px w-8 bg-ink transition-all duration-500 group-hover:w-16" /></button>
+            <button disabled={state === "sending"} className="group flex shrink-0 items-center justify-between gap-3 text-sm font-semibold sm:justify-start">{state === "done" ? "Thank you" : state === "error" ? "Try again" : "Subscribe"}<span className="block h-px w-8 bg-ink transition-all duration-500 group-hover:w-16" /></button>
           </form>
-          <ul className="flex gap-6 text-sm">
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <li><Link href="/shop" className="hover:underline">Shop</Link></li>
             <li><Link href="/collections" className="hover:underline">Collections</Link></li>
             <li><a href={site.instagram} target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</a></li>
@@ -52,7 +52,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="container-x flex items-center justify-between gap-4 bg-white py-4 text-[11px] text-slate">
+        <div className="container-x flex flex-col items-start justify-between gap-2 bg-white py-4 text-[11px] text-slate sm:flex-row sm:items-center">
           <span className="flex items-center gap-2">
             <svg viewBox="0 0 24 24" className="h-3 w-3 fill-gold" aria-hidden><rect x="5" y="5" width="14" height="14" /><rect x="5" y="5" width="14" height="14" transform="rotate(45 12 12)" /></svg>
             © {new Date().getFullYear()} Orhanza. All rights reserved.

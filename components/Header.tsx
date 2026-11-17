@@ -7,15 +7,23 @@ import { useEffect, useState } from "react";
 import { useLenis } from "@/lib/lenis";
 import { useShortlist } from "./ShortlistProvider";
 
-// The two collections are the headline of the menu (pills, listed first); Shop is a plain link so it never outshines them.
-const links: { href: string; label: string; featured?: boolean }[] = [
-  { href: "/collections/men", label: "Men's collection", featured: true },
-  { href: "/collections/women", label: "Women's collection", featured: true },
+const links: { href: string; label: string }[] = [
   { href: "/shop", label: "Shop" },
+  { href: "/try-on", label: "Try On" },
   { href: "/custom-made", label: "Custom Made" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
+
+/** Thin-line bookmark with a small gold spark — reads as "saved pieces", fills in when the list has items. */
+function ShortlistIcon({ filled = false }: { filled?: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-[19px] w-[19px]" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinejoin="miter" strokeLinecap="square" aria-hidden="true">
+      <path d="M6.5 3.5h11v17L12 16.2 6.5 20.5v-17z" fill={filled ? "currentColor" : "none"} className="transition-[fill] duration-500" />
+      {!filled && <path d="M12 7.6v3.6M10.2 9.4h3.6" stroke="var(--color-gold)" strokeWidth="1.1" />}
+    </svg>
+  );
+}
 
 /** Full-width bar. On the home page it is transparent while the hero is on screen, then turns solid once you scroll past it. */
 export function Header() {
@@ -44,31 +52,43 @@ export function Header() {
     <>
       <header className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter] duration-500 text-ivory ${clear ? "bg-transparent" : "bg-[#1A1A1A]"}`}>
         <div className="container-x flex h-16 items-center justify-between text-[15px]">
-          <Link href="/" aria-label="Orhanza — home" className="text-[17px] font-extrabold tracking-[0.5em]">
-            O R H A N Z A<sup className="ml-1 text-[10px] tracking-normal">®</sup>
+          <Link
+            href="/"
+            aria-label="Orhanza — home"
+            className="text-base font-semibold italic tracking-[0.1em] sm:text-xl"
+            style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+          >
+            ORHANZA<sup className="ml-1 text-[9px] tracking-normal sm:text-[10px]">®</sup>
           </Link>
 
-          <motion.nav {...fade(0.3)} className="hidden items-center gap-5 text-[14px] lg:flex xl:gap-9 xl:text-[15px]" aria-label="Primary">
+          <motion.nav {...fade(0.3)} className="hidden items-center gap-6 text-[12px] font-semibold uppercase tracking-[0.12em] lg:flex xl:gap-9" aria-label="Primary">
             {links.map((l) => (
-              l.featured ? (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  aria-current={pathname.startsWith(l.href) ? "page" : undefined}
-                  className={`rounded-full border px-4 py-1.5 font-display font-semibold tracking-[-0.01em] transition-colors duration-300 ${pathname.startsWith(l.href) ? "border-gold bg-gold text-charcoal" : "border-ivory/45 hover:border-gold hover:bg-gold hover:text-charcoal"}`}
-                >{l.label}</Link>
-              ) : (
-                <Link key={l.href} href={l.href} aria-current={pathname === l.href ? "page" : undefined} className={`font-display font-medium tracking-[-0.01em] transition-opacity hover:opacity-100 ${pathname === l.href ? "opacity-100" : "opacity-70"}`}>{l.label}</Link>
-              )
+              <Link key={l.href} href={l.href} aria-current={pathname === l.href ? "page" : undefined} className={`transition-opacity hover:opacity-100 ${pathname === l.href ? "opacity-100" : "opacity-75"}`}>{l.label}</Link>
             ))}
-            <button onClick={() => show()} className="font-display font-semibold tracking-[-0.01em] transition-opacity hover:opacity-60">
-              Shortlist{items.length > 0 && <span className="ml-1.5 rounded-full bg-gold px-2 py-0.5 text-[11px] text-charcoal">{items.length}</span>}
+            <button
+              onClick={() => show()}
+              aria-label={`Open shortlist, ${items.length} items`}
+              title="Shortlist"
+              className="group relative grid h-10 w-10 place-items-center border border-white/25 transition-[border-color,background-color,color] duration-500 hover:border-gold hover:bg-gold hover:text-charcoal"
+            >
+              <ShortlistIcon filled={items.length > 0} />
+              {items.length > 0 && (
+                <motion.span
+                  key={items.length}
+                  initial={{ scale: 0.6, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute -right-2 -top-2 grid h-[18px] min-w-[18px] place-items-center bg-gold px-1 text-[10px] font-semibold leading-none tracking-normal text-charcoal"
+                >
+                  {items.length}
+                </motion.span>
+              )}
             </button>
           </motion.nav>
 
-          <button className="-mr-2 flex h-11 w-11 flex-col items-center justify-center lg:hidden" onClick={() => setMenu((v) => !v)} aria-expanded={menu} aria-label={menu ? "Close menu" : "Open menu"}>
-            <span className={`block h-px w-7 bg-current transition-transform duration-300 ${menu ? "translate-y-[4.5px] rotate-45" : ""}`} />
-            <span className={`mt-2 block h-px w-7 bg-current transition-transform duration-300 ${menu ? "-translate-y-[4.5px] -rotate-45" : ""}`} />
+          <button className="-mr-2 flex h-10 w-10 flex-col items-center justify-center lg:hidden" onClick={() => setMenu((v) => !v)} aria-expanded={menu} aria-label={menu ? "Close menu" : "Open menu"}>
+            <span className={`block h-px w-6 bg-current transition-transform duration-300 ${menu ? "translate-y-[4.5px] rotate-45" : ""}`} />
+            <span className={`mt-2 block h-px w-6 bg-current transition-transform duration-300 ${menu ? "-translate-y-[4.5px] -rotate-45" : ""}`} />
           </button>
         </div>
       </header>
@@ -83,9 +103,12 @@ export function Header() {
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
             {links.map((l) => (
-              <Link key={l.href} href={l.href} onClick={() => setMenu(false)} className={`h-section ${l.featured ? "text-gold" : "opacity-60"}`}>{l.label}</Link>
+              <Link key={l.href} href={l.href} onClick={() => setMenu(false)} className="h-section opacity-80">{l.label}</Link>
             ))}
-            <button className="h-section text-left" onClick={() => { setMenu(false); show(); }}>Shortlist ({items.length})</button>
+            <button className="flex items-center gap-3 text-left h-section" aria-label={`Open shortlist, ${items.length} items`} onClick={() => { setMenu(false); show(); }}>
+              <ShortlistIcon filled={items.length > 0} />
+              <span>Shortlist ({items.length})</span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

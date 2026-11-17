@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Jost } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/sections/Footer";
 import { Shell } from "@/components/Shell";
 import { site } from "@/lib/site";
 
-const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-jakarta", display: "swap" });
+// One typeface for the whole site: Jost — a quiet, geometric, minimal sans (the fashion-house look). Headlines are the same face, just light.
+const jost = Jost({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"], variable: "--font-jost", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -39,7 +40,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={jakarta.variable}>
+    <html lang="en" className={jost.variable}>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Shell>

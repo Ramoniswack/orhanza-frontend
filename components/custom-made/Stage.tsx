@@ -1,14 +1,13 @@
 "use client";
 
 /**
- * Left half: a lit studio. The model sits on a soft-box backdrop with a floor reflection; one wrapper zooms (jacket crop ↔ full suit)
+ * The preview: one suit on a quiet warm-white studio. One wrapper zooms (jacket crop ↔ full suit)
  * and inside it stacked layers crossfade on a shared full-height image frame. Every preview is the same 658×2226 canvas with the head,
  * shoulders and shoes on the same pixels, so a swap changes only the cloth (or adds the trousers) and nothing else moves.
  */
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { EASE_OUT, KineticNumber } from "@/components/motion";
-import { DELIVERY_TEXT, MODEL, decodeImage, fabrics, garmentIcon, previewFor, ui, type Fabric, type Stage as StageKind, type Tab } from "@/lib/custom-made";
+import { MODEL, decodeImage, fabrics, previewFor, previewSrc, ui, type Fabric, type Gender, type Stage as StageKind } from "@/lib/custom-made";
 
 /** Symmetric ease for every change on this stage (fabric swap, jacket ↔ suit, zoom) so they all move as one. */
 const SOFT = [0.45, 0, 0.2, 1] as const;
@@ -50,12 +49,11 @@ function useCrossfade(src: string, kind: StageKind, reduce: boolean) {
 }
 
 /** Warm the cache: current stage first, then the rest, one at a time while the browser is idle — a swap never waits for the network. */
-function useWarmPreviews(kind: StageKind) {
+function useWarmPreviews(kind: StageKind, gender: Gender) {
   useEffect(() => {
     let stop = false;
-    const first = kind === "jacket" ? "jacketPreview" : "suitPreview";
-    const second = kind === "jacket" ? "suitPreview" : "jacketPreview";
-    const queue = [...fabrics.map((f) => f[first]), ...fabrics.map((f) => f[second])];
+    const other: StageKind = kind === "jacket" ? "suit" : "jacket";
+    const queue = [...fabrics.map((f) => previewSrc(f, kind, gender)), ...fabrics.map((f) => previewSrc(f, other, gender))];
     const idle = (cb: () => void) => ("requestIdleCallback" in window ? (window as unknown as { requestIdleCallback: (c: () => void) => void }).requestIdleCallback(cb) : setTimeout(cb, 120));
     const next = () => {
       if (stop) return;
@@ -65,57 +63,31 @@ function useWarmPreviews(kind: StageKind) {
     };
     idle(next);
     return () => { stop = true; };
-  }, [kind]);
+  }, [kind, gender]);
 }
 
-export function Stage({ fabric, stage, total, tab, waistcoat, reduce }: { fabric: Fabric; stage: StageKind; total: number; tab: Tab; waistcoat: boolean; reduce: boolean }) {
-  const { layers, drop, shownKind } = useCrossfade(previewFor(fabric, stage), stage, reduce);
-  useWarmPreviews(stage);
+export function Stage({ fabric, stage, gender, waistcoat, reduce }: { fabric: Fabric; stage: StageKind; gender: Gender; waistcoat: boolean; reduce: boolean }) {
+  const { layers, drop, shownKind } = useCrossfade(previewFor(fabric, stage, gender), stage, reduce);
+  useWarmPreviews(stage, gender);
   const zoom = shownKind === "jacket" ? { scale: 1.28, y: "6%" } : { scale: 1, y: "0%" };
-  const icon = garmentIcon[tab === "fabric" ? "jacket" : tab];
-  // pointer-driven key light (0..1 across the stage), smoothed so it glides
-  const box = useRef<HTMLDivElement>(null);
-  const lx = useMotionValue(0.32), ly = useMotionValue(0.28);
-  const sx = useSpring(lx, { stiffness: 60, damping: 18, mass: 0.6 });
-  const sy = useSpring(ly, { stiffness: 60, damping: 18, mass: 0.6 });
-  const spot = useTransform([sx, sy], ([x, y]: number[]) => `radial-gradient(60% 55% at ${x * 100}% ${Math.max(18, y * 60)}%, rgba(237,229,214,0.20), rgba(237,229,214,0.05) 45%, transparent 72%)`);
-  const onMove = (e: React.PointerEvent) => {
-    if (reduce || e.pointerType === "touch") return;
-    const r = box.current?.getBoundingClientRect();
-    if (!r) return;
-    lx.set(Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)));
-    ly.set(Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)));
-  };
 
   return (
-    <div ref={box} onPointerMove={onMove} className="relative h-full w-full overflow-hidden bg-[#121214]">
-      {/* studio: soft-box falloff, floor sweep, vignette */}
-      <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(75% 70% at 50% 34%, #3a3a3e 0%, #232326 46%, #121214 100%)" }} />
-      <motion.div aria-hidden className="absolute inset-0 mix-blend-screen" style={{ background: reduce ? "radial-gradient(60% 55% at 32% 22%, rgba(237,229,214,0.18), transparent 70%)" : spot }} />
-      <div aria-hidden className="absolute inset-x-0 bottom-0 h-[16%]" style={{ background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.55))" }} />
-      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ boxShadow: "inset 0 0 160px 30px rgba(0,0,0,0.55)" }} />
-
-      <div className="absolute left-5 top-5 z-10 md:left-8 md:top-8">
-        <p className="label-micro text-ivory/55">Total</p>
-        <p className="mt-1.5 flex items-baseline gap-1.5 text-[26px] font-bold leading-none tracking-[-0.03em] text-ivory md:text-[34px]">
-          <span className="text-[0.42em] font-semibold text-gold">Rs.</span>
-          <KineticNumber value={total} group play duration={1} stagger={0.05} />
-        </p>
-        <p className="mt-2 text-[12px] text-ivory/55">{DELIVERY_TEXT}</p>
-      </div>
+    <div className="relative h-full w-full overflow-hidden bg-[#F1EDE5]">
+      {/* warm-white sweep, lighter behind the figure; nothing else on the stage */}
+      <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(70% 62% at 50% 36%, #FCFAF6 0%, #F3EFE8 58%, #E9E3D8 100%)" }} />
 
       {/* model — same canvas always; only the wrapper moves */}
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div
           role="img"
-          aria-label={`Suit in ${fabric.name}`}
+          aria-label={`${gender === "women" ? "Women's" : "Men's"} suit in ${fabric.name}`}
           className="relative h-[88%]"
           style={{ aspectRatio: `${MODEL.w} / ${MODEL.h}`, transformOrigin: "50% 20%" }}
           initial={false}
           animate={zoom}
           transition={{ duration: reduce ? 0 : 0.9, ease: SOFT }}
         >
-          <img src={ui.groundShadow} alt="" width={700} height={90} decoding="async" draggable={false} className="pointer-events-none absolute left-1/2 top-[95%] w-[230%] max-w-none -translate-x-1/2 opacity-80" />
+          <img src={ui.groundShadow} alt="" width={700} height={90} decoding="async" draggable={false} className="pointer-events-none absolute left-1/2 top-[95%] w-[230%] max-w-none -translate-x-1/2 opacity-40" />
           {layers.map((l) => (
             <motion.img
               key={l.id}
@@ -136,14 +108,11 @@ export function Stage({ fabric, stage, total, tab, waistcoat, reduce }: { fabric
         </motion.div>
       </div>
 
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.07] mix-blend-overlay" style={{ backgroundImage: `url(${ui.grain})`, backgroundSize: "256px 256px" }} />
-
-      {waistcoat && <span className="cm-fade absolute bottom-5 left-5 z-10 rounded-full border border-ivory/20 bg-black/40 px-3 py-1.5 text-[12px] font-semibold text-ivory backdrop-blur md:bottom-8 md:left-8">Waistcoat added</span>}
-
-      <div className="absolute bottom-5 right-5 z-10 h-16 w-16 overflow-hidden rounded-[6px] border border-ivory/15 bg-black/30 backdrop-blur md:bottom-8 md:right-8" aria-hidden>
-        <AnimatePresence initial={false}>
-          <motion.img key={icon} src={icon} alt="" width={40} height={40} className="absolute inset-3 h-10 w-10 invert" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduce ? 0.15 : 0.3, ease: EASE_OUT }} />
-        </AnimatePresence>
+      {/* one quiet caption: the cloth you are looking at (truthful about the waistcoat, which has no preview image) */}
+      <div className="pointer-events-none absolute bottom-4 left-5 z-10 md:bottom-8 md:left-8" aria-live="polite">
+        <p className="label-micro text-slate">{fabric.category}</p>
+        <p className="mt-1 text-[15px] font-medium text-ink md:text-[17px]">{fabric.name}</p>
+        {waistcoat && <p className="cm-fade mt-1 text-[12px] text-slate">Waistcoat added — not shown in the preview</p>}
       </div>
     </div>
   );

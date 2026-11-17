@@ -3,6 +3,7 @@
 /** The consultation enquiry form — shared by the home page booking section and the /contact page. Posts to /api/enquiry. */
 import { AnimatePresence, motion } from "motion/react";
 import { useState, type FormEvent } from "react";
+import { formatFitRecommendation } from "@/lib/fit-advisor";
 import { resolveSaved } from "@/lib/saved";
 import { useShortlist } from "./ShortlistProvider";
 
@@ -10,9 +11,20 @@ const serviceOptions = ["Suit", "Shirt", "Coat-pant", "Wedding wear", "Fabric co
 const field = "w-full rounded-[10px] border border-transparent bg-field px-4 py-3 text-[0.95rem] outline-none transition-colors placeholder:text-charcoal/40 focus:border-gold focus:bg-white";
 
 export function EnquiryForm() {
-  const { items } = useShortlist();
+  const { items, fitProfiles, pendingFitProfile, setPendingFitProfile } = useShortlist();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const shortlisted = items.map((s) => resolveSaved(s)?.name).filter(Boolean) as string[];
+  const fitProfileEnquiries = items.flatMap((key) => {
+    const profile = fitProfiles[key];
+    if (!profile) return [];
+    return [{ item: resolveSaved(key)?.name ?? "Shortlisted item", recommendation: formatFitRecommendation(profile) }];
+  });
+  if (pendingFitProfile) {
+    const recommendation = formatFitRecommendation(pendingFitProfile);
+    if (!fitProfileEnquiries.some((entry) => entry.recommendation === recommendation)) {
+      fitProfileEnquiries.push({ item: "Current fitting request", recommendation });
+    }
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,10 +35,11 @@ export function EnquiryForm() {
       const res = await fetch("/api/enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, shortlist: shortlisted }),
+        body: JSON.stringify({ ...data, shortlist: shortlisted, fitProfiles: fitProfileEnquiries }),
       });
       if (!res.ok) throw new Error();
       setStatus("sent");
+      setPendingFitProfile(null);
       form.reset();
     } catch {
       setStatus("error");
@@ -59,6 +72,12 @@ export function EnquiryForm() {
               <p className="rounded-[10px] bg-field px-4 py-3 text-sm text-slate">
                 <span className="font-medium text-charcoal">From your shortlist:</span> {shortlisted.join(", ")}
               </p>
+            )}
+            {fitProfileEnquiries.length > 0 && (
+              <div className="space-y-2 rounded-[10px] bg-field px-4 py-3 text-sm text-slate">
+                <p className="font-medium text-charcoal">Fit profile for your tailor</p>
+                {fitProfileEnquiries.map((entry) => <p key={`${entry.item}:${entry.recommendation}`} className="leading-relaxed">{entry.item}: {entry.recommendation.split("\n")[0]}</p>)}
+              </div>
             )}
             <label className="block text-sm font-medium">Message<textarea name="message" rows={4} placeholder="Tell us about the occasion, the look and your date" className={`${field} mt-1.5 resize-y`} /></label>
             <button disabled={status === "sending"} className="btn btn-burgundy w-full disabled:opacity-60 sm:w-auto">{status === "sending" ? "Sending…" : "Book a Consultation"}</button>

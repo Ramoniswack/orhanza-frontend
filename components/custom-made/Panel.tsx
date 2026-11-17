@@ -1,44 +1,40 @@
 "use client";
 
-/** Right half: sticky tab row + Finish, then the tab content. On desktop it is the scroller (scoped Lenis); on mobile it is part of the page. */
+/**
+ * Configuration column, one calm scroll: Fabric → Pieces → total + Finish.
+ * On desktop it is the scroller (scoped Lenis) with the total/Finish bar pinned to its bottom; on mobile it flows under the
+ * preview and the same bar is fixed to the bottom of the screen (safe-area aware).
+ */
 import Lenis from "lenis";
 import { cancelFrame, frame } from "motion";
-import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { EASE_OUT, KineticNumber } from "@/components/motion";
+import { KineticNumber } from "@/components/motion";
 import { FabricGrid } from "./FabricGrid";
-import { PIECE_PRICE, categories, formatNpr, garmentIcon, type Fabric, type PieceKey, type Pieces, type Tab } from "@/lib/custom-made";
+import { DELIVERY_TEXT, PIECE_PRICE, categories, formatNpr, genderLabel, getFabric, type Fabric, type Gender, type PieceKey, type Pieces } from "@/lib/custom-made";
 
-const TABS: { key: Tab; label: string }[] = [
-  { key: "fabric", label: "Fabric" },
-  { key: "jacket", label: "Jacket" },
-  { key: "trousers", label: "Trousers" },
-  { key: "waistcoat", label: "Waistcoat" },
+const PIECES: { key: PieceKey; title: string; text: string }[] = [
+  { key: "jacket", title: "Jacket", text: "Cut and canvassed to your measures. Lapel, buttons and lining are settled with your tailor at the fitting." },
+  { key: "trousers", title: "Trousers", text: "Matching trousers in the same cloth. Adding them shows the full suit on the model." },
+  { key: "waistcoat", title: "Waistcoat", text: "A matching waistcoat for a three-piece. The preview image is coming; the price is already in your total." },
 ];
 
-const COPY: Record<PieceKey, { title: string; text: string }> = {
-  jacket: { title: "Jacket", text: "Cut and canvassed to your measures. Lapel, buttons and lining are settled with your tailor at the fitting." },
-  trousers: { title: "Trousers", text: "Matching trousers in the same cloth. Adding them shows the full suit on the model." },
-  waistcoat: { title: "Waistcoat", text: "A matching waistcoat for a three-piece. The preview image is coming; the price is already in your total." },
-};
-
 const Icon = ({ d }: { d: string }) => (
-  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={d} /></svg>
+  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" aria-hidden><path d={d} /></svg>
 );
 
 export function Panel(props: {
-  tab: Tab; setTab: (t: Tab) => void;
   fabrics: Fabric[]; total: number; selected: string; onSelect: (slug: string) => void;
+  gender: Gender; onGender: (g: Gender) => void;
   query: string; setQuery: (q: string) => void; category: string | null; setCategory: (c: string | null) => void;
   pieces: Pieces; onTogglePiece: (k: "trousers" | "waistcoat") => void;
   onFinish: () => void; reduce: boolean;
 }) {
-  const { tab, setTab, fabrics, total, selected, onSelect, query, setQuery, category, setCategory, pieces, onTogglePiece, onFinish, reduce } = props;
+  const { fabrics, total, selected, onSelect, gender, onGender, query, setQuery, category, setCategory, pieces, onTogglePiece, onFinish } = props;
   const scroller = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
-  const lenisRef = useRef<Lenis | null>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const current = getFabric(selected);
 
   // Scoped Lenis: desktop only, not for reduced motion. Same feel as the global instance in lib/lenis.tsx.
   useEffect(() => {
@@ -46,21 +42,21 @@ export function Panel(props: {
     if (!wrapper || !content) return;
     const desk = window.matchMedia("(min-width: 768px)");
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let lenis: Lenis | null = null;
     let update: ((d: { timestamp: number }) => void) | null = null;
-
     const stop = () => {
       if (update) cancelFrame(update);
       update = null;
-      lenisRef.current?.destroy();
-      lenisRef.current = null;
+      lenis?.destroy();
+      lenis = null;
     };
     const sync = () => {
       stop();
       // The panel only opts out of the global Lenis while it is itself the scroller (desktop).
       if (desk.matches) wrapper.setAttribute("data-lenis-prevent", ""); else wrapper.removeAttribute("data-lenis-prevent");
       if (!desk.matches || calm.matches) return;
-      const l = new Lenis({ wrapper, content, lerp: 0.055, wheelMultiplier: 0.85, smoothWheel: true });
-      lenisRef.current = l;
+      const l = new Lenis({ wrapper, content, lerp: 0.07, wheelMultiplier: 0.85, smoothWheel: true });
+      lenis = l;
       update = (d) => l.raf(d.timestamp);
       frame.update(update, true);
     };
@@ -70,89 +66,100 @@ export function Panel(props: {
     return () => { desk.removeEventListener("change", sync); calm.removeEventListener("change", sync); stop(); };
   }, []);
 
-  const toTop = () => {
-    if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true, force: true });
-    else if (scroller.current) scroller.current.scrollTop = 0;
-  };
-  const changeTab = (t: Tab) => { if (t !== tab) { setTab(t); toTop(); } };
-
-  const finishBtn = "h-10 items-center rounded-full bg-ivory px-6 text-[13px] font-semibold text-charcoal transition-colors duration-300 hover:bg-gold";
+  const label = "text-[10px] font-medium uppercase tracking-[0.24em] text-slate";
+  const iconBtn = "flex h-9 w-9 items-center justify-center text-ink transition-colors duration-300 hover:bg-ink/5 aria-pressed:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
   return (
-    <div ref={scroller} className="relative bg-[#0E0E10] text-ivory md:h-full md:overflow-y-auto md:overscroll-contain">
-      <div ref={inner} className="pb-28 md:pb-12">
-        <div className="sticky top-[calc(4rem+46svh)] z-20 border-b border-ivory/10 bg-[#0E0E10] md:top-0">
-          <div role="tablist" aria-label="Customise" className="flex items-center px-4 md:px-8">
-            {TABS.map((t) => (
-              <button key={t.key} role="tab" aria-selected={tab === t.key} onClick={() => changeTab(t.key)} className={`relative h-14 pr-5 text-[13px] font-semibold transition-colors duration-300 md:pr-7 ${tab === t.key ? "text-ivory" : "text-ivory/50 hover:text-ivory"}`}>
-                {t.label}
-                {tab === t.key && <motion.span layoutId="cm-tab-underline" aria-hidden className="absolute bottom-0 left-0 right-5 h-[2px] bg-gold md:right-7" transition={{ duration: reduce ? 0.15 : 0.45, ease: EASE_OUT }} />}
-              </button>
+    <div ref={scroller} className="relative bg-[#FAF8F4] text-ink md:h-full md:overflow-y-auto md:overscroll-contain">
+      <div ref={inner}>
+        <div className="px-5 pb-36 pt-9 md:px-10 md:pb-10 md:pt-14">
+          {/* Men / Women — one page, one model at a time */}
+          <div role="group" aria-label="Try on for" className="mb-9 flex items-center gap-7 md:mb-11">
+            {(["men", "women"] as Gender[]).map((g) => (
+              <button key={g} type="button" aria-pressed={gender === g} onClick={() => onGender(g)} className={`border-b pb-1 text-[12px] font-medium uppercase tracking-[0.22em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold ${gender === g ? "border-ink text-ink" : "border-transparent text-slate hover:text-ink"}`}>{genderLabel(g)}</button>
             ))}
-            <button onClick={onFinish} className={`ml-auto hidden md:inline-flex ${finishBtn}`}>Finish</button>
+          </div>
+
+          {/* 1 — Fabric */}
+          <section aria-labelledby="cm-fabric-h">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <h2 id="cm-fabric-h" className={label}>Fabric</h2>
+                <p className="mt-3 text-[26px] font-light leading-none tracking-[-0.02em] md:text-[32px]" aria-live="polite">{current.name}</p>
+                <p className="mt-2 text-[13px] text-slate">{current.category} · Cloth {formatNpr(current.priceNpr)}</p>
+              </div>
+              <div className="-mr-2 flex shrink-0 items-center">
+                <button type="button" aria-label="Search fabrics" aria-pressed={showSearch} onClick={() => setShowSearch((v) => !v)} className={iconBtn}><Icon d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4" /></button>
+                <button type="button" aria-label="Filter fabrics by category" aria-pressed={showFilter} onClick={() => setShowFilter((v) => !v)} className={iconBtn}><Icon d="M4 7h16M7 12h10M10 17h4" /></button>
+              </div>
+            </div>
+
+            {showSearch && (
+              <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search fabrics" aria-label="Search fabrics" className="cm-fade mt-5 h-10 w-full border-0 border-b border-ink/25 bg-transparent px-0 text-[14px] text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-ink" />
+            )}
+            {showFilter && (
+              <div className="cm-fade mt-5 flex flex-wrap gap-x-5 gap-y-2" role="group" aria-label="Category">
+                {[null, ...categories].map((c) => (
+                  <button key={c ?? "all"} type="button" aria-pressed={category === c} onClick={() => setCategory(c)} className={`border-b pb-0.5 text-[12px] transition-colors duration-300 ${category === c ? "border-ink text-ink" : "border-transparent text-slate hover:text-ink"}`}>{c ?? "All"}</button>
+                ))}
+              </div>
+            )}
+
+            <div key={`${category}|${query}`} className="cm-fade mt-7">
+              {fabrics.length ? <FabricGrid fabrics={fabrics} selected={selected} gender={gender} onSelect={onSelect} /> : <p className="py-14 text-center text-[13px] text-slate">No fabrics match. Try another word or category.</p>}
+              <p className="sr-only" aria-live="polite">{fabrics.length} {fabrics.length === 1 ? "fabric" : "fabrics"} shown</p>
+            </div>
+          </section>
+
+          {/* 2 — Pieces */}
+          <section aria-labelledby="cm-pieces-h" className="mt-14 md:mt-16">
+            <h2 id="cm-pieces-h" className={label}>Pieces</h2>
+            <ul className="mt-4 border-t border-ink/12">
+              {PIECES.map((p) => {
+                const required = p.key === "jacket";
+                const on = required ? true : pieces[p.key as "trousers" | "waistcoat"];
+                return (
+                  <li key={p.key} className="flex items-start gap-4 border-b border-ink/12 py-5">
+                    <span aria-hidden className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center border transition-colors duration-300 ${on ? "border-ink bg-ink text-ivory" : "border-ink/35"}`}>
+                      {on && <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square"><path d="M2.5 6.3 5 8.8l4.5-5.2" /></svg>}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[15px] font-medium">{p.title}</p>
+                      <p className="mt-1 max-w-sm text-[13px] leading-relaxed text-slate">{p.text}</p>
+                      <p className="mt-2 text-[12px] text-ink/70">{required ? "Included" : `+ ${formatNpr(PIECE_PRICE[p.key])}`}</p>
+                    </div>
+                    {required ? (
+                      <span className="mt-0.5 shrink-0 text-[11px] uppercase tracking-[0.18em] text-slate">Included</span>
+                    ) : (
+                      <button
+                        type="button"
+                        aria-pressed={on}
+                        aria-label={`${on ? "Remove" : "Add"} ${p.title.toLowerCase()}`}
+                        onClick={() => onTogglePiece(p.key as "trousers" | "waistcoat")}
+                        className={`mt-0.5 h-9 shrink-0 border px-5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${on ? "border-ink bg-ink text-ivory hover:bg-transparent hover:text-ink" : "border-ink/40 text-ink hover:border-ink hover:bg-ink hover:text-ivory"}`}
+                      >
+                        {on ? "Remove" : "Add"}
+                      </button>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        </div>
+
+        {/* 3 — total + Finish: pinned to the bottom of this column on desktop, fixed to the screen on mobile */}
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/12 bg-[#FAF8F4] px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 md:sticky md:inset-x-auto md:px-10 md:pb-5 md:pt-4">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-slate">Total</p>
+              <p className="mt-1 flex items-center gap-[0.3em] text-[17px] font-medium tracking-[-0.01em]"><span className="text-slate">Rs.</span><KineticNumber value={total} group play duration={0.8} stagger={0.04} /></p>
+              <p className="mt-0.5 hidden text-[11px] text-slate md:block">{DELIVERY_TEXT}</p>
+            </div>
+            <button type="button" onClick={onFinish} className="h-11 bg-ink px-8 text-[11px] font-medium uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:bg-gold hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">Finish</button>
           </div>
         </div>
-
-        <div key={tab} className="cm-fade px-4 pt-4 md:px-8 md:pt-5">
-          {tab === "fabric" ? (
-            <>
-              <div className="flex items-center justify-between text-ivory">
-                <button type="button" aria-label="Search fabrics" aria-pressed={showSearch} onClick={() => setShowSearch((v) => !v)} className="-ml-2 flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-300 hover:bg-ivory/10">
-                  <Icon d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4" />
-                </button>
-                <p className="text-[13px] text-ivory/55" aria-live="polite">{fabrics.length} {fabrics.length === 1 ? "fabric" : "fabrics"}</p>
-                <button type="button" aria-label="Filter fabrics" aria-pressed={showFilter} onClick={() => setShowFilter((v) => !v)} className="-mr-2 flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-300 hover:bg-ivory/10">
-                  <Icon d="M4 7h16M7 12h10M10 17h4" />
-                </button>
-              </div>
-              {showSearch && (
-                <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search fabrics" aria-label="Search fabrics" className="cm-fade mt-2 h-10 w-full rounded-[6px] border border-ivory/15 bg-white/[0.04] px-3 text-[13px] text-ivory outline-none transition-colors placeholder:text-ivory/35 focus:border-gold" />
-              )}
-              {showFilter && (
-                <div className="cm-fade mt-3 flex flex-wrap gap-2" role="group" aria-label="Category">
-                  {[null, ...categories].map((c) => (
-                    <button key={c ?? "all"} type="button" aria-pressed={category === c} onClick={() => setCategory(c)} className={`rounded-full border px-3 py-1 text-[12px] font-medium transition-colors duration-300 ${category === c ? "border-gold bg-gold text-charcoal" : "border-ivory/20 text-ivory hover:border-gold"}`}>{c ?? "All"}</button>
-                  ))}
-                </div>
-              )}
-              <div key={`${category}|${query}`} className="cm-fade mt-5">
-                {fabrics.length ? <FabricGrid fabrics={fabrics} selected={selected} onSelect={onSelect} /> : <p className="py-16 text-center text-[13px] text-ivory/55">No fabrics match. Try another word or category.</p>}
-              </div>
-            </>
-          ) : (
-            <PieceCard piece={tab} on={tab === "jacket" ? true : pieces[tab]} onToggle={() => tab !== "jacket" && onTogglePiece(tab)} />
-          )}
-        </div>
       </div>
-
-      {/* mobile: Finish becomes a fixed bottom bar with the total */}
-      <div className="fixed inset-x-0 bottom-0 z-30 flex items-center justify-between border-t border-ivory/10 bg-[#0E0E10] px-4 py-3 md:hidden">
-        <div>
-          <p className="label-micro text-ivory/55">Total</p>
-          <p className="flex items-center gap-[0.3em] text-[18px] font-bold tracking-[-0.02em] text-ivory"><span>Rs.</span><KineticNumber value={total} group play duration={0.9} stagger={0.04} /></p>
-        </div>
-        <button onClick={onFinish} className={`inline-flex ${finishBtn}`}>Finish</button>
-      </div>
-    </div>
-  );
-}
-
-function PieceCard({ piece, on, onToggle }: { piece: PieceKey; on: boolean; onToggle: () => void }) {
-  const { title, text } = COPY[piece];
-  const required = piece === "jacket";
-  return (
-    <div className="max-w-[460px] rounded-[6px] border border-ivory/10 bg-white/[0.03] p-6">
-      <img src={garmentIcon[piece]} alt="" width={56} height={56} className="h-14 w-14 invert" />
-      <h2 className="mt-5 text-[20px] font-bold tracking-[-0.03em] text-ivory">{title}</h2>
-      <p className="mt-2 text-[14px] leading-relaxed text-ivory/60">{text}</p>
-      <p className="mt-4 text-[13px] font-semibold text-gold">{required ? "Included" : `+ ${formatNpr(PIECE_PRICE[piece])}`}</p>
-      {required ? (
-        <p className="mt-5 text-[13px] text-ivory/55">Every order starts with the jacket.</p>
-      ) : (
-        <button type="button" onClick={onToggle} className={`mt-5 h-10 rounded-full px-6 text-[13px] font-semibold transition-colors duration-300 ${on ? "border border-ivory/60 text-ivory hover:bg-ivory hover:text-charcoal" : "bg-ivory text-charcoal hover:bg-gold"}`}>
-          {on ? "Remove" : "Add"}
-        </button>
-      )}
     </div>
   );
 }

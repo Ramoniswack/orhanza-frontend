@@ -4,6 +4,16 @@ export const runtime = "nodejs";
 
 type Body = Record<string, unknown>;
 const str = (v: unknown, max = 2000) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+const fitProfiles = (value: unknown) => {
+  if (!Array.isArray(value)) return [];
+  return value.slice(0, 20).flatMap((entry) => {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) return [];
+    const profile = entry as Body;
+    const item = str(profile.item, 80);
+    const recommendation = str(profile.recommendation, 1200);
+    return item && recommendation ? [{ item, recommendation }] : [];
+  });
+};
 
 export async function POST(req: Request) {
   let body: Body;
@@ -21,6 +31,7 @@ export async function POST(req: Request) {
     date: str(body.date, 20),
     message: str(body.message),
     shortlist: Array.isArray(body.shortlist) ? body.shortlist.map((s) => str(s, 80)).slice(0, 20) : [],
+    fitProfiles: fitProfiles(body.fitProfiles),
   };
 
   if (!enquiry.name || !enquiry.phone || !enquiry.service) {

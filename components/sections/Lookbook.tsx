@@ -217,7 +217,7 @@ export function Lookbook({ initial = "men" }: { initial?: "men" | "women" }) {
   const reduce = useReducedMotion();
   const lenis = useLenis();
   const router = useRouter();
-  // /collections/women opens with the womenswear looks first, then the menswear
+  // When initialized for womenswear, lead with those looks before menswear.
   const womenFirst = initial === "women";
   const list = useMemo(() => (womenFirst ? [...looks.slice(MEN_COUNT), ...looks.slice(0, MEN_COUNT)] : looks), [womenFirst]);
   const { has, toggle, show } = useShortlist();
