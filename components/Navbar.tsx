@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bookmark, Search, UserRound, X } from "lucide-react";
+import { Bookmark, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useShortlist } from "./ShortlistProvider";
 
@@ -19,8 +19,6 @@ export function Navbar() {
   const { items, show } = useShortlist();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const searchInput = useRef<HTMLInputElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -29,10 +27,6 @@ export function Navbar() {
     window.addEventListener("scroll", updateScroll, { passive: true });
     return () => window.removeEventListener("scroll", updateScroll);
   }, [pathname]);
-
-  useEffect(() => {
-    if (searchOpen) searchInput.current?.focus();
-  }, [searchOpen]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -44,21 +38,15 @@ export function Navbar() {
   }, [menuOpen]);
 
   useEffect(() => {
-    if (!menuOpen && !searchOpen) return;
+    if (!menuOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
       setMenuOpen(false);
-      setSearchOpen(false);
       menuButton.current?.focus();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [menuOpen, searchOpen]);
-
-  const openSearch = () => {
-    setMenuOpen(false);
-    setSearchOpen(true);
-  };
+  }, [menuOpen]);
 
   return (
     <>
@@ -69,34 +57,18 @@ export function Navbar() {
             : "border-b border-transparent bg-transparent text-white"
         }`}
       >
-        <div className="flex min-w-0 items-center gap-4 sm:gap-5">
+        <div className="flex min-w-0 items-center">
           <button
             ref={menuButton}
             type="button"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="orhanza-navigation-drawer"
-            onClick={() => {
-              setSearchOpen(false);
-              setMenuOpen((open) => !open);
-            }}
+            onClick={() => setMenuOpen((open) => !open)}
             className="flex h-10 w-6 shrink-0 flex-col items-center justify-center gap-[5px]"
           >
             <span className="h-px w-[18px] bg-current" />
             <span className="h-px w-[18px] bg-current" />
-          </button>
-          <button
-            type="button"
-            aria-label={searchOpen ? "Close search" : "Open search"}
-            aria-expanded={searchOpen}
-            aria-controls="orhanza-search-drawer"
-            onClick={() => {
-              setMenuOpen(false);
-              setSearchOpen((open) => !open);
-            }}
-            className="grid h-10 w-6 place-items-center"
-          >
-            {searchOpen ? <X size={18} strokeWidth={1.5} /> : <Search size={18} strokeWidth={1.5} />}
           </button>
         </div>
 
@@ -123,30 +95,6 @@ export function Navbar() {
           </button>
         </div>
       </header>
-
-      <div
-        id="orhanza-search-drawer"
-        aria-hidden={!searchOpen}
-        inert={!searchOpen}
-        className={`fixed inset-x-0 top-14 z-40 border-b border-neutral-200 bg-white text-[#1A1A1A] transition-[opacity,transform,visibility] duration-200 ${
-          searchOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
-        }`}
-      >
-        <form action="/shop" role="search" className="flex h-16 items-center gap-4 px-5 md:px-8">
-          <Search size={18} strokeWidth={1.5} aria-hidden="true" />
-          <input
-            ref={searchInput}
-            type="search"
-            name="q"
-            aria-label="Search ORHANZA"
-            placeholder="Search"
-            className="h-full min-w-0 flex-1 border-0 bg-transparent text-sm outline-none placeholder:text-neutral-500"
-          />
-          <button type="submit" className="text-[11px] font-medium uppercase tracking-[0.14em]">
-            Search
-          </button>
-        </form>
-      </div>
 
       <div
         className={`fixed inset-0 z-[60] ${
@@ -176,9 +124,6 @@ export function Navbar() {
             <div className="flex items-center justify-between">
               <button type="button" aria-label="Close navigation menu" onClick={() => setMenuOpen(false)} className="grid h-9 w-9 place-items-center">
                 <X size={20} strokeWidth={1.5} />
-              </button>
-              <button type="button" aria-label="Open search" onClick={openSearch} className="grid h-9 w-9 place-items-center">
-                <Search size={18} strokeWidth={1.5} />
               </button>
             </div>
 
