@@ -79,9 +79,16 @@ export function HomeTailoring() {
                 key={s.title}
                 ref={(el) => { rows.current[i] = el; }}
                 data-i={i}
-                className={`border-t border-ink/15 py-9 transition-opacity md:py-14 ${SMOOTH} ${i === active ? "opacity-100" : "opacity-30"}`}
+                className={`relative border-t border-ink/15 py-9 pl-12 transition-opacity md:py-14 md:pl-0 ${SMOOTH} ${i === active ? "opacity-100" : "opacity-40 md:opacity-30"}`}
               >
-                <p className="label-micro text-gold md:hidden">{pad(i + 1)}</p>
+                {/* phone timeline: a rail that turns gold down to the current step, a square node and a gold tick on the step you are reading */}
+                <span aria-hidden className="md:hidden">
+                  <span className={`absolute left-[7px] top-0 w-px bg-ink/20 ${i === last ? "h-[2.7rem]" : "bottom-0"}`} />
+                  <span className={`absolute left-[7px] top-0 w-px bg-gold transition-[height] ${SMOOTH}`} style={{ height: i < active ? (i === last ? "2.7rem" : "100%") : i === active ? "2.7rem" : "0%" }} />
+                  <span className={`absolute left-0 top-[2.15rem] h-[15px] w-[15px] border transition-[background-color,border-color,transform] ${SMOOTH} ${i === active ? "scale-110 border-gold bg-gold" : i < active ? "border-gold bg-white" : "border-ink/30 bg-white"}`} />
+                  <span className={`absolute left-[15px] top-[2.15rem] h-px origin-left bg-gold transition-[width,opacity] ${SMOOTH} ${i === active ? "w-5 opacity-100" : "w-0 opacity-0"}`} />
+                </span>
+                <p className={`label-micro transition-colors ${SMOOTH} md:hidden ${i === active ? "text-gold" : "text-ink/40"}`}>Step {pad(i + 1)}</p>
                 <h3 className="mt-2 text-[clamp(1.5rem,2.6vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.035em] md:mt-0">{s.title}</h3>
                 <p className="mt-3 max-w-md text-base leading-relaxed text-slate md:text-[1.0625rem]">{s.body}</p>
               </li>

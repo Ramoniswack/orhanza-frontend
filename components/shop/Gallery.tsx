@@ -20,9 +20,9 @@ export function Gallery({ name, image, flat }: { name: string; image: string; fl
   return (
     <div className="mx-auto w-full max-w-[26rem] lg:mx-0">
       <div
-        className="relative aspect-[4/5] cursor-zoom-in overflow-hidden rounded-[6px] bg-[#F3F3F3] md:aspect-[5/6]"
-        onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 }); }}
-        onMouseLeave={() => setZoom(null)}
+        className="relative aspect-[4/5] overflow-hidden [@media(hover:hover)]:cursor-zoom-in rounded-[6px] bg-[#F3F3F3] md:aspect-[5/6]"
+        onPointerMove={(e) => { if (e.pointerType !== "mouse") return; const r = e.currentTarget.getBoundingClientRect(); setZoom({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 }); }}
+        onPointerLeave={() => setZoom(null)}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={i} className="absolute inset-0 transition-transform duration-300 ease-out" style={{ transform: zoom ? "scale(2.2)" : "scale(1)", transformOrigin: zoom ? `${zoom.x}% ${zoom.y}%` : "50% 50%" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
@@ -36,7 +36,7 @@ export function Gallery({ name, image, flat }: { name: string; image: string; fl
       </div>
       <div className="mt-3 grid grid-cols-3 gap-3">
         {views.map((x, k) => (
-          <button key={x.label} onClick={() => setI(k)} aria-pressed={i === k} aria-label={`Show ${x.label.toLowerCase()}`} className={`relative aspect-[4/5] overflow-hidden rounded-[6px] bg-[#F3F3F3] transition-opacity ${i === k ? "ring-1 ring-charcoal" : "opacity-60 hover:opacity-100"}`}>
+          <button key={x.label} onClick={() => setI(k)} aria-pressed={i === k} aria-label={`Show ${x.label.toLowerCase()}`} className={`relative aspect-[4/5] min-w-0 overflow-hidden rounded-[6px] bg-[#F3F3F3] transition-opacity ${i === k ? "ring-1 ring-charcoal" : "opacity-60 hover:opacity-100"}`}>
             <Image src={x.src} alt="" fill sizes="12vw" className={x.fit === "contain" ? "object-contain p-2" : "scale-[1.05] object-cover object-top"} />
           </button>
         ))}

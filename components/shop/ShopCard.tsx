@@ -34,7 +34,7 @@ export function ShopCard({ product, priority = false }: { product: ShopProduct; 
           type="button"
           onClick={() => toggle(product.key)}
           aria-pressed={saved}
-          className="absolute inset-x-3 bottom-3 z-20 rounded-[8px] bg-white/95 py-2.5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-charcoal backdrop-blur transition-all duration-500 hover:bg-charcoal hover:text-ivory md:translate-y-[130%] md:group-hover:translate-y-0"
+          className="absolute inset-x-3 bottom-3 z-20 rounded-[8px] bg-white/95 py-2.5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-charcoal backdrop-blur transition-all duration-500 hover:bg-charcoal hover:text-ivory md:[@media(hover:hover)]:translate-y-[130%] md:[@media(hover:hover)]:group-hover:translate-y-0"
         >
           {saved ? "Shortlisted ✓" : "Add to shortlist"}
         </button>

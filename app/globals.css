@@ -23,6 +23,22 @@ html, body { max-width: 100%; overflow-x: clip; }
 body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 ::selection { background: var(--color-gold); color: #fff; }
 
+/* ── Mobile / touch base ── */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+a, button, [role="button"], summary, label, select { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+img, video, canvas, svg { max-width: 100%; }
+/* iOS Safari zooms the page when a field under 16px is focused; keep form text at 16px on phones (utilities like text-5xl still win). */
+@layer base {
+  @media (max-width: 767px) {
+    input:not([type="range"]):not([type="checkbox"]):not([type="radio"]), select, textarea { font-size: 16px; }
+  }
+}
+/* tap targets: small text buttons/links keep their look but get a 44px hit area on touch screens */
+@media (pointer: coarse) {
+  .tap-44 { position: relative; }
+  .tap-44::after { content: ""; position: absolute; inset: 50% auto auto 50%; width: max(100%, 44px); height: max(100%, 44px); transform: translate(-50%, -50%); }
+}
+
 /* Lenis (recommended base styles) */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }

@@ -36,13 +36,13 @@ export default async function ProductPage({ params }: Props) {
   return (
     <>
       <div className="container-x pb-20 pt-28 md:pt-36">
-        <div className="mb-8 flex items-center justify-between gap-4">
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
         <nav aria-label="Breadcrumb" className="text-sm text-slate">
           <Link href="/shop" className="hover:underline">Shop</Link> <span aria-hidden>/</span>{" "}
           <Link href={`/shop?gender=${p.gender}`} className="hover:underline">{genderLabel(p.gender)}</Link> <span aria-hidden>/</span>{" "}
           <Link href={`/shop?gender=${p.gender}&type=${p.type.toLowerCase()}`} className="hover:underline">{p.type}</Link>
         </nav>
-        <Link href="/custom-made" className="btn btn-outline shrink-0 !px-5 !py-3 text-sm">Custom made <span aria-hidden>→</span></Link>
+        <Link href="/custom-made" className="btn btn-outline shrink-0 !px-4 !py-2.5 text-xs sm:!px-5 sm:!py-3 sm:text-sm">Custom made <span aria-hidden>→</span></Link>
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">

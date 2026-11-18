@@ -95,7 +95,7 @@ export function Panel(props: {
             </div>
 
             {showSearch && (
-              <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search fabrics" aria-label="Search fabrics" className="cm-fade mt-5 h-10 w-full border-0 border-b border-ink/25 bg-transparent px-0 text-[14px] text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-ink" />
+              <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search fabrics" aria-label="Search fabrics" className="cm-fade mt-5 h-10 w-full border-0 border-b border-ink/25 bg-transparent px-0 text-base text-ink outline-none md:text-[14px] transition-colors placeholder:text-ink/35 focus:border-ink" />
             )}
             {showFilter && (
               <div className="cm-fade mt-5 flex flex-wrap gap-x-5 gap-y-2" role="group" aria-label="Category">

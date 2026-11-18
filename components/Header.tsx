@@ -86,10 +86,16 @@ export function Header() {
             </button>
           </motion.nav>
 
-          <button className="-mr-2 flex h-10 w-10 flex-col items-center justify-center lg:hidden" onClick={() => setMenu((v) => !v)} aria-expanded={menu} aria-label={menu ? "Close menu" : "Open menu"}>
-            <span className={`block h-px w-6 bg-current transition-transform duration-300 ${menu ? "translate-y-[4.5px] rotate-45" : ""}`} />
-            <span className={`mt-2 block h-px w-6 bg-current transition-transform duration-300 ${menu ? "-translate-y-[4.5px] -rotate-45" : ""}`} />
-          </button>
+          <div className="-mr-2 flex items-center lg:hidden">
+            <button onClick={() => { setMenu(false); show(); }} aria-label={`Open shortlist, ${items.length} items`} className="relative grid h-11 w-11 place-items-center transition-opacity active:opacity-60">
+              <ShortlistIcon filled={items.length > 0} />
+              {items.length > 0 && <span className="absolute right-0.5 top-1.5 grid h-[16px] min-w-[16px] place-items-center bg-gold px-1 text-[9px] font-semibold leading-none text-charcoal">{items.length}</span>}
+            </button>
+            <button className="flex h-11 w-11 flex-col items-center justify-center" onClick={() => setMenu((v) => !v)} aria-expanded={menu} aria-label={menu ? "Close menu" : "Open menu"}>
+              <span className={`block h-px w-6 bg-current transition-transform duration-300 ${menu ? "translate-y-[4.5px] rotate-45" : ""}`} />
+              <span className={`mt-2 block h-px w-6 bg-current transition-transform duration-300 ${menu ? "-translate-y-[4.5px] -rotate-45" : ""}`} />
+            </button>
+          </div>
         </div>
       </header>
 

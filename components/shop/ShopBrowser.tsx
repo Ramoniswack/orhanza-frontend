@@ -9,7 +9,7 @@ import { ShopCard } from "./ShopCard";
 type Props = { initial?: { gender?: string; occasion?: string; type?: string } };
 
 const chip = (on: boolean) =>
-  `rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-charcoal bg-charcoal text-ivory" : "border-charcoal/20 hover:border-charcoal"}`;
+  `min-h-10 rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-charcoal bg-charcoal text-ivory" : "border-charcoal/20 hover:border-charcoal"}`;
 
 export function ShopBrowser({ initial }: Props) {
   const [gender, setGender] = useState<Gender | "all">(genders.some((g) => g.slug === initial?.gender) ? (initial!.gender as Gender) : "all");
@@ -39,19 +39,19 @@ export function ShopBrowser({ initial }: Props) {
   return (
     <>
       {/* Men / Women  +  link to the configurator */}
-      <div className="flex items-center justify-between gap-4">
-      <div role="tablist" aria-label="Men or women" className="flex items-baseline gap-6 text-[clamp(1.6rem,3vw,2.4rem)] font-bold tracking-[-0.04em]">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+      <div role="tablist" aria-label="Men or women" className="flex items-baseline gap-4 text-[clamp(1.4rem,3vw,2.4rem)] font-bold tracking-[-0.04em] sm:gap-6">
         {([{ slug: "all", label: "All" }, ...genders] as const).map((g) => {
           const on = gender === g.slug;
           return (
-            <button key={g.slug} role="tab" aria-selected={on} onClick={() => pick.gender(g.slug as Gender | "all")} className="relative pb-1 transition-colors duration-500" style={{ color: on ? "#111" : "rgba(0,0,0,.28)" }}>
+            <button key={g.slug} role="tab" aria-selected={on} onClick={() => pick.gender(g.slug as Gender | "all")} className="relative py-1.5 transition-colors duration-500" style={{ color: on ? "#111" : "rgba(0,0,0,.28)" }}>
               {g.label}
               <span aria-hidden className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-black transition-transform duration-500" style={{ transform: `scaleX(${on ? 1 : 0})` }} />
             </button>
           );
         })}
       </div>
-      <Link href="/custom-made" className="btn btn-outline shrink-0 !px-5 !py-3 text-sm">Custom made <span aria-hidden>→</span></Link>
+      <Link href="/custom-made" className="btn btn-outline shrink-0 !px-4 !py-2.5 text-xs sm:!px-5 sm:!py-3 sm:text-sm">Custom made <span aria-hidden>→</span></Link>
       </div>
 
       {/* filters */}
@@ -74,7 +74,7 @@ export function ShopBrowser({ initial }: Props) {
         </div>
       </div>
 
-      <motion.div layout className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
+      <motion.div layout className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 sm:gap-y-10 lg:grid-cols-4">
         <AnimatePresence mode="popLayout">
           {list.map((p, i) => (
             <motion.div key={p.slug} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.97 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>

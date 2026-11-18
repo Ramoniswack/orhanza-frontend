@@ -8,7 +8,7 @@ import { resolveSaved } from "@/lib/saved";
 import { useShortlist } from "./ShortlistProvider";
 
 const serviceOptions = ["Suit", "Shirt", "Coat-pant", "Wedding wear", "Fabric consultation"];
-const field = "w-full rounded-[10px] border border-transparent bg-field px-4 py-3 text-[0.95rem] outline-none transition-colors placeholder:text-charcoal/40 focus:border-gold focus:bg-white";
+const field = "w-full rounded-[10px] border border-transparent bg-field px-4 py-3 text-base md:text-[0.95rem] outline-none transition-colors placeholder:text-charcoal/40 focus:border-gold focus:bg-white";
 
 export function EnquiryForm() {
   const { items, fitProfiles, pendingFitProfile, setPendingFitProfile } = useShortlist();
