@@ -11,7 +11,7 @@
 import { motion, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { LineMaskReveal } from "@/components/motion";
 import { useShortlist } from "@/components/ShortlistProvider";
 import { useLenis } from "@/lib/lenis";
@@ -26,6 +26,16 @@ const MEN_SIZES = ["44", "46", "48", "50", "52", "54", "56", "58", "60"];
 const WOMEN_SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"];
 const sizesFor = (p: ShopProduct) =>
   (p.gender === "men" ? MEN_SIZES : WOMEN_SIZES).map((label, i) => ({ label, available: (p.id + i * 2) % 5 !== 0 })); // placeholder availability
+
+/** the pinned scroll-driven slider is desktop only; phones get a plain swipeable row */
+const DESKTOP_QUERY = "(min-width: 768px)";
+function useIsDesktop() {
+  return useSyncExternalStore(
+    (cb) => { const m = window.matchMedia(DESKTOP_QUERY); m.addEventListener("change", cb); return () => m.removeEventListener("change", cb); },
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => false,
+  );
+}
 
 const rs = (n: number) => `Rs. ${n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 
@@ -128,7 +138,9 @@ function Chevron({ dir }: { dir: 1 | -1 }) {
 }
 
 export function SelectedPieces() {
-  const reduce = !!useReducedMotion();
+  const reducedMotion = !!useReducedMotion();
+  const isDesktop = useIsDesktop();
+  const reduce = reducedMotion || !isDesktop; // true → no pin / no scroll transition, native swipe row
   const lenis = useLenis();
   const section = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
@@ -144,6 +156,7 @@ export function SelectedPieces() {
   const x = useTransform([p, dist], ([a, d]: number[]) => -a * d);
   const transform = useTransform(x, (v) => `translate3d(${v}px,0,0)`);
   useMotionValueEvent(p, "change", (v) => {
+    if (reduce) return;
     const next = { start: v < 0.004, end: v > 0.996 };
     setEdge((cur) => (cur.start === next.start && cur.end === next.end ? cur : next));
   });
@@ -170,6 +183,15 @@ export function SelectedPieces() {
     return () => window.removeEventListener("keydown", onKey);
   }, [openKey]);
 
+  // native swipe row: keep the arrow states in sync with the row's own scroll position
+  const onRowScroll = useCallback(() => {
+    const el = scroller.current;
+    if (!el || !reduce) return;
+    const next = { start: el.scrollLeft < 4, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4 };
+    setEdge((cur) => (cur.start === next.start && cur.end === next.end ? cur : next));
+  }, [reduce]);
+  useEffect(() => { if (reduce) onRowScroll(); else setEdge({ start: true, end: false }); }, [reduce, onRowScroll]);
+
   const go = useCallback((dir: 1 | -1) => {
     const kids = track.current?.children;
     if (!kids || kids.length < 2) return;
@@ -190,7 +212,7 @@ export function SelectedPieces() {
       className="relative bg-white [--n:1.2] sm:[--n:2] lg:[--n:4]"
       style={{ "--pad": "clamp(20px, 2.8vw, 40px)", "--gap": "clamp(12px, 1.4vw, 24px)", height: reduce ? undefined : `calc(100svh + ${distPx}px)` } as CSSProperties}
     >
-      <div className={reduce ? "py-20" : "sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pb-6 pt-[76px]"}>
+      <div className={reduce ? "py-8 md:py-16" : "sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden pb-6 pt-[76px]"}>
         <div className="flex items-end justify-between" style={{ paddingInline: "var(--pad)" }}>
           <h2 id="sp-h" className="t-h2 !text-[clamp(1.75rem,3vw,2.75rem)]">
             <LineMaskReveal lines={["Selected pieces"]} />
@@ -204,7 +226,7 @@ export function SelectedPieces() {
           </div>
         </div>
 
-        <div ref={scroller} className={`mt-5 md:mt-7 ${reduce ? "no-scrollbar snap-x snap-mandatory overflow-x-auto" : ""}`}>
+        <div ref={scroller} onScroll={onRowScroll} className={`mt-4 md:mt-7 ${reduce ? "no-scrollbar snap-x snap-mandatory overflow-x-auto overscroll-x-contain" : ""}`} style={reduce ? { scrollPaddingInline: "var(--pad)" } : undefined}>
           <motion.div ref={track} className="flex w-max items-start will-change-transform" style={{ gap: "var(--gap)", paddingInline: "var(--pad)", transform: reduce ? undefined : transform }}>
             {products.map((pr, i) => (
               <Card key={pr.key} product={pr} priority={i < 4} open={openKey === pr.key} onToggle={() => setOpenKey((k) => (k === pr.key ? null : pr.key))} onClose={() => setOpenKey(null)} />
@@ -212,7 +234,7 @@ export function SelectedPieces() {
           </motion.div>
         </div>
 
-        <div className="mt-7 text-center md:mt-9">
+        <div className="mt-5 text-center md:mt-9">
           <Link href="/shop" className="inline-block border-b border-transparent pb-1 text-[11px] font-medium uppercase tracking-[0.15em] text-[#1A1A1A] transition-colors duration-300 hover:border-[#1A1A1A] md:text-xs">
             Discover more
           </Link>

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <section aria-labelledby="contact-h" className="container-x pb-14 pt-28 md:pb-20 md:pt-36">
+      <section aria-labelledby="contact-h" className="container-x pb-10 pt-24 md:pb-16 md:pt-32">
         <SectionLabel label="Contact" />
         <Reveal>
           <h1 id="contact-h" className="h-display mt-5 max-w-4xl text-[clamp(2.8rem,7vw,6.5rem)]">Let’s talk about your fit.</h1>
@@ -24,7 +24,7 @@ export default function ContactPage() {
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-8 md:mt-16 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+        <div className="mt-8 grid gap-6 md:mt-14 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
           <Reveal><ContactCards /></Reveal>
           <div id="book" className="scroll-mt-24"><Reveal delay={0.1}><EnquiryForm /></Reveal></div>
         </div>

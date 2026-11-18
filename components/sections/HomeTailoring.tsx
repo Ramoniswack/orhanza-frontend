@@ -37,7 +37,7 @@ export function HomeTailoring() {
 
   const last = steps.length - 1;
   return (
-    <section id="process" aria-labelledby="process-h" className="bg-white section-y text-ink">
+    <section id="process" aria-labelledby="process-h" className="hidden bg-white section-y text-ink md:block">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <div>

@@ -99,8 +99,8 @@ html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 .stair { --stair-scale: 1; }
 @media (max-width: 767px) {
   .stair { --stair-scale: 0.3; }
-  .section-y { padding-block: clamp(4rem, 16vw, 5rem); }
-  .section-gap { margin-top: clamp(1.75rem, 7vw, 3rem); }
+  .section-y { padding-block: clamp(2.5rem, 11vw, 3.25rem); }
+  .section-gap { margin-top: clamp(1.5rem, 6vw, 2.25rem); }
   .container-x { padding-inline: 1.1rem; }
   .label-micro { letter-spacing: 0.18em; }
   .btn { padding: 0.9rem 1.35rem; font-size: 0.62rem; letter-spacing: 0.16em; }
@@ -130,8 +130,8 @@ body:has([data-custom-made]) footer { display: none; } /* the page is an app-lik
 /* ── Home page hierarchy: one rhythm, one heading scale (Plus Jakarta Sans) ──
    label-micro (eyebrow, 600 caps) → t-h2 (700) → t-lead (400) → t-h3 (600) → body.
    Every section uses .section-y for its vertical padding and .section-gap between heading and content. */
-.section-y { padding-block: clamp(4.5rem, 8vw, 8rem); }
-.section-gap { margin-top: clamp(2.5rem, 5vw, 4.5rem); }
+.section-y { padding-block: clamp(3rem, 6.5vw, 6.5rem); }
+.section-gap { margin-top: clamp(2rem, 4vw, 3.75rem); }
 .t-h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 4.4vw, 4.25rem); letter-spacing: -0.045em; line-height: 1.02; }
 .t-h3 { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.35rem, 2vw, 1.875rem); letter-spacing: -0.03em; line-height: 1.15; }
 .t-lead { font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.65; color: var(--color-slate); max-width: 34rem; }

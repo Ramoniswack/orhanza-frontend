@@ -12,7 +12,7 @@ type Props = { searchParams: Promise<{ gender?: string; occasion?: string; type?
 export default async function ShopPage({ searchParams }: Props) {
   const initial = await searchParams;
   return (
-    <section className="container-x pb-24 pt-24 md:pt-28" aria-labelledby="shop-h">
+    <section className="container-x pb-14 pt-22 md:pb-24 md:pt-28" aria-labelledby="shop-h">
       <h1 id="shop-h" className="sr-only">Shop</h1>
       <ShopBrowser initial={initial} />
     </section>

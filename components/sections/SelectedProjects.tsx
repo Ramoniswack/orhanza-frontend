@@ -24,7 +24,7 @@ const tiles: Tile[] = [
 
 export function SelectedProjects() {
   return (
-    <BgFlip tone="dark" id="work" className="pb-14 pt-14 md:pb-24 md:pt-24">
+    <BgFlip tone="dark" id="work" className="pb-10 pt-10 md:pb-20 md:pt-24">
       <div className="px-2 md:px-2">
         <div className="mx-auto max-w-4xl pb-10 text-center md:pb-16">
           <LineMaskReveal as="h2" className="h-section" lines={["Selected", "commissions"]} />
@@ -67,7 +67,7 @@ export function SelectedProjects() {
           })}
         </div>
 
-        <div className="mt-20 text-center md:mt-32">
+        <div className="mt-12 text-center md:mt-28">
           <Link href="/collections" className="group inline-block">
             <LineMaskReveal as="span" className="h-section" lines={["More commissions"]} />
             <span className="mt-4 block h-px w-full origin-left scale-x-0 bg-ivory transition-transform duration-[1400ms] group-hover:scale-x-100" />

@@ -26,7 +26,7 @@ export function AboutJourney() {
   const [active, setActive] = useState(0);
 
   return (
-    <section aria-labelledby="journey-h" className="bg-white pb-16 pt-6 md:pb-24 md:pt-10">
+    <section aria-labelledby="journey-h" className="bg-white pb-10 pt-4 md:pb-20 md:pt-10">
       <div className="container-x">
         <SectionLabel label="Our journey" />
         <h2 id="journey-h" className="h-display mt-5 text-center text-[clamp(2.2rem,5vw,4.6rem)] text-ink">Our journey</h2>

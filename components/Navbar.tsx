@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bookmark, UserRound, X } from "lucide-react";
+import { Bookmark, ShoppingBag, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useShortlist } from "./ShortlistProvider";
 
 const primaryLinks = [
-  { label: "New Arrivals", href: "/shop" },
+  { label: "Shop", href: "/shop" },
   { label: "Try On", href: "/try-on" },
   { label: "Custom Made", href: "/custom-made" },
   { label: "About", href: "/about" },
@@ -81,6 +81,9 @@ export function Navbar() {
         </Link>
 
         <div className="flex items-center justify-self-end gap-3 sm:gap-5">
+          <Link href="/shop" aria-label="Shop" title="Shop" className="grid h-10 w-5 place-items-center">
+            <ShoppingBag size={18} strokeWidth={1.5} />
+          </Link>
           <Link href="/profile" aria-label="User profile" className="grid h-10 w-5 place-items-center">
             <UserRound size={18} strokeWidth={1.5} />
           </Link>

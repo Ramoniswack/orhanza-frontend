@@ -33,7 +33,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <div className="container-x pb-24 pt-28 md:pt-36">
+      <div className="container-x pb-14 pt-24 md:pb-24 md:pt-32">
         <nav aria-label="Breadcrumb" className="mb-8 text-sm text-slate">
           <Link href="/collections" className="hover:underline">Collections</Link> <span aria-hidden>/</span>{" "}
           <Link href={`/collections?category=${p.category}`} className="hover:underline">{categoryLabel(p.category)}</Link>
@@ -72,7 +72,7 @@ export default async function ProductPage({ params }: Props) {
 
       <section className="relative overflow-hidden bg-charcoal text-ivory">
         <Image src="/images/banners/craft.webp" alt="" fill sizes="100vw" className="object-cover opacity-35" />
-        <div className="container-x relative py-24 md:py-36">
+        <div className="container-x relative py-14 md:py-32">
           <Reveal>
             <p className="eyebrow text-gold">Widely crafted</p>
             <h2 className="h-display mt-3 max-w-3xl text-[clamp(2.4rem,5vw,4.6rem)]">Tailored in Nepal, around you.</h2>
@@ -81,14 +81,14 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="container-x py-20 md:py-28">
+      <section className="container-x py-12 md:py-24">
         <Reveal className="mx-auto max-w-3xl text-center">
           <blockquote className="font-serif text-3xl leading-snug md:text-4xl">“{testimonials[0].quote}”</blockquote>
           <p className="mt-5 text-sm text-slate">— {testimonials[0].name}</p>
         </Reveal>
       </section>
 
-      <section className="container-x pb-24">
+      <section className="container-x pb-14 md:pb-24">
         <h2 className="h-display text-4xl md:text-5xl">You may also like</h2>
         <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
           {related.map((r) => <ProductCard key={r.slug} product={r} />)}

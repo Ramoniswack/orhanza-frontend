@@ -9,7 +9,7 @@ import { ShopCard } from "./ShopCard";
 type Props = { initial?: { gender?: string; occasion?: string; type?: string } };
 
 const chip = (on: boolean) =>
-  `min-h-10 shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-charcoal bg-charcoal text-ivory" : "border-charcoal/20 hover:border-charcoal"}`;
+  `min-h-7 shrink-0 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs transition-colors md:min-h-10 md:px-4 md:py-2 md:text-sm ${on ? "border-charcoal bg-charcoal text-ivory" : "border-charcoal/20 hover:border-charcoal"}`;
 
 export function ShopBrowser({ initial }: Props) {
   const [gender, setGender] = useState<Gender | "all">(genders.some((g) => g.slug === initial?.gender) ? (initial!.gender as Gender) : "all");
@@ -55,7 +55,7 @@ export function ShopBrowser({ initial }: Props) {
       </div>
 
       {/* filters */}
-      <div className="mt-6 flex flex-col gap-4 border-y border-black/10 py-5 md:flex-row md:items-center md:gap-10">
+      <div className="mt-4 flex flex-col gap-2.5 border-y border-black/10 py-3 md:mt-6 md:flex-row md:py-5 md:items-center md:gap-10">
         <div className="no-scrollbar -mx-[1.1rem] flex items-center gap-2 overflow-x-auto px-[1.1rem] md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
           <span className="label-micro mr-1 shrink-0 text-slate">Occasion</span>
           {(["all", ...occasions] as const).map((o) => (
@@ -68,7 +68,7 @@ export function ShopBrowser({ initial }: Props) {
             <button key={t} onClick={() => pick.type(t)} aria-pressed={type === t} className={chip(type === t)}>{t === "all" ? "All" : t}</button>
           ))}
         </div>
-        <div className="flex items-center gap-4 text-sm text-slate md:ml-auto">
+        <div className="flex items-center gap-4 text-xs text-slate md:ml-auto md:text-sm">
           <span aria-live="polite">{list.length} {list.length === 1 ? "piece" : "pieces"}</span>
           {dirty && <button onClick={reset} className="font-medium text-charcoal underline-offset-4 hover:underline">Clear filters</button>}
         </div>

@@ -17,7 +17,7 @@ export function AboutMaker() {
     reduce ? {} : { initial: { opacity: 0, ...from }, whileInView: { opacity: 1, x: 0, y: 0 }, viewport: { once: true, amount: 0.3 }, transition: { duration: 1, ease: EASE } };
 
   return (
-    <section aria-labelledby="maker-h" className="overflow-x-clip bg-white pb-16 pt-16 md:pb-24 md:pt-24">
+    <section aria-labelledby="maker-h" className="overflow-x-clip bg-white pb-10 pt-10 md:pb-20 md:pt-20">
       <div className="container-x">
         <SectionLabel label="The maker" />
         <h2 id="maker-h" className="sr-only">The maker</h2>

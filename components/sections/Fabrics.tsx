@@ -70,9 +70,9 @@ export function Fabrics() {
       </section>
 
       {/* mobile: horizontal snap strip */}
-      <section id="fabrics-m" className="bg-white py-20 text-ink md:hidden">
+      <section id="fabrics-m" className="bg-white py-10 text-ink md:hidden">
         <h2 className="h-section px-5">Our fabrics</h2>
-        <div className="no-scrollbar relative mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5">
+        <div className="no-scrollbar relative mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5">
           {fabrics.map((f, i) => (
             <div key={f.slug} className="w-[72vw] shrink-0 snap-start">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[22px] bg-card">

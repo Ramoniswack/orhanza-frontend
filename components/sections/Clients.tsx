@@ -47,7 +47,7 @@ export function Clients() {
                   ref={(el) => { rows.current[i] = el; }}
                   data-i={i}
                   onMouseEnter={() => go(i)}
-                  className="border-t border-ink/15 py-8 last:border-b md:py-14"
+                  className="border-t border-ink/15 py-5 last:border-b md:py-12"
                 >
                   <h3 className={`text-[clamp(1.75rem,3.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.045em] transition-opacity duration-[900ms] ${on ? "md:opacity-100" : "md:opacity-30"}`}>{a.role}</h3>
                   <div className={`grid transition-[grid-template-rows,opacity] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${on ? "md:grid-rows-[1fr] md:opacity-100" : "md:grid-rows-[0fr] md:opacity-0"}`}>

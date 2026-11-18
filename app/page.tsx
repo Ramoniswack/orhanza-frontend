@@ -11,7 +11,7 @@ export default function Home() {
       <EditorialHero />
       <SelectedPieces />
       <HomeTailoring />
-      <section aria-label="The Orhanza atelier" className="relative h-[58svh] min-h-[24rem] max-h-[52rem] overflow-hidden">
+      <section aria-label="The Orhanza atelier" className="relative h-[34svh] min-h-[13rem] max-h-[52rem] md:h-[58svh] md:min-h-[24rem] overflow-hidden">
         <Image
           src="/images/banners/craft-hands.webp"
           alt="A tailor working at the Orhanza atelier workbench"

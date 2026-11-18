@@ -35,7 +35,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <div className="container-x pb-20 pt-28 md:pt-36">
+      <div className="container-x pb-12 pt-24 md:pb-20 md:pt-32">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
         <nav aria-label="Breadcrumb" className="text-sm text-slate">
           <Link href="/shop" className="hover:underline">Shop</Link> <span aria-hidden>/</span>{" "}
@@ -67,7 +67,7 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </div>
 
-      <section className="container-x grid gap-12 border-t border-charcoal/10 pb-20 pt-14 md:grid-cols-3 md:gap-10">
+      <section className="container-x grid gap-8 border-t border-charcoal/10 pb-12 pt-8 md:grid-cols-3 md:gap-10 md:pb-20 md:pt-14">
         <div>
           <h2 className="label-micro text-slate">About this piece</h2>
           <p className="mt-4 leading-relaxed">{a.intro}</p>
@@ -85,7 +85,7 @@ export default async function ProductPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="container-x pb-20">
+      <section className="container-x pb-12 md:pb-20">
         <h2 className="label-micro text-slate">From consultation to delivery</h2>
         <ol className="mt-6 grid gap-6 md:grid-cols-5">
           {steps.map((x, k) => (
@@ -97,7 +97,7 @@ export default async function ProductPage({ params }: Props) {
         </ol>
       </section>
 
-      <section className="container-x pb-24">
+      <section className="container-x pb-14 md:pb-24">
         <h2 className="h-display text-3xl md:text-5xl">You may also like</h2>
         <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
           {related.map((r) => <ShopCard key={r.slug} product={r} />)}

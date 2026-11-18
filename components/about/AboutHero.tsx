@@ -24,7 +24,7 @@ export function AboutHero() {
     reduce ? {} : { initial: { opacity: 0, ...from }, animate: { opacity: 1, x: 0, y: 0 }, transition: { duration: 1.1, ease: EASE, delay } };
 
   return (
-    <section ref={ref} aria-labelledby="about-h" className="relative overflow-x-clip bg-white pt-24 md:pt-28">
+    <section ref={ref} aria-labelledby="about-h" className="relative overflow-x-clip bg-white pt-20 md:pt-28">
       <div className="container-x">
         {/* headline — arrives after the images */}
         <motion.div style={par(hY)}>

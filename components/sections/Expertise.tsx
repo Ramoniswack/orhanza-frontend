@@ -7,7 +7,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button, Drift, Hanger, Ruler, Scissors, Spool, Thimble } from "@/components/Icons";
 import { JacketOnHanger, Mannequin, NeedleThread, StitchLines, SwatchStack, TapeMeasure } from "@/components/Illustrations";
-import { KineticNumber, StaircaseHeadline } from "@/components/motion";
+import { KineticNumber } from "@/components/motion";
 import { SectionLabel } from "@/components/SectionLabel";
 
 function Card({ children, className = "", i = 0 }: { children: ReactNode; className?: string; i?: number }) {
@@ -17,7 +17,7 @@ function Card({ children, className = "", i = 0 }: { children: ReactNode; classN
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: (i % 3) * 0.1 }}
-      className={`relative overflow-hidden rounded-[22px] p-7 ${className}`}
+      className={`relative overflow-hidden rounded-[22px] p-5 md:p-7 ${className}`}
     >
       {children}
     </motion.div>
@@ -29,34 +29,29 @@ export function Expertise() {
     <section className="bg-white section-y text-ink">
       <div className="container-x">
         <SectionLabel label="Expertise" />
-        <StaircaseHeadline
-          className="mt-5 md:mt-6"
-          lines={[{ text: "Every garment", tone: "setup" }, { text: "made with", tone: "punch" }, { text: "care", tone: "punch" }]}
-          indents={[0, 0.6, 1.2]}
-        />
 
-        <div className="section-gap grid gap-3 md:grid-cols-12 md:grid-rows-[repeat(2,minmax(15rem,auto))]">
-          <Card i={0} className="bg-card md:col-span-4 md:row-span-2">
+        <div className="mt-6 grid gap-3 md:grid-cols-12 md:grid-rows-[repeat(2,minmax(15rem,auto))]">
+          <Card i={0} className="min-h-[17rem] bg-card md:col-span-4 md:row-span-2 md:min-h-0">
             <p className="label-micro text-mute">Founder & Owner</p>
-            <p className="mt-6 text-[7rem] font-extrabold leading-none tracking-[-0.06em] text-gold md:text-[9rem]">K</p>
-            <p className="mt-6 text-2xl font-semibold tracking-[-0.03em]">Kriti Maharjan</p>
-            <Mannequin className="pointer-events-none absolute bottom-6 right-6 h-[52%] min-h-[14rem] text-gold" />
-            <Drift className="pointer-events-none absolute right-6 top-6 h-16 w-16 text-gold"><Scissors className="h-full w-full" /></Drift>
+            <p className="mt-4 text-[5.5rem] font-extrabold leading-none tracking-[-0.06em] text-gold md:mt-6 md:text-[9rem]">K</p>
+            <p className="mt-4 text-2xl font-semibold tracking-[-0.03em] md:mt-6">Kriti Maharjan</p>
+            <Mannequin className="pointer-events-none absolute bottom-5 right-5 h-[12.5rem] text-gold md:bottom-6 md:right-6 md:h-[52%] md:min-h-[14rem]" />
+            <Drift className="pointer-events-none absolute right-6 top-6 hidden h-16 w-16 text-gold md:block"><Scissors className="h-full w-full" /></Drift>
             <Drift delay={1} dur={7} className="pointer-events-none absolute bottom-8 left-7 hidden h-14 w-14 text-ink/40 md:block"><Button className="h-full w-full" /></Drift>
             <Drift delay={2} dur={5} className="pointer-events-none absolute bottom-28 left-24 hidden h-12 w-12 text-gold/70 md:block"><Thimble className="h-full w-full" /></Drift>
           </Card>
 
-          <Card i={1} className="bg-black text-ivory md:col-span-4">
-            <p className="text-3xl font-bold leading-[0.95] tracking-[-0.04em] md:[writing-mode:vertical-rl] md:rotate-180 md:text-5xl">Wear your confidence</p>
-            <JacketOnHanger className="pointer-events-none absolute bottom-5 right-6 h-[70%] text-ivory/60" />
-            <Drift className="pointer-events-none absolute right-6 top-6 h-12 w-12 text-gold"><Spool className="h-full w-full" /></Drift>
+          <Card i={1} className="min-h-[9rem] bg-black text-ivory md:col-span-4 md:min-h-0">
+            <p className="max-w-[10.5rem] text-3xl font-bold leading-[0.95] tracking-[-0.04em] md:max-w-none md:[writing-mode:vertical-rl] md:rotate-180 md:text-5xl">Wear your confidence</p>
+            <JacketOnHanger className="pointer-events-none absolute bottom-4 right-5 h-[78%] text-ivory/60 md:bottom-5 md:right-6 md:h-[70%]" />
+            <Drift className="pointer-events-none absolute right-6 top-6 hidden h-12 w-12 text-gold md:block"><Spool className="h-full w-full" /></Drift>
             <Drift delay={1.5} className="pointer-events-none absolute bottom-6 left-6 hidden h-12 w-12 text-ivory/40 md:block"><Hanger className="h-full w-full" /></Drift>
           </Card>
 
-          <Card i={2} className="min-h-[14rem] bg-card md:col-span-4 md:min-h-0">
+          <Card i={2} className="min-h-[12rem] bg-card md:col-span-4 md:min-h-0">
             <h3 className="t-h3">Precision fit</h3>
             <TapeMeasure className="pointer-events-none absolute inset-x-6 bottom-5 w-[calc(100%-3rem)] text-gold" />
-            <Drift className="pointer-events-none absolute right-6 top-6 h-14 w-14 text-gold"><Ruler className="h-full w-full" /></Drift>
+            <Drift className="pointer-events-none absolute right-6 top-6 hidden h-14 w-14 text-gold md:block"><Ruler className="h-full w-full" /></Drift>
             <Drift delay={1.2} dur={7} className="pointer-events-none absolute left-7 top-1/3 hidden h-12 w-12 text-ink/30 md:block"><Spool className="h-full w-full" /></Drift>
           </Card>
 
@@ -66,8 +61,8 @@ export function Expertise() {
                 <h3 className="t-h3">Premium fabrics</h3>
                 <Link href="/collections" className="mt-6 inline-block text-sm font-semibold underline-offset-4 hover:underline">View Collections →</Link>
               </div>
-              <div className="relative h-36 w-24 shrink-0 overflow-hidden rounded-xl">
-                <Image src="/images/products/wool-linen-groomsmen-suit-a.webp" alt="Wool-linen suit by Orhanza" fill sizes="96px" className="object-cover object-top" />
+              <div className="relative h-36 w-24 shrink-0 overflow-hidden bg-white">
+                <Image src="/lookbook/5.webp" alt="Made-to-measure suit by Orhanza" fill sizes="96px" className="object-cover object-top" />
               </div>
             </div>
           </Card>
@@ -88,7 +83,7 @@ export function Expertise() {
       </div>
 
       {/* 100% — same side margins as the bento above (container-x), so it lines up with the grid */}
-      <div className="container-x mt-12 md:mt-20">
+      <div className="container-x mt-6 md:mt-16">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -96,15 +91,15 @@ export function Expertise() {
         transition={{ duration: 0.8 }}
         className="relative overflow-hidden rounded-[28px] bg-burgundy text-ivory md:rounded-[40px]"
       >
-        <div className="relative z-10 flex flex-col justify-between gap-8 px-8 py-14 sm:px-12 md:flex-row md:items-center md:px-14 md:py-24 lg:px-20 xl:px-24">
-          <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(6rem,15vw,15rem)] font-extrabold tracking-[-0.06em]" />
+        <div className="relative z-10 flex flex-col justify-between gap-5 px-6 py-8 sm:px-12 md:flex-row md:items-center md:px-14 md:py-20 lg:px-20 xl:px-24">
+          <KineticNumber value={100} suffix="%" stagger={0.1} duration={1.3} className="text-[clamp(5rem,15vw,15rem)] font-extrabold tracking-[-0.06em]" />
           <div className="md:max-w-[28rem]">
             <ul className="flex flex-wrap gap-5 text-ivory/70 md:gap-6" aria-hidden>
               {[Scissors, Spool, Hanger, Button, Thimble].map((I, i) => (
                 <li key={i}><Drift delay={i * 0.6} dur={5 + i * 0.5} amp={7} className="h-14 w-14 md:h-16 md:w-16"><I className="h-full w-full" /></Drift></li>
               ))}
             </ul>
-            <p className="mt-6 text-2xl font-semibold md:text-4xl">Made to measure</p>
+            <p className="mt-4 text-2xl font-semibold md:mt-6 md:text-4xl">Made to measure</p>
           </div>
         </div>
         <StitchLines className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-3/5 text-ivory/25 md:block" />

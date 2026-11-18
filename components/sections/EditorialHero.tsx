@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const categories = [
-  { label: "New Arrivals", href: "/shop" },
+  { label: "Shop", href: "/shop" },
   { label: "Try On", href: "/try-on" },
   { label: "Custom Made", href: "/custom-made" },
   { label: "About", href: "/about" },

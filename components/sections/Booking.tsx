@@ -14,8 +14,8 @@ export function Booking() {
 
   return (
     <section id="book" className="container-x section-y" aria-labelledby="book-h">
-      <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr]">
-        <Reveal className="flex flex-col justify-between gap-12">
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+        <Reveal className="flex flex-col justify-between gap-6 lg:gap-12">
           <div>
             <h2 id="book-h" className="t-h2 mt-5">Book a Consultation</h2>
           </div>

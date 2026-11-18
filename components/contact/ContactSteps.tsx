@@ -8,7 +8,7 @@ const steps = [
 
 export function ContactSteps() {
   return (
-    <section aria-labelledby="next-h" className="container-x pb-16 md:pb-24">
+    <section aria-labelledby="next-h" className="container-x pb-10 md:pb-20">
       <Reveal>
         <h2 id="next-h" className="h-display text-[clamp(2rem,4vw,3.6rem)]">What happens next</h2>
       </Reveal>

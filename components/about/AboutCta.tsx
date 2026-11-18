@@ -16,7 +16,7 @@ export function AboutCta() {
     reduce ? {} : { initial: { opacity: 0, y: 60, x }, whileInView: { opacity: 1, y: 0, x: 0 }, viewport: { once: true, amount: 0.3 }, transition: { duration: 1, ease: EASE } };
 
   return (
-    <section aria-label="Book a fitting" className="overflow-x-clip bg-white pt-10 md:pt-16">
+    <section aria-label="Book a fitting" className="overflow-x-clip bg-white pt-6 md:pt-14">
       <div className="container-x flex items-end justify-between gap-3">
         <motion.div {...rise(-40)} aria-hidden className="shrink-0">
           <Image src="/images/about/cta-left.webp" alt="" width={356} height={702} sizes="(min-width:768px) 20vw, 28vw" className="h-[30svh] w-auto md:h-[52svh]" />

@@ -17,7 +17,7 @@ export function Testimonials() {
   const go = (k: number) => setI(((k % n) + n) % n);
 
   return (
-    <BgFlip tone="dark" pushUp className="pb-14 pt-14 md:pb-24 md:pt-20">
+    <BgFlip tone="dark" pushUp className="pb-10 pt-10 md:pb-20 md:pt-20">
       <div className="container-x">
         <SectionLabel label="Testimonials" dark />
 
@@ -36,7 +36,7 @@ export function Testimonials() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-10 md:mt-14 md:grid-cols-[5fr_7fr] md:gap-16 lg:gap-24">
+        <div className="mt-8 grid gap-8 md:mt-14 md:grid-cols-[5fr_7fr] md:gap-16 lg:gap-24">
           {/* portrait */}
           <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[22px] bg-[#111] md:mx-0 md:max-w-none">
             <AnimatePresence mode="popLayout">
@@ -78,7 +78,7 @@ export function Testimonials() {
 
         <div className="mt-10 md:mt-14">
           <div className="relative aspect-[16/10] overflow-hidden rounded-[22px] bg-[#111] md:aspect-[16/8]">
-            <Image src="/images/products/wool-linen-groomsmen-suit-a.webp" alt="Wool-linen groomsmen suit — Orhanza" fill sizes="100vw" className="object-cover object-top opacity-70" />
+            <Image src="/images/banners/craft.webp" alt="Orhanza made-to-measure suit" fill sizes="100vw" className="object-cover object-top opacity-70" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" />
             <StaircaseHeadline
               dark
