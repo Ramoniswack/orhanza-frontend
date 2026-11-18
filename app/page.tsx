@@ -5,14 +5,14 @@ import { Expertise } from "@/components/sections/Expertise";
 import { Faq } from "@/components/sections/Faq";
 import { HeroVideo } from "@/components/sections/HeroVideo";
 import { HomeTailoring } from "@/components/sections/HomeTailoring";
-import { CustomMadeTeaser } from "@/components/sections/CustomMadeTeaser";
+import { SelectedPieces } from "@/components/sections/SelectedPieces";
 import { Showreel } from "@/components/sections/Showreel";
 
 export default function Home() {
   return (
     <>
       <HeroVideo />         {/* hero — film of the atelier */}
-      <CustomMadeTeaser />  {/* made to measure — cloth cross-fade on scroll */}
+      <SelectedPieces />    {/* selected pieces — pinned horizontal card slider */}
       <HomeTailoring />     {/* process — measuring-tape step list */}
       <Craft />             {/* 4  */}
       <Showreel />          {/* 6  expand on scroll */}

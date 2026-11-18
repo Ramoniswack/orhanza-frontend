@@ -44,8 +44,11 @@ export function HeroVideo() {
         >
           Made to measure, made to last.
         </motion.h1>
-        <motion.div {...rise(0.55)} className="mt-5">
-          <Link href="/shop" className="text-[11px] font-semibold uppercase tracking-[0.2em] transition-opacity hover:opacity-65">
+        <motion.div {...rise(0.55)} className="mt-8">
+          <Link
+            href="/shop"
+            className="inline-flex h-12 items-center justify-center border border-ivory/70 px-10 text-[11px] font-semibold uppercase tracking-[0.22em] text-ivory backdrop-blur-[2px] transition-[background-color,color,border-color] duration-500 hover:border-ivory hover:bg-ivory hover:text-charcoal"
+          >
             Shop now
           </Link>
         </motion.div>

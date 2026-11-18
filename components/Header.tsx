@@ -69,7 +69,7 @@ export function Header() {
               onClick={() => show()}
               aria-label={`Open shortlist, ${items.length} items`}
               title="Shortlist"
-              className="group relative grid h-10 w-10 place-items-center border border-white/25 transition-[border-color,background-color,color] duration-500 hover:border-gold hover:bg-gold hover:text-charcoal"
+              className="relative grid h-10 w-10 place-items-center transition-opacity duration-300 hover:opacity-60"
             >
               <ShortlistIcon filled={items.length > 0} />
               {items.length > 0 && (
@@ -78,7 +78,7 @@ export function Header() {
                   initial={{ scale: 0.6, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute -right-2 -top-2 grid h-[18px] min-w-[18px] place-items-center bg-gold px-1 text-[10px] font-semibold leading-none tracking-normal text-charcoal"
+                  className="absolute -right-0.5 top-0.5 grid h-[16px] min-w-[16px] place-items-center bg-gold px-1 text-[9px] font-semibold leading-none tracking-normal text-charcoal"
                 >
                   {items.length}
                 </motion.span>
