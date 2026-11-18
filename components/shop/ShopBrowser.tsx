@@ -9,7 +9,7 @@ import { ShopCard } from "./ShopCard";
 type Props = { initial?: { gender?: string; occasion?: string; type?: string } };
 
 const chip = (on: boolean) =>
-  `min-h-10 rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-charcoal bg-charcoal text-ivory" : "border-charcoal/20 hover:border-charcoal"}`;
+  `min-h-10 shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-charcoal bg-charcoal text-ivory" : "border-charcoal/20 hover:border-charcoal"}`;
 
 export function ShopBrowser({ initial }: Props) {
   const [gender, setGender] = useState<Gender | "all">(genders.some((g) => g.slug === initial?.gender) ? (initial!.gender as Gender) : "all");
@@ -56,14 +56,14 @@ export function ShopBrowser({ initial }: Props) {
 
       {/* filters */}
       <div className="mt-6 flex flex-col gap-4 border-y border-black/10 py-5 md:flex-row md:items-center md:gap-10">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="label-micro mr-1 text-slate">Occasion</span>
+        <div className="no-scrollbar -mx-[1.1rem] flex items-center gap-2 overflow-x-auto px-[1.1rem] md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
+          <span className="label-micro mr-1 shrink-0 text-slate">Occasion</span>
           {(["all", ...occasions] as const).map((o) => (
             <button key={o} onClick={() => pick.occasion(o)} aria-pressed={occasion === o} className={chip(occasion === o)}>{o === "all" ? "All" : o}</button>
           ))}
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="label-micro mr-1 text-slate">Type</span>
+        <div className="no-scrollbar -mx-[1.1rem] flex items-center gap-2 overflow-x-auto px-[1.1rem] md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
+          <span className="label-micro mr-1 shrink-0 text-slate">Type</span>
           {(["all", ...shopTypes] as const).map((t) => (
             <button key={t} onClick={() => pick.type(t)} aria-pressed={type === t} className={chip(type === t)}>{t === "all" ? "All" : t}</button>
           ))}

@@ -70,7 +70,7 @@ export function Panel(props: {
   const iconBtn = "flex h-9 w-9 items-center justify-center text-ink transition-colors duration-300 hover:bg-ink/5 aria-pressed:bg-ink/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
   return (
-    <div ref={scroller} className="relative bg-[#FAF8F4] text-ink md:h-full md:overflow-y-auto md:overscroll-contain">
+    <div ref={scroller} className="relative bg-white text-ink md:h-full md:overflow-y-auto md:overscroll-contain">
       <div ref={inner}>
         <div className="px-5 pb-36 pt-9 md:px-10 md:pb-10 md:pt-14">
           {/* Men / Women — one page, one model at a time */}
@@ -149,7 +149,7 @@ export function Panel(props: {
         </div>
 
         {/* 3 — total + Finish: pinned to the bottom of this column on desktop, fixed to the screen on mobile */}
-        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/12 bg-[#FAF8F4] px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 md:sticky md:inset-x-auto md:px-10 md:pb-5 md:pt-4">
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink/12 bg-white px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 md:sticky md:inset-x-auto md:px-10 md:pb-5 md:pt-4">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-slate">Total</p>

@@ -138,7 +138,7 @@ export function FitAdvisorDrawer({
             role="dialog"
             aria-modal="true"
             aria-label="Orhanza fit advisor"
-            className="fixed inset-y-0 right-0 z-[81] flex w-full max-w-[480px] flex-col border-l border-ink/12 bg-[#FAF8F4] text-ink shadow-2xl"
+            className="fixed inset-y-0 right-0 z-[81] flex w-full max-w-[480px] flex-col border-l border-ink/12 bg-white text-ink shadow-2xl"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -260,7 +260,7 @@ export function FitAdvisorDrawer({
                       </div>
                       <div className="relative h-1.5 bg-ink/10">
                         <span className="absolute left-1/2 top-0 h-1.5 w-1/3 -translate-x-1/2 bg-gold/60" />
-                        <span className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#FAF8F4] bg-ink" style={{ left: `${recommendation.overallBalance}%` }} />
+                        <span className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-ink" style={{ left: `${recommendation.overallBalance}%` }} />
                       </div>
                     </div>
 
@@ -273,7 +273,7 @@ export function FitAdvisorDrawer({
                           </div>
                           <div className="relative my-2.5 h-1 bg-ink/10">
                             <span className="absolute left-1/2 top-0 h-1 w-1/3 -translate-x-1/2 bg-gold/60" />
-                            <span className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#FAF8F4] bg-ink" style={{ left: `${zone.meterPosition}%` }} />
+                            <span className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-ink" style={{ left: `${zone.meterPosition}%` }} />
                           </div>
                           <p className="text-xs leading-relaxed text-slate">{zone.status}</p>
                         </div>
@@ -295,7 +295,7 @@ export function FitAdvisorDrawer({
               </AnimatePresence>
             </div>
 
-            <footer className="flex items-center justify-between gap-3 border-t border-ink/12 bg-[#FAF8F4] p-5">
+            <footer className="flex items-center justify-between gap-3 border-t border-ink/12 bg-white p-5">
               {step > 1 ? (
                 <button type="button" onClick={() => setStep((current) => (current === 3 ? 2 : 1))} className="inline-flex h-12 items-center gap-2 border border-ink/20 px-4 text-[10px] font-medium uppercase tracking-[0.16em]">
                   <Icon name="back" /> Back

@@ -62,7 +62,7 @@ export function FinishSheet({ open, onClose, fabric, pieces, gender, total, redu
             role="dialog"
             aria-modal="true"
             aria-label="Your made-to-measure suit"
-            className="fixed right-0 top-0 z-[71] flex h-dvh w-full max-w-[440px] flex-col border-l border-ink/12 bg-[#FAF8F4] text-ink"
+            className="fixed right-0 top-0 z-[71] flex h-dvh w-full max-w-[440px] flex-col border-l border-ink/12 bg-white text-ink"
             initial={reduce ? { opacity: 0 } : { x: "100%" }}
             animate={reduce ? { opacity: 1 } : { x: 0 }}
             exit={reduce ? { opacity: 0 } : { x: "100%" }}

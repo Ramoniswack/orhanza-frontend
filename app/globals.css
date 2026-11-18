@@ -124,7 +124,7 @@ body:has([data-custom-made]) footer { display: none; } /* the page is an app-lik
 .cm-fade { animation: cm-fade .3s cubic-bezier(.22,1,.36,1) both; }
 @keyframes cm-fade { from { opacity: 0; } to { opacity: 1; } }
 .cm-shimmer { position: relative; overflow: hidden; }
-.cm-shimmer::after { content: ""; position: absolute; inset: 0; background: url(/custom-made/ui/shimmer.png) center / 100% 100% no-repeat; transform: translateX(-100%); animation: cm-shimmer 1.6s cubic-bezier(.4,0,.2,1) infinite; }
+.cm-shimmer::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / .12) 50%, transparent 70%); transform: translateX(-100%); animation: cm-shimmer 1.6s cubic-bezier(.4,0,.2,1) infinite; }
 @keyframes cm-shimmer { to { transform: translateX(100%); } }
 @media (prefers-reduced-motion: reduce) { .cm-shimmer::after { animation: none; display: none; } .cm-fade { animation-duration: .15s !important; } }
 

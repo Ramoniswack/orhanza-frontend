@@ -72,10 +72,7 @@ export function Stage({ fabric, stage, gender, waistcoat, reduce }: { fabric: Fa
   const zoom = shownKind === "jacket" ? { scale: 1.28, y: "6%" } : { scale: 1, y: "0%" };
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[#F1EDE5]">
-      {/* warm-white sweep, lighter behind the figure; nothing else on the stage */}
-      <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(70% 62% at 50% 36%, #FCFAF6 0%, #F3EFE8 58%, #E9E3D8 100%)" }} />
-
+    <div className="relative h-full w-full overflow-hidden bg-white">
       {/* model — same canvas always; only the wrapper moves */}
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div

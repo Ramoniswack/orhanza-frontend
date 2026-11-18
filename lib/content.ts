@@ -1,11 +1,11 @@
 // Copy for the long-scroll sections. All of it is derived from the Orhanza content pack — swap freely.
-import { fabricCategories, products } from "./data";
+import { fabricCategories, productImage, products } from "./data";
 
 export const servicePanels = [
   { title: "Made-to-Measure Suits", body: "Custom suits designed for business, celebrations, weddings, and everyday refinement.", sub: ["Business", "Celebrations", "Weddings", "Everyday refinement"], image: "/images/products/midnight-double-breasted-suit-a.webp" },
   { title: "Premium Shirting", body: "Personalized shirts with selected fabrics, collar styles, cuffs, and fit preferences.", sub: ["Selected fabrics", "Collar styles", "Cuffs", "Fit preferences"], image: "/images/products/signature-white-shirt-a.webp" },
   { title: "Coat & Pant Tailoring", body: "Tailored coat-pant sets for formal occasions, weddings, and professional styling.", sub: ["Formal occasions", "Weddings", "Professional styling"], image: "/images/products/sand-coat-pant-set-a.webp" },
-  { title: "Wedding & Occasion Wear", body: "Distinctive attire for grooms, groomsmen, and special celebrations.", sub: ["Grooms", "Groomsmen", "Special celebrations"], image: "/images/products/ivory-grooms-suit-a.webp" },
+  { title: "Wedding & Occasion Wear", body: "Distinctive attire for grooms, groomsmen, and special celebrations.", sub: ["Grooms", "Groomsmen", "Special celebrations"], image: productImage({ slug: "ivory-grooms-suit" }) },
   { title: "Fabric Consultation", body: "Guidance on cloth weight, texture, colour, seasonality, and occasion suitability.", sub: ["Cloth weight", "Texture", "Colour", "Seasonality", "Occasion"], image: "/images/banners/craft.webp" },
   { title: "Personal Styling", body: "A consultation-led process to create a look that is uniquely yours.", sub: ["Consultation-led", "Silhouette", "Uniquely yours"], image: "/images/products/black-tie-evening-suit-a.webp" },
 ];
@@ -40,7 +40,7 @@ export const commissions = [
 
 export const audience = [
   { role: "Professionals & businessmen", intro: "Suits that carry you from the first meeting to the last.", image: "/images/products/midnight-double-breasted-suit-a.webp" },
-  { role: "Grooms & wedding guests", intro: "Distinctive attire for the day you will be photographed most.", image: "/images/products/ivory-grooms-suit-a.webp" },
+  { role: "Grooms & wedding guests", intro: "Distinctive attire for the day you will be photographed most.", image: productImage({ slug: "ivory-grooms-suit" }) },
   { role: "Students & fashion-conscious men", intro: "A distinctive fit, cut around you and how you move.", image: "/images/banners/style-portrait.webp" },
 ];
 

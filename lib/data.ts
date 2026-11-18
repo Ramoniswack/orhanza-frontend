@@ -149,8 +149,12 @@ export const products: Product[] = [
   },
 ];
 
-export const productImage = (p: Pick<Product, "slug">, which: "a" | "b" = "a") =>
-  `/images/products/${p.slug}-${which}.webp`;
+export const productImage = (p: Pick<Product, "slug">, which: "a" | "b" = "a") => {
+  if (p.slug === "ivory-grooms-suit") {
+    return which === "a" ? "/lookbook/1.1.webp" : "/lookbook/1.webp";
+  }
+  return `/images/products/${p.slug}-${which}.webp`;
+};
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
 export const categoryLabel = (slug: CategorySlug) => categories.find((c) => c.slug === slug)?.label ?? slug;

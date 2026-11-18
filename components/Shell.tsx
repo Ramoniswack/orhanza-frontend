@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { CustomCursor } from "./CustomCursor";
-import { Header } from "./Header";
+import { Navbar } from "./Navbar";
 import { ShortlistDrawer } from "./ShortlistDrawer";
 import { ShortlistProvider } from "./ShortlistProvider";
 import { SmoothScroll } from "@/lib/lenis";
@@ -12,7 +12,7 @@ export function Shell({ children }: { children: ReactNode }) {
     <SmoothScroll>
       <ShortlistProvider>
         <CustomCursor />
-        <Header />
+        <Navbar />
         {children}
         <ShortlistDrawer />
       </ShortlistProvider>

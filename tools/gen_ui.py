@@ -1,6 +1,5 @@
 import os, json, numpy as np
-from PIL import Image, ImageDraw, ImageFilter
-rng=np.random.default_rng(3)
+from PIL import Image
 G="public/custom-made/garments"; U="public/custom-made/ui"; T="public/custom-made/trims"
 for d in (G,U,T): os.makedirs(d,exist_ok=True)
 S='fill="none" stroke="#111318" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"'
@@ -15,14 +14,7 @@ for k,v in icons.items(): open(f"{G}/{k}.svg","w").write(f'<svg xmlns="http://ww
 # skeleton silhouette (loader)
 open(f"{U}/skeleton-suit.svg","w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 1113"><g fill="#ECECEC"><ellipse cx="165" cy="52" rx="46" ry="58"/><path d="M118 108l47 30 47-30 62 22 24 330-30 6-12-240-10 262 6 410h-60l-14-380-14 380h-60l6-410-10-262-12 240-30-6 24-330z"/></g></svg>')
 # soft ground shadow
-W,H=700,90; im=Image.new("L",(W,H),0); ImageDraw.Draw(im).ellipse((60,25,W-60,H-25),fill=150)
-im.filter(ImageFilter.GaussianBlur(18)).save(f"{U}/ground-shadow.png")
-a=Image.new("RGBA",(W,H),(17,19,24,0)); a.putalpha(im.filter(ImageFilter.GaussianBlur(18))); a.save(f"{U}/ground-shadow.png")
-# film grain overlay (tileable 256)
-n=(rng.normal(128,28,(256,256))).clip(0,255).astype(np.uint8); Image.fromarray(n,"L").save(f"{U}/grain.png")
-# shimmer gradient for skeleton tiles
-g=np.tile(np.linspace(0,1,400)[None,:],(8,1)); g=(np.sin(g*np.pi)**2*255).astype(np.uint8)
-Image.fromarray(np.dstack([np.full_like(g,255)]*3+[(g*.7).astype(np.uint8)]),"RGBA").save(f"{U}/shimmer.png")
+open(f"{U}/ground-shadow.svg","w").write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 90"><defs><radialGradient id="shadow"><stop stop-color="#111318" stop-opacity=".38"/><stop offset=".65" stop-color="#111318" stop-opacity=".14"/><stop offset="1" stop-color="#111318" stop-opacity="0"/></radialGradient></defs><ellipse cx="350" cy="45" rx="290" ry="28" fill="url(#shadow)"/></svg>')
 # trims: lining + buttons (200px discs/squares)
 def disc(c,name,shine=True):
     N=200; yy,xx=np.mgrid[0:N,0:N]; r=np.hypot(xx-N/2,yy-N/2)/(N/2)
