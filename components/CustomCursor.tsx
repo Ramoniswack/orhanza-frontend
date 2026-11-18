@@ -16,7 +16,6 @@ export function CustomCursor() {
   const [hover, setHover] = useState(false);
   const [down, setDown] = useState(false);
   const [field, setField] = useState(false);
-  const [plain, setPlain] = useState(false); // over a photograph: no colour-inverting blend, no filled blob
 
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
@@ -34,7 +33,6 @@ export function CustomCursor() {
       const t = e.target as Element | null;
       setField(!!t?.closest(FIELD));
       setHover(!!t?.closest(INTERACTIVE));
-      setPlain(!!t?.closest("[data-cursor='plain']"));
     };
     const leave = () => setVisible(false);
     const enter = () => setVisible(true);
@@ -60,17 +58,24 @@ export function CustomCursor() {
   const show = visible && !field;
 
   return (
-    <div aria-hidden className={`pointer-events-none fixed inset-0 z-[9999] ${plain ? "" : "mix-blend-difference"}`}>
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-[9999]">
       <motion.div style={{ x: rx, y: ry }} className="absolute left-0 top-0">
         <motion.div
-          animate={{ scale: !show ? 0 : down ? 0.8 : hover ? 1.9 : 1, opacity: show ? 1 : 0 }}
+          animate={{ scale: !show ? 0 : down ? 0.8 : hover ? 1.5 : 1, opacity: show ? 1 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 24 }}
-          className="cursor-circle -ml-[18px] -mt-[18px] h-9 w-9 rounded-full border border-white"
-          style={{ background: hover && !plain ? "rgba(255,255,255,1)" : "transparent", boxShadow: plain ? "0 0 0 1px rgba(0,0,0,0.35)" : "none" }}
+          className="cursor-circle -ml-[18px] -mt-[18px] h-9 w-9 rounded-full border border-[#1A1A1A]"
+          style={{
+            background: hover ? "rgba(26,26,26,0.08)" : "transparent",
+            boxShadow: "0 0 0 1px rgba(255,255,255,0.9)",
+          }}
         />
       </motion.div>
       <motion.div style={{ x, y }} className="absolute left-0 top-0">
-        <motion.div animate={{ scale: show && !hover ? 1 : 0 }} transition={{ duration: 0.15 }} className="cursor-circle -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-white" />
+        <motion.div
+          animate={{ scale: show && !hover ? 1 : 0 }}
+          transition={{ duration: 0.15 }}
+          className="cursor-circle -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full border border-white bg-[#1A1A1A]"
+        />
       </motion.div>
     </div>
   );

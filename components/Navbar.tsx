@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bookmark, Search, ShoppingBag, UserRound, X } from "lucide-react";
+import { Bookmark, Search, UserRound, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useShortlist } from "./ShortlistProvider";
 
 const primaryLinks = [
   { label: "New Arrivals", href: "/shop" },
@@ -15,6 +16,7 @@ const primaryLinks = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const { items, show } = useShortlist();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -110,13 +112,15 @@ export function Navbar() {
           <Link href="/profile" aria-label="User profile" className="grid h-10 w-5 place-items-center">
             <UserRound size={18} strokeWidth={1.5} />
           </Link>
-          <Link href="/shop" aria-label="Wishlist" className="grid h-10 w-5 place-items-center">
+          <button
+            type="button"
+            aria-label={`Open shortlist, ${items.length} items`}
+            title="Shortlist"
+            onClick={show}
+            className="grid h-10 w-5 place-items-center"
+          >
             <Bookmark size={18} strokeWidth={1.5} />
-          </Link>
-          <Link href="/shop" aria-label="Shopping bag, 0 items" className="relative grid h-10 w-5 place-items-center">
-            <ShoppingBag size={18} strokeWidth={1.5} />
-            <span aria-hidden className="absolute -right-2 top-1 text-[9px] leading-none">0</span>
-          </Link>
+          </button>
         </div>
       </header>
 
@@ -192,7 +196,7 @@ export function Navbar() {
                       href={link.href}
                       aria-current={pathname === link.href ? "page" : undefined}
                       onClick={() => setMenuOpen(false)}
-                      className="block transition-[opacity,transform] duration-200 hover:translate-x-1 hover:opacity-60"
+                      className="block origin-left transition-[opacity,transform] duration-300 hover:translate-x-1 hover:scale-[1.05] hover:opacity-60"
                     >
                       {link.label}
                     </Link>

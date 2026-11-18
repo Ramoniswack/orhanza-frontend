@@ -73,7 +73,6 @@ html.lenis, html.lenis body { height: auto; }
   * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-/* Custom cursor: hide the native one on mouse devices (text fields keep the I-beam) */
 html.has-cursor, html.has-cursor * { cursor: none !important; }
 html.has-cursor input, html.has-cursor textarea { cursor: text !important; }
 

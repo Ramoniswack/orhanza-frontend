@@ -31,7 +31,7 @@ export function EditorialHero() {
           <Link
             key={category.label}
             href={category.href}
-            className="text-lg font-semibold leading-[1.45] tracking-[-0.01em] text-white transition-opacity duration-200 group-hover:opacity-60 hover:!opacity-100 md:text-[22px]"
+            className="origin-left text-lg font-semibold leading-[1.45] tracking-[-0.01em] text-white transition-[opacity,transform] duration-300 ease-out group-hover:opacity-60 hover:!scale-[1.08] hover:!opacity-100 focus-visible:scale-[1.08] md:text-[22px]"
           >
             {category.label}
           </Link>
