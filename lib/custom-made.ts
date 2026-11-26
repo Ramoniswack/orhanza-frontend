@@ -13,7 +13,7 @@ export type Fabric = {
   suitPreview: string;
 };
 export type PieceKey = "jacket" | "trousers" | "waistcoat";
-export type Pieces = { jacket: true; trousers: boolean; waistcoat: boolean };
+export type Pieces = { jacket: boolean; trousers: boolean; waistcoat: boolean };
 export type Stage = "jacket" | "suit";
 export type Gender = "men" | "women";
 export type Tab = "fabric" | PieceKey;
@@ -24,7 +24,7 @@ export type Tab = "fabric" | PieceKey;
 export const FABRIC_PRICE_OVERRIDES: Record<string, number> = {};
 /** Every price on the page is the list price × this (0.5 = 50% off). Set to 1 for the original prices. */
 export const PRICE_FACTOR = 0.5;
-export const PIECE_PRICE: Record<PieceKey, number> = { jacket: 18000 * PRICE_FACTOR, trousers: 9000 * PRICE_FACTOR, waistcoat: 7500 * PRICE_FACTOR };
+export const PIECE_PRICE: Record<PieceKey, number> = { jacket: 41000, trousers: 4500, waistcoat: 3750 };
 export const DELIVERY_TEXT = "3–4 weeks delivery"; // placeholder
 
 export const fabrics: Fabric[] = manifest.fabrics.map((f) => ({ ...f, priceNpr: Math.round((FABRIC_PRICE_OVERRIDES[f.slug] ?? f.priceNpr) * PRICE_FACTOR) }));
@@ -48,18 +48,19 @@ export const genderLabel = (g: Gender) => (g === "women" ? "Women" : "Men");
 /** "Rs. 64,000" — en-US grouping on purpose so server and client render identically. */
 export const formatNpr = (n: number) => `Rs. ${n.toLocaleString("en-US")}`;
 
-export function lineItems(fabric: Fabric, pieces: Pieces) {
-  const items = [{ label: "Cloth", price: fabric.priceNpr }, { label: "Jacket", price: PIECE_PRICE.jacket }];
+export function lineItems(pieces: Pieces) {
+  const items: { label: string; price: number }[] = [];
+  if (pieces.jacket) items.push({ label: "Jacket", price: PIECE_PRICE.jacket });
   if (pieces.trousers) items.push({ label: "Trousers", price: PIECE_PRICE.trousers });
   if (pieces.waistcoat) items.push({ label: "Waistcoat", price: PIECE_PRICE.waistcoat });
   return items;
 }
-export const totalNpr = (fabric: Fabric, pieces: Pieces) => lineItems(fabric, pieces).reduce((s, i) => s + i.price, 0);
+export const totalNpr = (pieces: Pieces) => lineItems(pieces).reduce((s, i) => s + i.price, 0);
 
-export const piecesList = (p: Pieces) => ["jacket", p.trousers && "trousers", p.waistcoat && "waistcoat"].filter(Boolean).join(",");
+export const piecesList = (p: Pieces) => [p.jacket && "jacket", p.trousers && "trousers", p.waistcoat && "waistcoat"].filter(Boolean).join(",");
 export const parsePieces = (s?: string | null): Pieces => {
   const l = (s ?? "").split(",");
-  return { jacket: true, trousers: l.includes("trousers"), waistcoat: l.includes("waistcoat") };
+  return { jacket: l.includes("jacket"), trousers: l.includes("trousers"), waistcoat: l.includes("waistcoat") };
 };
 /** men is the default and stays out of the URL, so every link made before the women's model existed still works. */
 export const configQuery = (slug: string, p: Pieces, gender: Gender = "men") => `fabric=${encodeURIComponent(slug)}&pieces=${piecesList(p)}${gender === "women" ? "&gender=women" : ""}`;

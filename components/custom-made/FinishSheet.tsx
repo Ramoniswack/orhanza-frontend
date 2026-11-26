@@ -8,7 +8,7 @@ import { EASE_OUT, KineticNumber } from "@/components/motion";
 import { useShortlist } from "@/components/ShortlistProvider";
 import { FitAdvisorDrawer } from "./FitAdvisorDrawer";
 import { useLenis } from "@/lib/lenis";
-import { configQuery, genderLabel, lineItems, savedKey, type Fabric, type Gender, type Pieces } from "@/lib/custom-made";
+import { configQuery, DELIVERY_TEXT, genderLabel, lineItems, savedKey, type Fabric, type Gender, type Pieces } from "@/lib/custom-made";
 import type { FitRecommendation } from "@/lib/fit-advisor";
 
 export function FinishSheet({ open, onClose, fabric, pieces, gender, total, reduce }: { open: boolean; onClose: () => void; fabric: Fabric; pieces: Pieces; gender: Gender; total: number; reduce: boolean }) {
@@ -82,12 +82,12 @@ export function FinishSheet({ open, onClose, fabric, pieces, gender, total, redu
                 </div>
               </div>
               <ul className="mt-6 divide-y divide-ink/12 border-y border-ink/12">
-                {lineItems(fabric, pieces).map((i) => (
+                {lineItems(pieces).map((i) => (
                   <li key={i.label} className="flex justify-between py-3 text-[14px] text-ink"><span>{i.label}</span><span className="inline-flex items-center gap-[0.3em] text-slate"><span>Rs.</span><KineticNumber value={i.price} group play duration={0.9} stagger={0.04} /></span></li>
                 ))}
               </ul>
               <p className="mt-5 flex justify-between text-[17px] font-medium tracking-[-0.01em] text-ink"><span>Total</span><span className="inline-flex items-center gap-[0.3em]"><span>Rs.</span><KineticNumber value={total} group play duration={1.1} stagger={0.05} /></span></p>
-              <p className="mt-2 text-[12px] text-slate">Final price is confirmed at your fitting.</p>
+              <p className="mt-2 text-[12px] text-slate">Estimated delivery: {DELIVERY_TEXT}</p>
               <button type="button" onClick={() => setFitAdvisorOpen(true)} className="mt-6 flex w-full items-center justify-between border-y border-ink/12 py-4 text-left text-[11px] font-medium uppercase tracking-[0.16em] text-ink">
                 <span>{recommendation ? `Starting block · ${recommendation.baseSize}` : "Find your starting block"}</span>
                 <span aria-hidden>→</span>

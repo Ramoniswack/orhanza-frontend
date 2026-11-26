@@ -26,7 +26,7 @@ export function CustomMade({ initialFabric, initialPieces, initialGender = "men"
 
   const fabric = getFabric(fabricSlug);
   const stage = pieces.trousers ? "suit" : "jacket";
-  const total = totalNpr(fabric, pieces);
+  const total = totalNpr(pieces);
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     return fabrics.filter((f) => (!category || f.category === category) && (!q || f.name.toLowerCase().includes(q)));
@@ -59,7 +59,7 @@ export function CustomMade({ initialFabric, initialPieces, initialGender = "men"
     setGender(g);
     preload(previewSrc(getFabric(fabricSlug), stage, g));
   }, [fabricSlug, stage]);
-  const togglePiece = useCallback((k: "trousers" | "waistcoat") => setPieces((p) => ({ ...p, [k]: !p[k] })), []);
+  const togglePiece = useCallback((k: keyof Pieces) => setPieces((p) => ({ ...p, [k]: !p[k] })), []);
   const closeSheet = useCallback(() => setSheet(false), []);
   const chooseStyle = useCallback((g: Gender, style: JacketStyle) => {
     setGender(g);
