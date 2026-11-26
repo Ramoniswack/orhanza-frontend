@@ -8,6 +8,7 @@ import { AnimatePresence, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { configQuery, decodeImage, fabrics, getFabric, preload, previewSrc, totalNpr, type Gender, type Pieces } from "@/lib/custom-made";
 import { FinishSheet } from "./FinishSheet";
+import type { JacketStyle } from "./JacketStyleSelector";
 import { Panel } from "./Panel";
 import { Skeleton } from "./Skeleton";
 import { Stage } from "./Stage";
@@ -21,6 +22,7 @@ export function CustomMade({ initialFabric, initialPieces, initialGender = "men"
   const [category, setCategory] = useState<string | null>(null);
   const [sheet, setSheet] = useState(false);
   const [ready, setReady] = useState(false);
+  const [selectedStyle, setSelectedStyle] = useState<Record<Gender, JacketStyle | null>>({ men: null, women: null });
 
   const fabric = getFabric(fabricSlug);
   const stage = pieces.trousers ? "suit" : "jacket";
@@ -59,16 +61,21 @@ export function CustomMade({ initialFabric, initialPieces, initialGender = "men"
   }, [fabricSlug, stage]);
   const togglePiece = useCallback((k: "trousers" | "waistcoat") => setPieces((p) => ({ ...p, [k]: !p[k] })), []);
   const closeSheet = useCallback(() => setSheet(false), []);
+  const chooseStyle = useCallback((g: Gender, style: JacketStyle) => {
+    setGender(g);
+    setSelectedStyle((current) => ({ ...current, [g]: style }));
+  }, []);
 
   return (
     <section data-custom-made aria-label="Custom made suit configurator" aria-busy={!ready} className="relative bg-white pt-16 md:grid md:h-dvh md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:grid-rows-[minmax(0,1fr)]">
       <div className="sticky top-16 z-10 h-[44svh] md:static md:h-full md:min-h-0">
-        <Stage fabric={fabric} stage={stage} gender={gender} waistcoat={pieces.waistcoat} reduce={reduce} />
+        <Stage fabric={fabric} stage={stage} gender={gender} waistcoat={pieces.waistcoat} jacketStyle={selectedStyle[gender]} reduce={reduce} />
       </div>
       <Panel
         fabrics={visible} total={total} selected={fabricSlug} onSelect={select} gender={gender} onGender={chooseGender}
         query={query} setQuery={setQuery} category={category} setCategory={setCategory}
         pieces={pieces} onTogglePiece={togglePiece} onFinish={() => setSheet(true)} reduce={reduce}
+        selectedStyle={selectedStyle} onStyle={chooseStyle}
       />
       <FinishSheet open={sheet} onClose={closeSheet} fabric={fabric} pieces={pieces} gender={gender} total={total} reduce={reduce} />
       <AnimatePresence>{!ready && <Skeleton key="skeleton" reduce={reduce} />}</AnimatePresence>

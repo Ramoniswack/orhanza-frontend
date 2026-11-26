@@ -10,7 +10,8 @@ import { cancelFrame, frame } from "motion";
 import { useEffect, useRef, useState } from "react";
 import { KineticNumber } from "@/components/motion";
 import { FabricGrid } from "./FabricGrid";
-import { DELIVERY_TEXT, PIECE_PRICE, categories, formatNpr, genderLabel, getFabric, type Fabric, type Gender, type PieceKey, type Pieces } from "@/lib/custom-made";
+import { JacketStyleSelector, type JacketStyle } from "./JacketStyleSelector";
+import { DELIVERY_TEXT, PIECE_PRICE, categories, formatNpr, getFabric, type Fabric, type Gender, type PieceKey, type Pieces } from "@/lib/custom-made";
 
 const PIECES: { key: PieceKey; title: string; text: string }[] = [
   { key: "jacket", title: "Jacket", text: "Cut and canvassed to your measures. Lapel, buttons and lining are settled with your tailor at the fitting." },
@@ -27,9 +28,10 @@ export function Panel(props: {
   gender: Gender; onGender: (g: Gender) => void;
   query: string; setQuery: (q: string) => void; category: string | null; setCategory: (c: string | null) => void;
   pieces: Pieces; onTogglePiece: (k: "trousers" | "waistcoat") => void;
+  selectedStyle: Record<Gender, JacketStyle | null>; onStyle: (g: Gender, style: JacketStyle) => void;
   onFinish: () => void; reduce: boolean;
 }) {
-  const { fabrics, total, selected, onSelect, gender, onGender, query, setQuery, category, setCategory, pieces, onTogglePiece, onFinish } = props;
+  const { fabrics, total, selected, onSelect, gender, onGender, query, setQuery, category, setCategory, pieces, onTogglePiece, selectedStyle, onStyle, onFinish } = props;
   const scroller = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
   const [showSearch, setShowSearch] = useState(false);
@@ -74,11 +76,14 @@ export function Panel(props: {
       <div ref={inner}>
         <div className="px-5 pb-36 pt-9 md:px-10 md:pb-10 md:pt-14">
           {/* Men / Women — one page, one model at a time */}
-          <div role="group" aria-label="Try on for" className="mb-9 flex items-center gap-7 md:mb-11">
-            {(["men", "women"] as Gender[]).map((g) => (
-              <button key={g} type="button" aria-pressed={gender === g} onClick={() => onGender(g)} className={`border-b pb-1 text-[12px] font-medium uppercase tracking-[0.22em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold ${gender === g ? "border-ink text-ink" : "border-transparent text-slate hover:text-ink"}`}>{genderLabel(g)}</button>
-            ))}
-          </div>
+          <JacketStyleSelector
+            gender={gender}
+            onGender={onGender}
+            pieces={pieces}
+            onTogglePiece={onTogglePiece}
+            selectedStyle={selectedStyle}
+            onStyle={onStyle}
+          />
 
           {/* 1 — Fabric */}
           <section aria-labelledby="cm-fabric-h">
