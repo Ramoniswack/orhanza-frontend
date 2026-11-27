@@ -8,6 +8,7 @@
 import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { MODEL, decodeImage, fabrics, previewFor, previewSrc, ui, type Fabric, type Gender, type Stage as StageKind } from "@/lib/custom-made";
+import type { JacketStyle } from "./JacketStyleSelector";
 
 /** Symmetric ease for every change on this stage (fabric swap, jacket ↔ suit, zoom) so they all move as one. */
 const SOFT = [0.45, 0, 0.2, 1] as const;
@@ -66,8 +67,10 @@ function useWarmPreviews(kind: StageKind, gender: Gender) {
   }, [kind, gender]);
 }
 
-export function Stage({ fabric, stage, gender, waistcoat, reduce }: { fabric: Fabric; stage: StageKind; gender: Gender; waistcoat: boolean; reduce: boolean }) {
-  const { layers, drop, shownKind } = useCrossfade(previewFor(fabric, stage, gender), stage, reduce);
+export function Stage({ fabric, stage, gender, waistcoat, jacketStyle, reduce }: { fabric: Fabric; stage: StageKind; gender: Gender; waistcoat: boolean; jacketStyle: JacketStyle | null; reduce: boolean }) {
+  const styleSrc = jacketStyle ? `/custom-made/options/jacket/${jacketStyle} Jacket.png` : null;
+  const previewSrcValue = stage === "jacket" && styleSrc ? styleSrc : previewFor(fabric, stage, gender);
+  const { layers, drop, shownKind } = useCrossfade(previewSrcValue, stage, reduce);
   useWarmPreviews(stage, gender);
   const zoom = shownKind === "jacket" ? { scale: 1.28, y: "6%" } : { scale: 1, y: "0%" };
 

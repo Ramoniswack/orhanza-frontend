@@ -10,12 +10,13 @@ import { cancelFrame, frame } from "motion";
 import { useEffect, useRef, useState } from "react";
 import { KineticNumber } from "@/components/motion";
 import { FabricGrid } from "./FabricGrid";
-import { DELIVERY_TEXT, PIECE_PRICE, categories, formatNpr, genderLabel, getFabric, type Fabric, type Gender, type PieceKey, type Pieces } from "@/lib/custom-made";
+import { JacketStyleSelector, type JacketStyle } from "./JacketStyleSelector";
+import { DELIVERY_TEXT, PIECE_PRICE, categories, formatNpr, getFabric, type Fabric, type Gender, type PieceKey, type Pieces } from "@/lib/custom-made";
 
 const PIECES: { key: PieceKey; title: string; text: string }[] = [
   { key: "jacket", title: "Jacket", text: "Cut and canvassed to your measures. Lapel, buttons and lining are settled with your tailor at the fitting." },
   { key: "trousers", title: "Trousers", text: "Matching trousers in the same cloth. Adding them shows the full suit on the model." },
-  { key: "waistcoat", title: "Waistcoat", text: "A matching waistcoat for a three-piece. The preview image is coming; the price is already in your total." },
+  { key: "waistcoat", title: "Waistcoat", text: "A matching waistcoat for a three-piece. The preview image is coming; adding it updates your total." },
 ];
 
 const Icon = ({ d }: { d: string }) => (
@@ -26,15 +27,29 @@ export function Panel(props: {
   fabrics: Fabric[]; total: number; selected: string; onSelect: (slug: string) => void;
   gender: Gender; onGender: (g: Gender) => void;
   query: string; setQuery: (q: string) => void; category: string | null; setCategory: (c: string | null) => void;
-  pieces: Pieces; onTogglePiece: (k: "trousers" | "waistcoat") => void;
+  pieces: Pieces; onTogglePiece: (k: PieceKey) => void;
+  selectedStyle: Record<Gender, JacketStyle | null>; onStyle: (g: Gender, style: JacketStyle) => void;
   onFinish: () => void; reduce: boolean;
 }) {
-  const { fabrics, total, selected, onSelect, gender, onGender, query, setQuery, category, setCategory, pieces, onTogglePiece, onFinish } = props;
+  const { fabrics, total, selected, onSelect, gender, onGender, query, setQuery, category, setCategory, pieces, onTogglePiece, selectedStyle, onStyle, onFinish } = props;
   const scroller = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
   const [showSearch, setShowSearch] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [finishError, setFinishError] = useState(false);
   const current = getFabric(selected);
+  const finish = () => {
+    if (!Object.values(pieces).some(Boolean)) {
+      setFinishError(true);
+      return;
+    }
+    setFinishError(false);
+    onFinish();
+  };
+  const togglePiece = (piece: PieceKey) => {
+    onTogglePiece(piece);
+    setFinishError(false);
+  };
 
   // Scoped Lenis: desktop only, not for reduced motion. Same feel as the global instance in lib/lenis.tsx.
   useEffect(() => {
@@ -74,11 +89,14 @@ export function Panel(props: {
       <div ref={inner}>
         <div className="px-5 pb-36 pt-9 md:px-10 md:pb-10 md:pt-14">
           {/* Men / Women — one page, one model at a time */}
-          <div role="group" aria-label="Try on for" className="mb-9 flex items-center gap-7 md:mb-11">
-            {(["men", "women"] as Gender[]).map((g) => (
-              <button key={g} type="button" aria-pressed={gender === g} onClick={() => onGender(g)} className={`border-b pb-1 text-[12px] font-medium uppercase tracking-[0.22em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold ${gender === g ? "border-ink text-ink" : "border-transparent text-slate hover:text-ink"}`}>{genderLabel(g)}</button>
-            ))}
-          </div>
+          <JacketStyleSelector
+            gender={gender}
+            onGender={onGender}
+            pieces={pieces}
+            onTogglePiece={togglePiece}
+            selectedStyle={selectedStyle}
+            onStyle={onStyle}
+          />
 
           {/* 1 — Fabric */}
           <section aria-labelledby="cm-fabric-h">
@@ -116,31 +134,35 @@ export function Panel(props: {
             <h2 id="cm-pieces-h" className={label}>Pieces</h2>
             <ul className="mt-4 border-t border-ink/12">
               {PIECES.map((p) => {
-                const required = p.key === "jacket";
-                const on = required ? true : pieces[p.key as "trousers" | "waistcoat"];
+                const on = pieces[p.key];
                 return (
                   <li key={p.key} className="flex items-start gap-4 border-b border-ink/12 py-5">
-                    <span aria-hidden className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center border transition-colors duration-300 ${on ? "border-ink bg-ink text-ivory" : "border-ink/35"}`}>
-                      {on && <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square"><path d="M2.5 6.3 5 8.8l4.5-5.2" /></svg>}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[15px] font-medium">{p.title}</p>
-                      <p className="mt-1 max-w-sm text-[13px] leading-relaxed text-slate">{p.text}</p>
-                      <p className="mt-2 text-[12px] text-ink/70">{required ? "Included" : `+ ${formatNpr(PIECE_PRICE[p.key])}`}</p>
-                    </div>
-                    {required ? (
-                      <span className="mt-0.5 shrink-0 text-[11px] uppercase tracking-[0.18em] text-slate">Included</span>
-                    ) : (
-                      <button
-                        type="button"
-                        aria-pressed={on}
-                        aria-label={`${on ? "Remove" : "Add"} ${p.title.toLowerCase()}`}
-                        onClick={() => onTogglePiece(p.key as "trousers" | "waistcoat")}
-                        className={`mt-0.5 h-9 shrink-0 border px-5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${on ? "border-ink bg-ink text-ivory hover:bg-transparent hover:text-ink" : "border-ink/40 text-ink hover:border-ink hover:bg-ink hover:text-ivory"}`}
-                      >
-                        {on ? "Remove" : "Add"}
-                      </button>
-                    )}
+                    <label className="flex min-w-0 flex-1 cursor-pointer items-start gap-4">
+                      <input
+                        type="checkbox"
+                        aria-label={p.title}
+                        checked={on}
+                        onChange={() => togglePiece(p.key)}
+                        className="peer sr-only"
+                      />
+                      <span aria-hidden className={`mt-1 flex h-4 w-4 shrink-0 items-center justify-center border transition-colors duration-300 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gold ${on ? "border-ink bg-ink text-ivory" : "border-ink/35"}`}>
+                        {on && <svg viewBox="0 0 12 12" width="9" height="9" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square"><path d="M2.5 6.3 5 8.8l4.5-5.2" /></svg>}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[15px] font-medium">{p.title}</p>
+                        <p className="mt-1 max-w-sm text-[13px] leading-relaxed text-slate">{p.text}</p>
+                        <p className="mt-2 text-[12px] text-ink/70">{formatNpr(PIECE_PRICE[p.key])}</p>
+                      </div>
+                    </label>
+                    <button
+                      type="button"
+                      aria-pressed={on}
+                      aria-label={`${on ? "Remove" : "Add"} ${p.title.toLowerCase()}`}
+                      onClick={() => togglePiece(p.key)}
+                      className={`mt-0.5 h-9 shrink-0 border px-5 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold ${on ? "border-ink bg-ink text-ivory hover:bg-transparent hover:text-ink" : "border-ink/40 text-ink hover:border-ink hover:bg-ink hover:text-ivory"}`}
+                    >
+                      {on ? "Remove" : "Add"}
+                    </button>
                   </li>
                 );
               })}
@@ -156,7 +178,10 @@ export function Panel(props: {
               <p className="mt-1 flex items-center gap-[0.3em] text-[17px] font-medium tracking-[-0.01em]"><span className="text-slate">Rs.</span><KineticNumber value={total} group play duration={0.8} stagger={0.04} /></p>
               <p className="mt-0.5 hidden text-[11px] text-slate md:block">{DELIVERY_TEXT}</p>
             </div>
-            <button type="button" onClick={onFinish} className="h-11 bg-ink px-8 text-[11px] font-medium uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:bg-gold hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">Finish</button>
+            <div className="text-right">
+              {finishError && <p role="alert" className="mb-1 text-[11px] text-slate">Select at least one suit piece to continue.</p>}
+              <button type="button" onClick={finish} className="h-11 bg-ink px-8 text-[11px] font-medium uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:bg-gold hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold">Finish</button>
+            </div>
           </div>
         </div>
       </div>
