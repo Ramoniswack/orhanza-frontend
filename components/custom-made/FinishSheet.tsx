@@ -3,36 +3,26 @@
 /** Summary after "Finish": fabric, pieces, total, then Book a fitting / Save (the one saved list). */
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { EASE_OUT, KineticNumber } from "@/components/motion";
 import { useShortlist } from "@/components/ShortlistProvider";
-import { FitAdvisorDrawer } from "./FitAdvisorDrawer";
 import { useLenis } from "@/lib/lenis";
 import { configQuery, DELIVERY_TEXT, genderLabel, lineItems, savedKey, type Fabric, type Gender, type Pieces } from "@/lib/custom-made";
 import type { FitRecommendation } from "@/lib/fit-advisor";
 
-export function FinishSheet({ open, onClose, fabric, pieces, gender, total, reduce }: { open: boolean; onClose: () => void; fabric: Fabric; pieces: Pieces; gender: Gender; total: number; reduce: boolean }) {
-  const { has, toggle, fitProfiles, setFitProfile, setPendingFitProfile } = useShortlist();
+export function FinishSheet({ open, onClose, fabric, pieces, gender, total, reduce, recommendation, onClearAppliedProfile }: {
+  open: boolean; onClose: () => void; fabric: Fabric; pieces: Pieces; gender: Gender; total: number; reduce: boolean;
+  recommendation: FitRecommendation | null; onClearAppliedProfile: () => void;
+}) {
+  const { has, toggle, setFitProfile, setPendingFitProfile } = useShortlist();
   const lenis = useLenis();
   const key = savedKey(fabric.slug, pieces, gender);
   const saved = has(key);
-  const [fitAdvisorOpen, setFitAdvisorOpen] = useState(false);
-  const [appliedProfile, setAppliedProfile] = useState<FitRecommendation | null>(null);
-  const [appliedProfileKey, setAppliedProfileKey] = useState<string | null>(null);
-  const recommendation = (appliedProfileKey === key ? appliedProfile : null) ?? fitProfiles[key] ?? null;
-
-  const applyFitProfile = (profile: FitRecommendation) => {
-    setAppliedProfile(profile);
-    setAppliedProfileKey(key);
-    if (saved) setFitProfile(key, profile);
-    setFitAdvisorOpen(false);
-  };
 
   const toggleSaved = () => {
     if (saved) {
       toggle(key);
-      setAppliedProfile(null);
-      setAppliedProfileKey(null);
+      onClearAppliedProfile();
       return;
     }
     toggle(key);
@@ -46,11 +36,11 @@ export function FinishSheet({ open, onClose, fabric, pieces, gender, total, redu
   }, [open, lenis]);
 
   useEffect(() => {
-    if (!open || fitAdvisorOpen) return;
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
     return () => { window.removeEventListener("keydown", onKey); };
-  }, [open, fitAdvisorOpen, onClose]);
+  }, [open, onClose]);
 
   const d = reduce ? 0.15 : 0.6;
   return (
@@ -88,10 +78,6 @@ export function FinishSheet({ open, onClose, fabric, pieces, gender, total, redu
               </ul>
               <p className="mt-5 flex justify-between text-[17px] font-medium tracking-[-0.01em] text-ink"><span>Total</span><span className="inline-flex items-center gap-[0.3em]"><span>Rs.</span><KineticNumber value={total} group play duration={1.1} stagger={0.05} /></span></p>
               <p className="mt-2 text-[12px] text-slate">Estimated delivery: {DELIVERY_TEXT}</p>
-              <button type="button" onClick={() => setFitAdvisorOpen(true)} className="mt-6 flex w-full items-center justify-between border-y border-ink/12 py-4 text-left text-[11px] font-medium uppercase tracking-[0.16em] text-ink">
-                <span>{recommendation ? `Starting block · ${recommendation.baseSize}` : "Find your starting block"}</span>
-                <span aria-hidden>→</span>
-              </button>
               {recommendation && <p className="mt-3 text-xs leading-relaxed text-slate">{recommendation.summary}</p>}
             </div>
 
@@ -100,12 +86,6 @@ export function FinishSheet({ open, onClose, fabric, pieces, gender, total, redu
               <button type="button" onClick={toggleSaved} aria-pressed={saved} className="w-full border border-ink/40 py-4 text-[11px] font-medium uppercase tracking-[0.22em] text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-ivory">{saved ? "Saved ✓" : recommendation ? "Save suit & fit profile" : "Save"}</button>
             </div>
           </motion.aside>
-          <FitAdvisorDrawer
-            isOpen={fitAdvisorOpen}
-            onClose={() => setFitAdvisorOpen(false)}
-            commission={{ title: fabric.name, subtitle: `${fabric.category} · ${genderLabel(gender)}`, category: gender === "women" ? "WOMENSWEAR" : "MENSWEAR" }}
-            onApplyFitProfile={applyFitProfile}
-          />
         </>
       )}
     </AnimatePresence>
